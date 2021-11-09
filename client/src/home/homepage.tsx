@@ -29,7 +29,7 @@ export default function Homepage({}: Props): ReactElement {
     <div>
       {!window.location.hash ? (
         <>
-          <Navbar isLogged={state.isLogged}></Navbar>
+          <Navbar></Navbar>
           <HomepageHero></HomepageHero>
         </>
       ) : (

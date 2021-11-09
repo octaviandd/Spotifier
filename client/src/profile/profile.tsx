@@ -11,6 +11,7 @@ import ArtistsStats from "./artists-stats";
 import PlaylistStats from "./playlist-stats";
 import ProfileStats from "./profile-stats";
 import Navbar from "../home/navbar";
+import TopBar from "./top-bar";
 
 interface Props {}
 
@@ -53,8 +54,8 @@ export default function Profile({}: Props): ReactElement {
   }, [window.location.hash]);
 
   return (
-    <div className="flex">
-      <Navbar isLogged={true}></Navbar>
+    <div className="flex flex-col">
+      <TopBar></TopBar>
       <ProfileStats></ProfileStats>
       <ArtistsStats></ArtistsStats>
     </div>
