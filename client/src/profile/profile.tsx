@@ -57,7 +57,6 @@ export default function Profile({}: Props): ReactElement {
     <div className="flex flex-col">
       <TopBar></TopBar>
       <ProfileStats></ProfileStats>
-      <ArtistsStats></ArtistsStats>
     </div>
   );
 }

@@ -14,6 +14,9 @@ module.exports = {
       soundwave: "#12E2DC",
     }),
     extend: {
+      textColor: {
+        spotify: "#1DB954",
+      },
       skew: {
         45: "45deg",
         50: "-45deg",

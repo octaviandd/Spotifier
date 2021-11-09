@@ -7,9 +7,6 @@ interface Props {}
 
 export default function TopBar({}: Props): ReactElement {
   const [state, setState] = useState({
-    name: "",
-    email: "",
-    profileLink: "",
     avatar: "",
   });
   useEffect(() => {
@@ -19,9 +16,6 @@ export default function TopBar({}: Props): ReactElement {
       console.log(data);
       setState((prevState) => ({
         ...prevState,
-        name: data.display_name,
-        email: data.email,
-        profileLink: data.external_urls.spotify,
         avatar: data.images[0].url,
       }));
     });
