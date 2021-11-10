@@ -10,7 +10,7 @@ import SongStats from "./songs-stats";
 import ArtistsStats from "./artists-stats";
 import PlaylistStats from "./playlist-stats";
 import ProfileStats from "./profile-stats";
-import Navbar from "../home/navbar";
+import Player from "./player";
 import TopBar from "./top-bar";
 
 interface Props {}
@@ -18,17 +18,23 @@ interface Props {}
 export default function Profile({}: Props): ReactElement {
   const [state, setState] = useState({
     token: "",
-    name: "",
-    email: "",
-    profileLink: "",
-    avatar: "",
     profile: true,
-    songsStats: false,
-    playlistStats: false,
-    artistsStats: false,
+    songs: false,
+    playlists: false,
+    artists: false,
+    player: false,
   });
 
+  // const setCurrentPage = (currentPage: string) => {
+  //   console.log(currentPage);
+  //   setState((prevState) => ({
+  //     ...prevState,
+  //     [currentPage]: true,
+  //   }));
+  // };
+
   useEffect(() => {
+    console.log(state.songs);
     if (window.location.hash !== undefined) {
       let hash: string | undefined = window.location.hash;
       let hashValues: string[] = hash.substring(1).split("&");
@@ -41,22 +47,17 @@ export default function Profile({}: Props): ReactElement {
         token: access_token,
       }));
       window.localStorage.setItem("token", JSON.stringify(access_token));
-      getMe(access_token).then((data) => {
-        setState((prevState) => ({
-          ...prevState,
-          name: data.display_name,
-          email: data.email,
-          profileLink: data.external_urls.spotify,
-          avatar: data.images[0].url,
-        }));
-      });
     }
   }, [window.location.hash]);
 
   return (
     <div className="flex flex-col">
-      <TopBar></TopBar>
-      <ProfileStats></ProfileStats>
+      <TopBar parentState={state} setParentState={setState}></TopBar>
+      {state.songs && <SongStats></SongStats>}
+      {state.artists && <ArtistsStats></ArtistsStats>}
+      {state.profile && <ProfileStats></ProfileStats>}
+      {state.playlists && <PlaylistStats></PlaylistStats>}
+      {state.player && <Player></Player>}
     </div>
   );
 }

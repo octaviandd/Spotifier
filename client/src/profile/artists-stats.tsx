@@ -8,8 +8,8 @@ interface Props {}
 
 export default function ArtistsStats({}: Props): ReactElement {
   useEffect(() => {
-    let token = JSON.parse(localStorage.getItem("token"));
-    getFollowedArtists(token).then((data) => console.log(data));
+    // let token = JSON.parse(localStorage.getItem("token"));
+    // getFollowedArtists(token).then((data) => console.log(data));
   });
 
   return (

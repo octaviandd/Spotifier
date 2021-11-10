@@ -8,6 +8,9 @@ module.exports = {
   },
   darkMode: false,
   theme: {
+    fontFamily: {
+      custom: ["Roboto", "sans-serif"],
+    },
     backgroundColor: (theme) => ({
       ...theme("colors"),
       primary: "#9effc8",

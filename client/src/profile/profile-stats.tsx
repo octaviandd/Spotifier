@@ -38,7 +38,7 @@ export default function ProfileStats({}: Props): ReactElement {
             <img src={state.avatar}></img>
           </div>
         </div>
-        <div className="text-xl">
+        <div className="text-xs md:text-lg lg:text-xl">
           <div className="py-2">
             <p>
               Name: <span className="font-bold">{state.name}</span>
