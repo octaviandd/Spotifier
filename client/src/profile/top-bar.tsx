@@ -71,6 +71,17 @@ export default function TopBar({
     }));
   };
 
+  const setProfileValue = (title: string) => {
+    setParentState((prevState: any) => ({
+      ...prevState,
+      [title]: true,
+      player: false,
+      songs: false,
+      artists: false,
+      playlists: false,
+    }));
+  };
+
   return (
     <nav className="flex bg-white drop-shadow-lg w-full items-center justify-around font-custom">
       <div
@@ -95,9 +106,12 @@ export default function TopBar({
         {/* <input id="artists" type="checkbox" className="hidden" /> */}
         <span className="group-hover:text-white cursor-pointer">Artists</span>
       </div>
-      <div className="h-full w-full flex justify-center py-3 cursor-pointer">
+      <div
+        onClick={() => setProfileValue("profile")}
+        className="group transition duration-500 ease-in-out h-full w-full flex justify-center py-3 cursor-pointer"
+      >
         {/* <input id="profile" type="checkbox" className="hidden" /> */}
-        <a>
+        <a className="p-2 border-4 border-white rounded-full group-hover:border-spotify">
           <img
             src={state.avatar}
             className="w-10 h-10 object-cover object-center rounded-full "

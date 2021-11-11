@@ -11,10 +11,15 @@ module.exports = {
     fontFamily: {
       custom: ["Roboto", "sans-serif"],
     },
+    borderColor: (theme) => ({
+      ...theme("colors"),
+      spotify: "#1DB954",
+    }),
     backgroundColor: (theme) => ({
       ...theme("colors"),
       primary: "#9effc8",
       soundwave: "#12E2DC",
+      spotify: "#1DB954",
     }),
     extend: {
       textColor: {

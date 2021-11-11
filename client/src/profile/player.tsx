@@ -2,8 +2,10 @@
 
 import React, { ReactElement } from "react";
 
-interface Props {}
+interface Props {
+  width: number;
+}
 
-export default function Player({}: Props): ReactElement {
-  return <div></div>;
+export default function Player({ width }: Props): ReactElement {
+  return <div style={{ width: width }}>playerrrr</div>;
 }

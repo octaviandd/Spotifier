@@ -4,9 +4,11 @@ import React, { ReactElement, useState, useEffect } from "react";
 import { getMe } from "../utils/utils";
 import SpotifyIcon from "../assets/spotify.png";
 
-interface Props {}
+interface Props {
+  width: number;
+}
 
-export default function ProfileStats({}: Props): ReactElement {
+export default function ProfileStats({ width }: Props): ReactElement {
   const [state, setState] = useState({
     token: "",
     name: "",
@@ -31,7 +33,10 @@ export default function ProfileStats({}: Props): ReactElement {
     });
   }, []);
   return (
-    <section className="flex justify-center drop-shadow-lg">
+    <section
+      className="flex justify-center drop-shadow-lg"
+      style={{ width: width }}
+    >
       <div className="flex justify-center gap-10 w-3/4 mt-32 p-5 rounded-lg items-center border-solid border-2 border-black">
         <div className="text-xl">
           <div>
