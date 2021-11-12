@@ -18,7 +18,6 @@ export default function TopBar({
   const { songs, playlists, artists, player } = parentState;
   useEffect(() => {
     let token: string = JSON.parse(window.localStorage.getItem("token"));
-    console.log(token);
     getMe(token).then((data) => {
       setState((prevState) => ({
         ...prevState,
@@ -27,65 +26,22 @@ export default function TopBar({
     });
   }, []);
 
-  const setSongsValue = (title: string) => {
-    setParentState((prevState: any) => ({
-      ...prevState,
-      [title]: true,
-      playlists: false,
-      artists: false,
-      player: false,
-      profile: false,
-    }));
-  };
-
-  const setArtistsValue = (title: string) => {
-    setParentState((prevState: any) => ({
-      ...prevState,
-      [title]: true,
-      playlists: false,
-      songs: false,
-      player: false,
-      profile: false,
-    }));
-  };
-
-  const setPlayerValue = (title: string) => {
-    setParentState((prevState: any) => ({
-      ...prevState,
-      [title]: true,
-      playlists: false,
-      songs: false,
-      artists: false,
-      profile: false,
-    }));
-  };
-
-  const setPlaylistsValue = (title: string) => {
-    setParentState((prevState: any) => ({
-      ...prevState,
-      [title]: true,
-      player: false,
-      songs: false,
-      artists: false,
-      profile: false,
-    }));
-  };
-
-  const setProfileValue = (title: string) => {
-    setParentState((prevState: any) => ({
-      ...prevState,
-      [title]: true,
-      player: false,
-      songs: false,
-      artists: false,
-      playlists: false,
-    }));
+  const setBarValues = (title: string) => {
+    let stateCopy = { ...parentState };
+    let specificValue = !stateCopy[title];
+    Object.keys(stateCopy).forEach((key) => {
+      if (typeof stateCopy[key] === "boolean") {
+        stateCopy[key] = false;
+      }
+    });
+    stateCopy[title] = specificValue;
+    setParentState(stateCopy);
   };
 
   return (
     <nav className="flex bg-white drop-shadow-lg w-full items-center justify-around font-custom">
       <div
-        onClick={() => setSongsValue("songs")}
+        onClick={() => setBarValues("songs")}
         className={
           songs
             ? "transition duration-500 ease-in-out group bg-black text-white h-full w-full flex justify-center py-4 cursor-pointer"
@@ -96,7 +52,7 @@ export default function TopBar({
         <span className="group-hover:text-white cursor-pointer">Songs</span>
       </div>
       <div
-        onClick={() => setArtistsValue("artists")}
+        onClick={() => setBarValues("artists")}
         className={
           artists
             ? "transition duration-500 ease-in-out group bg-black text-white h-full w-full flex justify-center py-4 cursor-pointer"
@@ -107,7 +63,7 @@ export default function TopBar({
         <span className="group-hover:text-white cursor-pointer">Artists</span>
       </div>
       <div
-        onClick={() => setProfileValue("profile")}
+        onClick={() => setBarValues("profile")}
         className="group transition duration-500 ease-in-out h-full w-full flex justify-center py-3 cursor-pointer"
       >
         {/* <input id="profile" type="checkbox" className="hidden" /> */}
@@ -119,7 +75,7 @@ export default function TopBar({
         </a>
       </div>
       <div
-        onClick={() => setPlaylistsValue("playlists")}
+        onClick={() => setBarValues("playlists")}
         className={
           playlists
             ? "transition duration-500 ease-in-out group bg-black text-white h-full w-full flex justify-center py-4 cursor-pointer"
@@ -130,7 +86,7 @@ export default function TopBar({
         <span className="group-hover:text-white cursor-pointer">Playlists</span>
       </div>
       <div
-        onClick={() => setPlayerValue("player")}
+        onClick={() => setBarValues("player")}
         className={
           player
             ? "transition duration-500 ease-in-out group bg-black text-white h-full w-full flex justify-center py-4 cursor-pointer"

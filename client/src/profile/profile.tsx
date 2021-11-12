@@ -27,32 +27,14 @@ export default function Profile({}: Props): ReactElement {
     player: false,
   });
 
-  // const setCurrentPage = (currentPage: string) => {
-  //   console.log(currentPage);
-  //   setState((prevState) => ({
-  //     ...prevState,
-  //     [currentPage]: true,
-  //   }));
-  // };
-
   useEffect(() => {
-    if (window.location.hash !== undefined) {
-      let hash: string | undefined = window.location.hash;
-      let hashValues: string[] = hash.substring(1).split("&");
-
-      let access_token: string = hashValues[0].split("=")[1];
-      let accces_state: string = hashValues[3].split("=")[1];
-
-      setState((prevState) => ({
-        ...prevState,
-        token: access_token,
-      }));
-      window.localStorage.setItem("token", JSON.stringify(access_token));
-    }
-  }, [window.location.hash]);
+    setState((prevState) => ({
+      ...prevState,
+      token: JSON.parse(window.localStorage.getItem("token")),
+    }));
+  }, []);
 
   const decideTransform = (state: any, width: number) => {
-    console.log(state);
     if (state.songs) {
       return 0;
     } else if (state.artists) {
