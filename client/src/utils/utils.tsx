@@ -41,6 +41,28 @@ export const getMe = async (token: string) => {
   }
 };
 
+export const getUserTopTracks = async (token: string) => {
+  try {
+    let res = await fetch(
+      "https://api.spotify.com/v1/me/top/tracks?" +
+        new URLSearchParams({
+          time_range: "medium_term",
+          limit: "50",
+        }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getFollowedArtists = async (token: string) => {
   try {
     let res = await fetch(

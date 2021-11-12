@@ -10,7 +10,7 @@
   "author": "Octavian",
   "license": "ISC",
   "devDependencies": {
-    "@types/d3": "^7.0.0",
+    "@types/d3": "^7.1.0",
     "@types/react": "^17.0.26",
     "@types/react-dom": "^17.0.9",
     "@types/react-router": "^5.1.16",
