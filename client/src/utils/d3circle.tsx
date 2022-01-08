@@ -1,31 +1,40 @@
 /** @format */
 
 import React, { ReactElement, useRef, useEffect } from "react";
-import d3 from "d3";
+import * as d3 from "d3";
+import { colors } from "../utils/data";
 
 interface Props {
-  dataset: {
-    count: number;
-    name: string;
-  };
-  colors: string[];
+  dataset: any[];
 }
 
-export default function D3Circle({ dataset, colors }: Props): ReactElement {
+export default function D3Circle({ dataset }: Props): ReactElement {
   const ref = useRef();
+
+  const transformDataset = (dataset: string[]): any[] => {
+    let returningList: any[] = [];
+
+    dataset.map((item) => {
+      returningList.push(
+        Object.assign({}, { name: item, count: dataset.indexOf(item) })
+      );
+    });
+
+    return returningList;
+  };
 
   useEffect(() => {
     const svgElement = d3
       .select(ref.current)
       .append("svg")
-      .attr("width", window.innerWidth)
-      .attr("height", window.innerHeight)
+      .attr("width", window.innerWidth / 2)
+      .attr("height", window.innerHeight / 2)
       .attr("class", "bubble");
 
     var bubble = d3.pack().size([2000, 1400]).padding(10);
 
-    var nodes = d3.hierarchy(dataset).sum(function (d) {
-      return d.count;
+    var nodes = d3.hierarchy(transformDataset(dataset)).sum(function (d) {
+      return 5;
     });
 
     var node = svgElement
@@ -33,7 +42,7 @@ export default function D3Circle({ dataset, colors }: Props): ReactElement {
       .data(bubble(nodes).descendants())
       .enter()
       .filter(function (d) {
-        return !d.children;
+        return !d;
       })
       .append("g")
       .attr("class", "node")
@@ -42,9 +51,11 @@ export default function D3Circle({ dataset, colors }: Props): ReactElement {
         return "translate(" + d.x + "," + d.y + ")";
       });
 
-    // node.append("title").text(function (d) {
-    //   return d.Name + ": " + d.Count;
-    // });
+    node.append("title").text(function (d) {
+      console.log(d);
+      //   return d.name + ": " + d.count;
+      return "";
+    });
 
     node
       .append("circle")
@@ -55,22 +66,22 @@ export default function D3Circle({ dataset, colors }: Props): ReactElement {
         return colors[i];
       });
 
-    // node
-    //   .append("text")
-    //   .attr("font-wight", "bold")
-    //   .attr("line-height", "1.68")
-    //   .attr("dy", ".2em")
-    //   .style("text-anchor", "middle")
-    //   .text(function (d) {
-    //     return d.data.Name.substring(0, d.r / 3);
-    //   })
-    //   .attr("font-family", "sans-serif")
-    //   .attr("font-size", function (d) {
-    //     return d.r / 5;
-    //   })
-    //   .attr("fill", "white");
+    node
+      .append("text")
+      .attr("font-wight", "bold")
+      .attr("line-height", "1.68")
+      .attr("dy", ".2em")
+      .style("text-anchor", "middle")
+      //   .text(function (d) {
+      //     return d.data.name.substring(0, d.r / 3);
+      //   })
+      .attr("font-family", "sans-serif")
+      .attr("font-size", function (d) {
+        return d.r / 5;
+      })
+      .attr("fill", "white");
 
-    var tooltip = d3.select(ref.current).append("div").attr("class", "tooltip");
+    // var tooltip = d3.select(ref.current).append("div").attr("class", "tooltip");
 
     // node
     //   .on("mouseover", function (d) {
@@ -86,6 +97,6 @@ export default function D3Circle({ dataset, colors }: Props): ReactElement {
     //   .on("mouseout", function () {
     //     return tooltip.style("visibility", "hidden");
     //   });
-  }, [colors, dataset]);
-  return <div></div>;
+  }, [dataset]);
+  return <div ref={ref}></div>;
 }

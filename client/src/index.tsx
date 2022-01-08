@@ -3,11 +3,14 @@ import "./style.css";
 
 import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
-import Main from "./main";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Homepage from "./home/homepage";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Main></Main>
+    <Router>
+      <Route exact path="/" component={Homepage}></Route>
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );

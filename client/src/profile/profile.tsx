@@ -1,76 +1,79 @@
 /** @format */
 
 import React, { ReactElement, useState, useEffect } from "react";
-import {
-  getMe,
-  getFollowedArtists,
-  getRecommendedGenres,
-} from "../utils/utils";
-import SongStats from "./songs-stats";
-import ArtistsStats from "./artists-stats";
-import PlaylistStats from "./playlist-stats";
-import ProfileStats from "./profile-stats";
-import Player from "./player";
-import TopBar from "./top-bar";
-import useWindowDimensions from "../utils/windowDimensions";
+import { getMe } from "../utils/utils";
+import SpotifyIcon from "../assets/spotify.png";
 
-interface Props {}
+interface Props {
+  width: number;
+}
 
-export default function Profile({}: Props): ReactElement {
-  const { width } = useWindowDimensions();
+export default function ProfileStats({ width }: Props): ReactElement {
   const [state, setState] = useState({
     token: "",
-    profile: false,
-    songs: true,
-    playlists: false,
-    artists: false,
-    player: false,
+    name: "",
+    email: "",
+    profileLink: "",
+    avatar: "",
+    country: "",
+    status: "",
   });
-
   useEffect(() => {
-    setState((prevState) => ({
-      ...prevState,
-      token: JSON.parse(window.localStorage.getItem("token")),
-    }));
+    let token = JSON.parse(localStorage.getItem("token"));
+    getMe(token).then((data) => {
+      setState((prevState) => ({
+        ...prevState,
+        name: data.display_name,
+        country: data.country,
+        email: data.email,
+        profileLink: data.external_urls.spotify,
+        avatar: data.images[0].url,
+        status: data.product,
+      }));
+    });
   }, []);
-
-  const decideTransform = (state: any, width: number) => {
-    if (state.songs) {
-      return 0;
-    } else if (state.artists) {
-      return width;
-    } else if (state.profile) {
-      return width * 2;
-    } else if (state.playlists) {
-      return width * 3;
-    } else if (state.player) {
-      return width * 4;
-    }
-  };
-
   return (
-    <div className="flex flex-col">
-      <TopBar parentState={state} setParentState={setState}></TopBar>
-      <div
-        style={{
-          width: width,
-        }}
-        className="overflow-x-hidden"
-      >
-        <div
-          className="flex relative transition duration-500 ease-in-out"
-          style={{
-            width: width * 5,
-            transform: `translateX(-${decideTransform(state, width)}px)`,
-          }}
-        >
-          <SongStats width={width}></SongStats>
-          <ArtistsStats width={width}></ArtistsStats>
-          <ProfileStats width={width}></ProfileStats>
-          <PlaylistStats width={width}></PlaylistStats>
-          <Player width={width}></Player>
+    <section
+      className="flex justify-center drop-shadow-lg"
+      style={{ width: width }}
+    >
+      <div className="flex justify-center gap-10 w-3/4 mt-32 p-5 rounded-lg items-center border-solid border-2 border-black">
+        <div className="text-xl">
+          <div>
+            <img src={state.avatar}></img>
+          </div>
+        </div>
+        <div className="text-xs md:text-lg lg:text-xl">
+          <div className="py-2">
+            <p>
+              Name: <span className="font-bold">{state.name}</span>
+            </p>
+          </div>
+          <div className="py-2">
+            <p>
+              Email: <span className="font-bold">{state.email}</span>
+            </p>
+          </div>
+          <div className="py-2">
+            <p>
+              Country: <span className="font-bold">{state.country}</span>
+            </p>
+          </div>
+          <div className="py-2">
+            <p>
+              Status:{" "}
+              <span className="text-spotify font-bold">
+                {state.status.toUpperCase()}
+              </span>
+            </p>
+          </div>
+          <div className="py-2">
+            <a href={state.profileLink}>
+              <img src={SpotifyIcon} width="40px"></img>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

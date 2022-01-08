@@ -2,8 +2,8 @@
 
 import React, { ReactElement, useEffect, useState } from "react";
 import Navbar from "./navbar";
-import HomepageHero from "./homepage-hero";
-import Profile from "../profile/profile";
+import Hero from "./hero";
+import Profile from "../profile/main";
 interface Props {}
 
 export default function Homepage({}: Props): ReactElement {
@@ -30,7 +30,7 @@ export default function Homepage({}: Props): ReactElement {
       {!window.location.hash ? (
         <>
           <Navbar></Navbar>
-          <HomepageHero></HomepageHero>
+          <Hero></Hero>
         </>
       ) : (
         <>
