@@ -41,12 +41,12 @@ export const getMe = async (token: string) => {
   }
 };
 
-export const getUserTopTracks = async (token: string) => {
+export const getUserTopTracks = async (token: string, time_range: string) => {
   try {
     let res = await fetch(
       "https://api.spotify.com/v1/me/top/tracks?" +
         new URLSearchParams({
-          time_range: "medium_term",
+          time_range: time_range,
           limit: "50",
         }),
       {
