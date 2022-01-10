@@ -19,11 +19,16 @@ export default function SongCard({ item, count }: Props): ReactElement {
         ></img>
       </div>
       <div className="flex flex-col py-2 px-5">
-        <span>{item.name}</span>
+        <span className="">{item.name}</span>
         <span className="text-gray-700 text-sm">
           {item.album.artists[0].name}
         </span>
       </div>
+      {/* <div className="flex ml-auto">
+        {new Date(item.duration_ms).getMinutes() +
+          ":" +
+          new Date(item.duration_ms).getSeconds()}
+      </div> */}
     </div>
   );
 }

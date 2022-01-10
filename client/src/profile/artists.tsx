@@ -18,11 +18,9 @@ interface TopSongs {
   };
 }
 
-interface Props {
-  width: number;
-}
+interface Props {}
 
-export default function ArtistsStats({ width }: Props): ReactElement {
+export default function ArtistsStats({}: Props): ReactElement {
   const [timeRange, setTimeRange] = useState("medium_term");
   const [state, setState] = useState({
     songs: [],
@@ -48,7 +46,7 @@ export default function ArtistsStats({ width }: Props): ReactElement {
   };
 
   return (
-    <div className="flex justify-center pt-5 flex-col" style={{ width: width }}>
+    <div className="flex justify-center pt-5 flex-col">
       <div>
         <div>
           <span className="text-4xl font-mono">Followed artists</span>
@@ -59,7 +57,6 @@ export default function ArtistsStats({ width }: Props): ReactElement {
           <button></button>
         </div>
       </div>
-      <D3Circle dataset={state.songs}></D3Circle>
     </div>
   );
 }
