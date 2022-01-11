@@ -1,7 +1,11 @@
 /** @format */
 
 const express = require("express");
+const bodyParser = require("body-parser");
+const request = require("request");
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000;
 require("dotenv").config();
 
@@ -22,7 +26,7 @@ const generateRandomString = function (length) {
 };
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
@@ -30,51 +34,30 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/login", function (req, res) {
-  var state = generateRandomString(16);
-  const scope =
-    "user-read-private user-read-email user-read-playback-state user-top-read user-read-recently-played user-follow-read user-library-read";
-  res.redirect(
-    "https://accounts.spotify.com/authorize?" +
-      new URLSearchParams({
-        response_type: "code",
-        client_id,
-        scope,
-        redirect_uri,
-        state,
-        show_dialog: true,
-      })
-  );
-});
+app.post("/login", function (req, res) {
+  var code = req.body.data.code || null;
+  var state = req.body.data.state || null;
 
-app.get("/callback", function (req, res) {
-  console.log("testtt");
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-
-  if (state === null) {
-    res.redirect(
-      "/#" +
-        new URLSearchParams({
-          error: "state_mismatch",
-        })
-    );
-  } else {
-    var authOptions = {
-      url: "https://accounts.spotify.com/api/token",
-      form: {
-        code: code,
-        redirect_uri: redirect_uri,
-        grant_type: "authorization_code",
-      },
-      headers: {
-        Authorization:
-          "Basic " +
-          new Buffer(client_id + ":" + client_secret).toString("base64"),
-      },
-      json: true,
-    };
-  }
+  var options = {
+    method: "POST",
+    url: "https://accounts.spotify.com/api/token",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Cookie:
+        "__Host-device_id=AQCMZFCyJEW6hUyqlegNxubysC8dO3DjIpOndHtPYiOjvcyZNARoNXf1eVBTdK_U2KSTbEZKgzZT0q-odo1MvgMazAMITHexXow; sp_tr=false",
+    },
+    form: {
+      grant_type: "authorization_code",
+      redirect_uri: "http://localhost:8080/profile",
+      code: code,
+      client_id: "c80dc2ae16884491b82fca219719f0c4",
+      client_secret: "f41e617c5d9a4180b93d9073d8510811",
+    },
+  };
+  request(options, function (error, response) {
+    if (error) throw new Error(error);
+    console.log(response.body);
+  });
 });
 
 app.listen(port, function () {

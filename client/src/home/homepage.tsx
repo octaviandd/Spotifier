@@ -6,36 +6,28 @@ import Hero from "./hero";
 import Main from "../profile/main";
 interface Props {}
 
+const code = new URLSearchParams(window.location.search).get("code");
+
+const generateRandomString = function (length: number) {
+  let text = "";
+  let possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
+var code_verifier = generateRandomString(16);
+const scope =
+  "user-read-private user-read-email user-read-playback-state user-top-read user-read-recently-played user-follow-read user-library-read";
+const link = `https://accounts.spotify.com/authorize?response_type=code&client_id=c80dc2ae16884491b82fca219719f0c4&scope=${scope}&redirect_uri=http://localhost:8080/profile&state=${code_verifier}&show_dialog=true`;
+
 export default function Homepage({}: Props): ReactElement {
-  const [state, setState] = useState({
-    isLogged: false,
-  });
-  const [data, setData] = useState(null);
-
-  const getToken = () => {
-    fetch("http://localhost:3000/login", {})
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  };
-
-  useEffect(() => {
-    if (window.location.hash !== "") {
-      setState((prevState) => ({
-        ...prevState,
-        isLogged: true,
-      }));
-      let hash: string | undefined = window.location.hash;
-      let hashValues: string[] = hash.substring(1).split("&");
-
-      let access_token: string = hashValues[0].split("=")[1];
-      let accces_state: string = hashValues[3].split("=")[1];
-
-      window.localStorage.setItem("token", JSON.stringify(access_token));
-    }
-  }, [window.location.hash]);
-
-  console.log(state.isLogged);
-  return (
+  return code ? (
+    <Main code={code} code_verifier={code_verifier}></Main>
+  ) : (
     <div>
       <nav className="bg-white fixed drop-shadow-lg w-full z-10">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -53,7 +45,7 @@ export default function Homepage({}: Props): ReactElement {
             <div className="flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div className="ml-3 relative">
                 <div className="">
-                  <a onClick={getToken} className="inline-block mr-2">
+                  <a href={link} className="inline-block mr-2">
                     <button
                       type="button"
                       className="transition duration-200 bg-green-500 hover:bg-green-600 focus:bg-green-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 pr-3 pl-3 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"

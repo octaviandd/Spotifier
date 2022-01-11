@@ -7,11 +7,15 @@ import PlaylistStats from "./playlists";
 import ProfileStats from "./profile";
 import Player from "./player";
 import TopBar from "./top-bar";
+import axios from "axios";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-interface Props {}
+interface Props {
+  code: string;
+  code_verifier: string;
+}
 
-export default function Profile({}: Props): ReactElement {
+export default function Profile({ code, code_verifier }: Props): ReactElement {
   const [state, setState] = useState({
     token: "",
     profile: false,
@@ -21,7 +25,17 @@ export default function Profile({}: Props): ReactElement {
     player: false,
   });
 
+  const getToken = async () => {
+    axios.post("http://localhost:3000/login", {
+      data: {
+        code,
+        code_verifier,
+      },
+    });
+  };
+
   useEffect(() => {
+    getToken();
     setState((prevState) => ({
       ...prevState,
       token: JSON.parse(window.localStorage.getItem("token")),
@@ -30,7 +44,7 @@ export default function Profile({}: Props): ReactElement {
 
   return (
     <div className="flex flex-col">
-      <TopBar parentState={state} setParentState={setState}></TopBar>
+      {/* <TopBar parentState={state} setParentState={setState}></TopBar> */}
       <div>
         <Router>
           <Switch>
