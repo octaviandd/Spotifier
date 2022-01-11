@@ -56,7 +56,35 @@ app.post("/login", function (req, res) {
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);
-    console.log(response.body);
+    res.json({
+      response: response.body,
+    });
+  });
+});
+
+app.post("/refresh", function (req, res) {
+  var refresh_token = req.body.refresh_token || null;
+  var options = {
+    method: "POST",
+    url: "https://accounts.spotify.com/api/token",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Cookie:
+        "__Host-device_id=AQCMZFCyJEW6hUyqlegNxubysC8dO3DjIpOndHtPYiOjvcyZNARoNXf1eVBTdK_U2KSTbEZKgzZT0q-odo1MvgMazAMITHexXow; sp_tr=false",
+    },
+    form: {
+      grant_type: "refresh_token",
+      refresh_token,
+      client_id: "c80dc2ae16884491b82fca219719f0c4",
+      client_secret: "f41e617c5d9a4180b93d9073d8510811",
+    },
+  };
+  request(options, function (error, response) {
+    if (error) throw new Error(error);
+    let access_token = response.body.access_token;
+    res.send({
+      access_token: access_token,
+    });
   });
 });
 

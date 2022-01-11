@@ -8,6 +8,7 @@ import ProfileStats from "./profile";
 import Player from "./player";
 import TopBar from "./top-bar";
 import axios from "axios";
+import useAuth from "../utils/useAuth";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 interface Props {
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export default function Profile({ code, code_verifier }: Props): ReactElement {
+  const token = useAuth({ code, code_verifier });
+  console.log({ token });
   const [state, setState] = useState({
     token: "",
     profile: false,
@@ -25,17 +28,7 @@ export default function Profile({ code, code_verifier }: Props): ReactElement {
     player: false,
   });
 
-  const getToken = async () => {
-    axios.post("http://localhost:3000/login", {
-      data: {
-        code,
-        code_verifier,
-      },
-    });
-  };
-
   useEffect(() => {
-    getToken();
     setState((prevState) => ({
       ...prevState,
       token: JSON.parse(window.localStorage.getItem("token")),
