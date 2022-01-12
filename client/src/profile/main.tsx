@@ -8,17 +8,16 @@ import ProfileStats from "./profile";
 import Player from "./player";
 import TopBar from "./top-bar";
 import axios from "axios";
+import Cookies from "js-cookie";
 import useAuth from "../utils/useAuth";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 interface Props {
   code: string;
-  code_verifier: string;
 }
 
-export default function Profile({ code, code_verifier }: Props): ReactElement {
-  const token = useAuth({ code, code_verifier });
-  console.log({ token });
+export default function Profile({ code }: Props): ReactElement {
+  const token = useAuth({ code });
   const [state, setState] = useState({
     token: "",
     profile: false,
@@ -40,23 +39,13 @@ export default function Profile({ code, code_verifier }: Props): ReactElement {
       {/* <TopBar parentState={state} setParentState={setState}></TopBar> */}
       <div>
         <Router>
-          <Switch>
-            <Route path="songs">
-              <SongStats></SongStats>
-            </Route>
-            <Route path="playlist">
-              <PlaylistStats />
-            </Route>
-            <Route path="profile">
-              <ProfileStats></ProfileStats>
-            </Route>
-            <Route path="artists">
-              <ArtistsStats />
-            </Route>
-            <Route path="player">
-              <Player></Player>
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="songs" element={SongStats}></Route>
+            <Route path="playlist" element={PlaylistStats}></Route>
+            <Route path="profile" element={Profile}></Route>
+            <Route path="artists" element={ArtistsStats}></Route>
+            <Route path="player" element={Player}></Route>
+          </Routes>
         </Router>
       </div>
     </div>

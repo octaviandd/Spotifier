@@ -3,30 +3,24 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
+const cookieParser = require("cookie-parser");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000;
 require("dotenv").config();
 
-let frontend_uri = "http://localhost:8080";
 var client_id = process.env.CLIENT_ID;
 var redirect_uri = process.env.REDIRECT_URI;
 var client_secret = process.env.CLIENT_SECRET;
+var JWT_SECRET = "cheese";
 
-const generateRandomString = function (length) {
-  let text = "";
-  let possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+console.log(redirect_uri);
 
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
+app.use(cookieParser());
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
@@ -43,19 +37,23 @@ app.post("/login", function (req, res) {
     url: "https://accounts.spotify.com/api/token",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Cookie:
-        "__Host-device_id=AQCMZFCyJEW6hUyqlegNxubysC8dO3DjIpOndHtPYiOjvcyZNARoNXf1eVBTdK_U2KSTbEZKgzZT0q-odo1MvgMazAMITHexXow; sp_tr=false",
     },
     form: {
       grant_type: "authorization_code",
-      redirect_uri: "http://localhost:8080/profile",
-      code: code,
-      client_id: "c80dc2ae16884491b82fca219719f0c4",
-      client_secret: "f41e617c5d9a4180b93d9073d8510811",
+      redirect_uri,
+      code,
+      client_id,
+      client_secret,
     },
   };
   request(options, function (error, response) {
     if (error) throw new Error(error);
+    let data = JSON.parse(response.body);
+    console.log({ data });
+    res.cookie("token", data.access_token, {
+      maxAge: data.expires_in,
+      secure: true,
+    });
     res.json({
       response: response.body,
     });
@@ -69,14 +67,12 @@ app.post("/refresh", function (req, res) {
     url: "https://accounts.spotify.com/api/token",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Cookie:
-        "__Host-device_id=AQCMZFCyJEW6hUyqlegNxubysC8dO3DjIpOndHtPYiOjvcyZNARoNXf1eVBTdK_U2KSTbEZKgzZT0q-odo1MvgMazAMITHexXow; sp_tr=false",
     },
     form: {
       grant_type: "refresh_token",
       refresh_token,
-      client_id: "c80dc2ae16884491b82fca219719f0c4",
-      client_secret: "f41e617c5d9a4180b93d9073d8510811",
+      client_id,
+      client_secret,
     },
   };
   request(options, function (error, response) {

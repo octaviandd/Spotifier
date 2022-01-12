@@ -4,10 +4,13 @@ import "./style.css";
 import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
 import Homepage from "./home/homepage";
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Homepage></Homepage>
+    <Router>
+      <Homepage></Homepage>
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );
