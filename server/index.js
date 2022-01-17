@@ -53,9 +53,9 @@ app.post("/login", function (req, res) {
     res.cookie("refresh_token", data.refresh_token, {
       maxAge: 30 * 24 * 3600 * 1000,
     });
-    res.cookie("access_token", data.access_token, {
-      maxAge: data.expires_in * 1000,
-    });
+    // res.cookie("access_token", data.access_token, {
+    //   maxAge: data.expires_in * 1000,
+    // });
     res.json({
       response: response.body,
     });
@@ -63,7 +63,6 @@ app.post("/login", function (req, res) {
 });
 
 app.post("/token", function (req, res) {
-  console.log("refresh hit");
   var refreshToken = req.body.refreshToken || null;
   if (refreshToken) {
     var options = {

@@ -6,10 +6,8 @@ import ArtistsStats from "./artists";
 import PlaylistStats from "./playlists";
 import ProfileStats from "./profile";
 import Player from "./player";
-import TopBar from "./top-bar";
+import TopBar from "./sideBar";
 import axios from "axios";
-import Cookies from "js-cookie";
-import useAuth from "../utils/useAuth";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 interface Props {
@@ -17,7 +15,6 @@ interface Props {
 }
 
 export default function Profile({ code }: Props): ReactElement {
-  const token = useAuth({ code });
   const [state, setState] = useState({
     token: "",
     profile: false,

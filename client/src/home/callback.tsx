@@ -11,7 +11,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Dashboard from "../profile/dashboard";
-import useAuth from "../utils/useAuth";
 import { fetchTokens } from "../utils/useFetch";
 
 interface Props {
