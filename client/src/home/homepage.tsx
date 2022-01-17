@@ -1,16 +1,10 @@
 /** @format */
 
 import React, { ReactElement, useEffect, useState } from "react";
-import {
-  Routes,
-  Route,
-  BrowserRouter as Router,
-  useSearchParams,
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Dashboard from "../profile/dashboard";
 import Default from "./default";
 import Callback from "./callback";
-import ArtistsStats from "../profile/artists";
 interface Props {}
 
 export default function Homepage({}: Props): ReactElement {

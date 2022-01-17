@@ -108,3 +108,24 @@ export const getRecommendedGenres = async (token: string) => {
     console.log(error);
   }
 };
+
+export const getTracksAudioFeatures = async (token: string, ids: string[]) => {
+  try {
+    let params = ids.toString();
+    let res = await fetch(
+      "https://api.spotify.com/v1/audio-features?" +
+        new URLSearchParams({ ids: params }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

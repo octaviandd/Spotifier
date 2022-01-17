@@ -18,17 +18,18 @@ interface TopSongs {
   };
 }
 
-interface Props {}
+interface Props {
+  accessToken: string;
+}
 
-export default function ArtistsStats({}: Props): ReactElement {
+export default function ArtistsStats({ accessToken }: Props): ReactElement {
   const [timeRange, setTimeRange] = useState("medium_term");
   const [state, setState] = useState({
     songs: [],
   });
   useEffect(() => {
-    let token = JSON.parse(localStorage.getItem("token"));
     // getFollowedArtists(token).then((data) => console.log(data.artists));
-    getUserTopTracks(token, timeRange).then((data) => {
+    getUserTopTracks(accessToken, timeRange).then((data) => {
       let items = destructureData(data.items);
       return setState((prevState) => ({
         ...prevState,

@@ -1,6 +1,10 @@
 /** @format */
 
 import React, { ReactElement } from "react";
+import SongsPanel from "./songsPanel";
+import PlaylistPanel from "./playlistPanel";
+import ArtistsPanel from "./artistsPanel";
+import PlayerPanel from "./playerPanel";
 
 interface Props {
   parentState: any;
@@ -13,5 +17,23 @@ export default function CurrentDisplay({
   setParentState,
   accessToken,
 }: Props): ReactElement {
-  return <div></div>;
+  const { songs, playlist, artists, player } = parentState;
+
+  const selectCurrentDisplay = () => {
+    if (songs) {
+      return <SongsPanel accessToken={accessToken}></SongsPanel>;
+    } else if (playlist) {
+      return <PlaylistPanel accessToken={accessToken}></PlaylistPanel>;
+    } else if (artists) {
+      return <ArtistsPanel accessToken={accessToken}></ArtistsPanel>;
+    } else if (player) {
+      return <PlayerPanel accessToken={accessToken}></PlayerPanel>;
+    }
+  };
+
+  return (
+    <div className="flex bg-white drop-shadow-xl font-custom my-10 py-10">
+      {selectCurrentDisplay()}
+    </div>
+  );
 }

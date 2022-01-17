@@ -42,7 +42,7 @@ export default function SideBar({
 
   return (
     <nav className="flex flex-col bg-white drop-shadow-xl font-custom px-10 py-10 my-10 h-[42rem]">
-      <h3 className="pb-20 pt-6 text-2xl bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-red-200">
+      <h3 className="pb-20 pt-6 text-3xl bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-red-200">
         Statify
       </h3>
       <div className="flex flex-col items-center justify-center space-y-4">

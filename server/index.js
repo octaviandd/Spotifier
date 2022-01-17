@@ -31,8 +31,6 @@ app.post("/login", function (req, res) {
   var code = req.body.code || null;
   var state = req.body.state || null;
 
-  console.log(code);
-
   var options = {
     method: "POST",
     url: "https://accounts.spotify.com/api/token",

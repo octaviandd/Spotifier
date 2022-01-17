@@ -27,7 +27,7 @@ export default function Dashboard({
   useEffect(() => {}, []);
 
   return accessToken ? (
-    <div className="flex">
+    <div className="flex space-x-5">
       <SideBar
         parentState={state}
         setParentState={setState}

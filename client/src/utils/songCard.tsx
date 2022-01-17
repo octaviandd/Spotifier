@@ -7,6 +7,16 @@ interface Props {
   count: number;
 }
 
+function millisecondsToMinutesAndSeconds(milliseconds: number) {
+  var minutes = Math.floor(milliseconds / 60000);
+  var seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+  return Number(seconds) == 60
+    ? minutes + 1 + ":00"
+    : minutes + ":" + (Number(seconds) < 10 ? "0" : "") + seconds;
+}
+
+millisecondsToMinutesAndSeconds(298999); // "4:59"
+
 export default function SongCard({ item, count }: Props): ReactElement {
   return (
     <div className="flex mt-4 items-center">
@@ -24,11 +34,9 @@ export default function SongCard({ item, count }: Props): ReactElement {
           {item.album.artists[0].name}
         </span>
       </div>
-      {/* <div className="flex ml-auto">
-        {new Date(item.duration_ms).getMinutes() +
-          ":" +
-          new Date(item.duration_ms).getSeconds()}
-      </div> */}
+      <div className="flex ml-auto">
+        {millisecondsToMinutesAndSeconds(item.duration_ms)}
+      </div>
     </div>
   );
 }
