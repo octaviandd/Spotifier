@@ -10,24 +10,43 @@ import {
 import RequireAuth from "../utils//requireAuth";
 import Dashboard from "../profile/dashboard";
 import Default from "./default";
-import PlaylistStats from "../profile/playlists";
+import Callback from "./callback";
+import ArtistsStats from "../profile/artists";
 interface Props {}
 
 export default function Homepage({}: Props): ReactElement {
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get("code"));
+  const [accessToken, setAccessToken] = useState();
+  const [refreshToken, setRefreshToken] = useState();
+
   return (
     <Routes>
-      <Route path="/" element={<Default></Default>}></Route>
-      <Route path="/callback:id" element={<PlaylistStats />} />
+      <Route
+        path="/"
+        element={
+          <Default
+            accessToken={accessToken}
+            setAccessToken={setAccessToken}
+          ></Default>
+        }
+      ></Route>
+      <Route
+        path="/callback"
+        element={
+          <Callback
+            accessToken={accessToken}
+            setAccessToken={setAccessToken}
+          ></Callback>
+        }
+      />
       <Route
         path="/dashboard"
         element={
-          <RequireAuth>
-            <Dashboard></Dashboard>
-          </RequireAuth>
+          <Dashboard
+            accessToken={accessToken}
+            setAccessToken={setAccessToken}
+          ></Dashboard>
         }
-      ></Route>
+      />
     </Routes>
   );
 }

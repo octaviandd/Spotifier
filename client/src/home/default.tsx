@@ -1,8 +1,14 @@
 /** @format */
 
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
+import { fetchAccessToken } from "../utils/useFetch";
 
-interface Props {}
+interface Props {
+  accessToken: string;
+  setAccessToken: any;
+}
 
 const generateRandomString = function (length: number) {
   let text = "";
@@ -20,8 +26,24 @@ const scope =
   "user-read-private user-read-email user-read-playback-state user-top-read user-read-recently-played user-follow-read user-library-read";
 const link = `https://accounts.spotify.com/authorize?response_type=code&client_id=a8f787f034c549c2be783850c383388e&scope=${scope}&redirect_uri=http://localhost:8080/callback&state=${code_verifier}&show_dialog=true`;
 
-export default function Default({}: Props): ReactElement {
-  return (
+export default function Default({
+  accessToken,
+  setAccessToken,
+}: Props): ReactElement {
+  const [refreshToken, setRefreshToken] = useState(
+    Cookies.get("refresh_token") || null
+  );
+  let data = fetchAccessToken({ refreshToken });
+
+  useEffect(() => {
+    if (data) {
+      setAccessToken(data.access_token);
+    }
+  }, [data]);
+
+  return accessToken ? (
+    <Navigate to="/dashboard" />
+  ) : (
     <div>
       <nav className="bg-white fixed drop-shadow-lg w-full z-10">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">

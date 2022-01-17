@@ -15,6 +15,7 @@ export default function useAuth({ code }: Props) {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [expireTime, setExpireTime] = useState("");
+  const navigate = useNavigate();
 
   const getToken = async () => {
     let res = await axios.post("http://localhost:3000/login", {
@@ -23,16 +24,18 @@ export default function useAuth({ code }: Props) {
       },
     });
     let data = JSON.parse(res.data.response);
+    console.log({ data: data.access_token });
     setAccessToken(data.access_token);
     setExpireTime(data.expires_in);
     setRefreshToken(data.refresh_token);
-    Cookies.set("token", data.access_token);
-    window.location.href = "/dashboard";
   };
 
   useEffect(() => {
     if (!Cookies.get("token")) {
       getToken();
+      console.log("test");
+    } else {
+      navigate("/");
     }
   }, [code]);
 

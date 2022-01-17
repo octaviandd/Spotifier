@@ -7,8 +7,7 @@ interface Props {}
 
 export default function PlaylistStats({}: Props): ReactElement {
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log("test");
-  console.log(searchParams);
+  console.log(searchParams.get("code"));
 
   return <div>playlistss</div>;
 }

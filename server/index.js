@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const cookieParser = require("cookie-parser");
+var cookieSession = require("cookie-session");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,9 +14,7 @@ require("dotenv").config();
 var client_id = process.env.CLIENT_ID;
 var redirect_uri = process.env.REDIRECT_URI;
 var client_secret = process.env.CLIENT_SECRET;
-var JWT_SECRET = "cheese";
-
-console.log(redirect_uri);
+let refreshToken = "";
 
 app.use(cookieParser());
 app.use((req, res, next) => {
@@ -29,8 +28,10 @@ app.use((req, res, next) => {
 });
 
 app.post("/login", function (req, res) {
-  var code = req.body.data.code || null;
-  var state = req.body.data.state || null;
+  var code = req.body.code || null;
+  var state = req.body.state || null;
+
+  console.log(code);
 
   var options = {
     method: "POST",
@@ -46,13 +47,14 @@ app.post("/login", function (req, res) {
       client_secret,
     },
   };
-  request(options, function (error, response) {
+  request.post(options, function (error, response, body) {
     if (error) throw new Error(error);
-    let data = JSON.parse(response.body);
-    console.log({ data });
-    res.cookie("token", data.access_token, {
-      maxAge: data.expires_in,
-      secure: true,
+    let data = JSON.parse(body);
+    res.cookie("refresh_token", data.refresh_token, {
+      maxAge: 30 * 24 * 3600 * 1000,
+    });
+    res.cookie("access_token", data.access_token, {
+      maxAge: data.expires_in * 1000,
     });
     res.json({
       response: response.body,
@@ -60,8 +62,42 @@ app.post("/login", function (req, res) {
   });
 });
 
-app.post("/refresh", function (req, res) {
-  var refresh_token = req.body.refresh_token || null;
+app.post("/token", function (req, res) {
+  console.log("refresh hit");
+  var refreshToken = req.body.refreshToken || null;
+  if (refreshToken) {
+    var options = {
+      method: "POST",
+      url: "https://accounts.spotify.com/api/token",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      form: {
+        grant_type: "refresh_token",
+        refresh_token: refreshToken,
+        client_id,
+        client_secret,
+      },
+    };
+    request.post(options, function (error, response) {
+      if (!error && response.statusCode === 200) {
+        res.setHeader("Content-Type", "application/json");
+        res.json({
+          response: response.body,
+        });
+      } else {
+        res.setHeader("Content-Type", "application/json");
+        res.send(JSON.stringify({ access_token: "", expires_in: "" }));
+      }
+    });
+  } else {
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify({ access_token: "", expires_in: "" }));
+  }
+});
+
+app.post("/songs", function (res, req) {
+  let token = req.body.token;
   var options = {
     method: "POST",
     url: "https://accounts.spotify.com/api/token",
@@ -75,13 +111,6 @@ app.post("/refresh", function (req, res) {
       client_secret,
     },
   };
-  request(options, function (error, response) {
-    if (error) throw new Error(error);
-    let access_token = response.body.access_token;
-    res.send({
-      access_token: access_token,
-    });
-  });
 });
 
 app.listen(port, function () {
