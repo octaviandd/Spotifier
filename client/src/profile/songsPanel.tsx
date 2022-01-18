@@ -4,168 +4,17 @@ import React, { ReactElement, useEffect, useState } from "react";
 import SongCard from "../utils/songCard";
 import { getTracksAudioFeatures, getUserTopTracks } from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
+import { aggregateValues } from "../utils/valuesAggregator";
 import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ResponsiveContainer,
-} from "recharts";
-
-const data = [
-  {
-    subject: "Danceability",
-    A: 82,
-    fullMark: 100,
-  },
-  {
-    subject: "Valence",
-    A: 90,
-    fullMark: 100,
-  },
-  // {
-  //   subject: "Tempo",
-  //   A: 98,
-  //   fullMark: 100,
-  // },
-  // {
-  //   subject: "Loudness",
-  //   A: 86,
-  //   fullMark: 100,
-  // },
-  {
-    subject: "Instrumentalness",
-    A: 99,
-    fullMark: 100,
-  },
-  {
-    subject: "Acousticness",
-    A: 85,
-    fullMark: 100,
-  },
-  {
-    subject: "Energy",
-    A: 65,
-    fullMark: 100,
-  },
-  {
-    subject: "Speachiness",
-    A: 65,
-    fullMark: 100,
-  },
-  {
-    subject: "Liveness",
-    A: 65,
-    fullMark: 100,
-  },
-];
+  TemposChart,
+  LoudnessChart,
+  CharacteristicsChart,
+} from "../utils/barCharts";
+import { getItemsID } from "../utils/filterIds";
 
 interface Props {
   accessToken: string;
 }
-
-const aggregateValues = (values: any) => {
-  if (values) {
-    let aggregatedAcousticness = 0;
-    let aggregatedLiveness = 0;
-    let aggregatedSpeechiness = 0;
-    let aggregatedEnergy = 0;
-    let aggregatedInstrumentalness = 0;
-    let aggregatedLoudness = 0;
-    let aggregatedTempo = 0;
-    let aggregatedValence = 0;
-    let aggregatedDanceability = 0;
-
-    if (values.length > 1) {
-      for (let i = 0; i < values.length; i++) {
-        aggregatedAcousticness += values[i].acousticness;
-        aggregatedLiveness += values[i].liveness;
-        aggregatedSpeechiness += values[i].speechiness;
-        aggregatedEnergy += values[i].energy;
-        aggregatedInstrumentalness += values[i].instrumentalness;
-        aggregatedLoudness += values[i].loudness;
-        aggregatedTempo += values[i].tempo;
-        aggregatedValence += values[i].valence;
-        aggregatedDanceability += values[i].danceability;
-      }
-    }
-
-    aggregatedAcousticness = Number(
-      ((aggregatedAcousticness * 100) / 50).toFixed(0)
-    );
-    aggregatedLiveness = Number(((aggregatedLiveness * 100) / 50).toFixed(0));
-    aggregatedSpeechiness = Number(
-      ((aggregatedSpeechiness * 100) / 50).toFixed(0)
-    );
-    aggregatedEnergy = Number(((aggregatedEnergy * 100) / 50).toFixed(0));
-    aggregatedInstrumentalness = Number(
-      ((aggregatedInstrumentalness * 100) / 50).toFixed(0)
-    );
-    aggregatedLoudness = Number((aggregatedLoudness / 50).toFixed(0));
-    aggregatedTempo = Number((aggregatedTempo / 50).toFixed(0));
-    aggregatedValence = Number(((aggregatedValence * 100) / 50).toFixed(0));
-    aggregatedDanceability = Number(
-      ((aggregatedDanceability * 100) / 50).toFixed(0)
-    );
-
-    return [
-      {
-        subject: "Danceability",
-        A: aggregatedDanceability,
-        fullMark: 100,
-      },
-      {
-        subject: "Valence",
-        A: aggregatedValence,
-        fullMark: 100,
-      },
-      // {
-      //   subject: "Tempo",
-      //   A: 98,
-      //   fullMark: 100,
-      // },
-      // {
-      //   subject: "Loudness",
-      //   A: 86,
-      //   fullMark: 100,
-      // },
-      {
-        subject: "Instrumentalness",
-        A: 99,
-        fullMark: 100,
-      },
-      {
-        subject: "Acousticness",
-        A: aggregatedAcousticness,
-        fullMark: 100,
-      },
-      {
-        subject: "Energy",
-        A: aggregatedEnergy,
-        fullMark: 100,
-      },
-      {
-        subject: "Speachiness",
-        A: aggregatedSpeechiness,
-        fullMark: 100,
-      },
-      {
-        subject: "Liveness",
-        A: aggregatedLiveness,
-        fullMark: 100,
-      },
-    ];
-  }
-};
-
-const getItemsID = (arr: any): string[] => {
-  let idsArray = [];
-  for (let i = 0; i < arr.length; i++) {
-    idsArray.push(arr[i].id);
-  }
-  return idsArray;
-};
 
 export default function SongsPanel({ accessToken }: Props): ReactElement {
   const [loading, setLoading] = useState(true);
@@ -174,7 +23,9 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
     items: [],
     itemsIds: [],
     itemsAudio: undefined,
-    aggregatedAudioValues: {},
+    aggregatedAudioValues: [],
+    tempoValues: undefined,
+    loudnessValues: undefined,
   });
 
   const handleTimeRange = (e: string) => {
@@ -209,7 +60,11 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           setState((prevState) => ({
             ...prevState,
             itemsAudio: res.audio_features,
-            aggregatedAudioValues: aggregateValues(res.audio_features),
+            aggregatedAudioValues: aggregateValues(res.audio_features).data,
+            tempoValues: aggregateValues(res.audio_features).secondaryData
+              .tempoData,
+            loudnessValues: aggregateValues(res.audio_features).secondaryData
+              .loudnessData,
           }));
         });
       } catch (e) {
@@ -220,6 +75,8 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
     };
     getAudio();
   }, [state.items]);
+
+  console.log(state);
 
   return (
     <div className="flex justify-center flex-col pt-5 px-6 ">
@@ -259,23 +116,38 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           <div>wait</div>
         )}
       </div>
-      <div className="flex-grow border-b-2 border-grey-500 pb-10 pt-5">
-        <span className="text-4xl font-mono ">2. Songs Stats</span>
-        {Object.keys(state.aggregatedAudioValues).length > 1 && (
-          <ResponsiveContainer width={800} height="92.5%">
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-              <PolarGrid />
-              <PolarAngleAxis dataKey="subject" />
-              <Radar
-                name="Mike"
-                dataKey="A"
-                stroke="#8884d8"
-                fill="#8884d8"
-                fillOpacity={0.6}
-              />
-            </RadarChart>
-          </ResponsiveContainer>
-        )}
+      <div className="w-full h-full">
+        <div className="flex flex-row border-b-2 border-grey-500 pb-10 pt-5">
+          <div className="flex-grow">
+            <span className="text-4xl font-mono ">2. Songs Stats</span>
+          </div>
+          <div className="flex-grow">
+            <select
+              value={timeRange}
+              name="Date"
+              onChange={(e) => handleTimeRange(e.target.value)}
+              className="py-3 px-5 rounded-md"
+            >
+              <option value="short_term">Last Month</option>
+              <option value="medium_term">Last Six Months</option>
+              <option value="long_term">Last Year</option>
+            </select>
+            <button></button>
+          </div>
+        </div>
+        <div className="flex justify-center w-full h-3/5">
+          {Object.keys(state.aggregatedAudioValues).length > 1 && (
+            <CharacteristicsChart
+              characteristicsValues={state.aggregatedAudioValues}
+            ></CharacteristicsChart>
+          )}
+        </div>
+        <div className="w-60 h-60">
+          <TemposChart tempoValues={state.tempoValues}></TemposChart>
+        </div>
+        <div className="w-60 h-60">
+          <LoudnessChart loudnessValues={state.loudnessValues}></LoudnessChart>
+        </div>
       </div>
     </div>
   );
