@@ -48,8 +48,6 @@ export const aggregateValues = (values: any) => {
       ((aggregatedDanceability * 100) / 50).toFixed(0)
     );
 
-    console.log(aggregatedTempo, aggregatedLoudness);
-
     const tempoData = [];
     for (let i = 0; i < tempoValues.length; i++) {
       tempoData.push({ db: tempoValues[i] });

@@ -24,7 +24,7 @@ import CustomToolTip from "./customToolTip";
 export const TemposChart = ({ tempoValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={700} height="80%">
+      <ResponsiveContainer width={700} height="90%">
         <ComposedChart
           width={300}
           height={300}
@@ -74,7 +74,7 @@ export const LoudnessChart = ({ loudnessValues }: any) => {
 export const CharacteristicsChart = ({ characteristicsValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width="99%" height="85%">
+      <ResponsiveContainer width={600} height="50%">
         <RadarChart
           cx="50%"
           cy="50%"

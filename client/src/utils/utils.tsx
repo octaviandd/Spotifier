@@ -69,7 +69,7 @@ export const getFollowedArtists = async (token: string) => {
       "https://api.spotify.com/v1/me/following?" +
         new URLSearchParams({
           type: "artist",
-          limit: "25",
+          limit: "50",
         }),
       {
         headers: {
@@ -115,6 +115,25 @@ export const getTracksAudioFeatures = async (token: string, ids: string[]) => {
     let res = await fetch(
       "https://api.spotify.com/v1/audio-features?" +
         new URLSearchParams({ ids: params }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getRelatedArtists = async (token: string, id: string) => {
+  try {
+    let res = await fetch(
+      `https://api.spotify.com/v1/artists/${id}/related-artists`,
       {
         headers: {
           "Content-Type": "application/json",

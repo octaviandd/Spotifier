@@ -76,10 +76,8 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
     getAudio();
   }, [state.items]);
 
-  console.log(state);
-
   return (
-    <div className="flex justify-center flex-col pt-5 px-6 ">
+    <div className="flex justify-center flex-col pt-5 px-6">
       <div className="mb-10">
         <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-grey-500">
           <div className="flex-grow">
@@ -116,7 +114,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           <div>wait</div>
         )}
       </div>
-      <div className="w-full h-full">
+      <div className="relative w-full h-full">
         <div className="flex flex-row border-b-2 border-grey-500 pb-10 pt-5">
           <div className="flex-grow">
             <span className="text-4xl font-mono ">2. Songs Stats</span>
@@ -135,17 +133,17 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
             <button></button>
           </div>
         </div>
-        <div className="flex justify-center w-full h-3/5">
+        <div className="flex justify-center w-[34rem] h-[34rem]">
           {Object.keys(state.aggregatedAudioValues).length > 1 && (
             <CharacteristicsChart
               characteristicsValues={state.aggregatedAudioValues}
             ></CharacteristicsChart>
           )}
         </div>
-        <div className="w-60 h-60">
+        <div className="w-60 h-60 m-w-60 m-h-60">
           <TemposChart tempoValues={state.tempoValues}></TemposChart>
         </div>
-        <div className="w-60 h-60">
+        <div className="w-60 h-[36rem]">
           <LoudnessChart loudnessValues={state.loudnessValues}></LoudnessChart>
         </div>
       </div>
