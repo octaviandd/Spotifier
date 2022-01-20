@@ -3,7 +3,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import { getRelatedArtists } from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
-import SpotifyLogo from "../assets/spotify.png";
+import Carousel from "../utils/carousel";
 
 interface Props {
   accessToken: string;
@@ -26,13 +26,6 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
   };
 
   useEffect(() => {}, [state.similarArtists]);
-
-  console.log(state.similarArtists);
-  console.log(
-    state.similarArtists.map((item) => {
-      return item.images;
-    })
-  );
 
   return (
     <div className="grid grid-cols-2 0 bg-zinc-100 ">
@@ -57,22 +50,9 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
       </div>
       <div className="justify-self-center self-center flex flex-grow justify-center">
         {state.similarArtists.length > 1 ? (
-          state.similarArtists.slice(0, 10).map((item) => (
-            <div key={uuidv4()}>
-              <img
-                src={
-                  item.images[0]
-                    ? item.images[0].url
-                    : item.images[1]
-                    ? item.images[1].url
-                    : item.images[2]
-                    ? item.images[2].url
-                    : SpotifyLogo
-                }
-                className="w-20 h-20 object-cover"
-              ></img>
-            </div>
-          ))
+          <Carousel
+            items={state.similarArtists.slice(0, 12).map((item) => item)}
+          ></Carousel>
         ) : (
           <button
             onClick={() => getSimilarArtists()}

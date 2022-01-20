@@ -1,28 +1,25 @@
 /** @format */
 
 import React, { ReactElement, useState } from "react";
+import SpotifyLogo from "../assets/spotify.png";
 
 interface Props {
-  accessToken: string;
+  items: any;
 }
 
-export default function PlaylistStats({ accessToken }: Props): ReactElement {
+export default function Carousel({ items }: Props): ReactElement {
   const [activeIndex, setActiveIndex] = useState(0);
-  let pictures: any[] = [
-    "https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg",
-    "https://mdbootstrap.com/img/Photos/Slides/img%20(23).jpg",
-    "https://mdbootstrap.com/img/Photos/Slides/img%20(21).jpg",
-  ];
 
   const updateIndex = (newIndex: number) => {
     if (newIndex < 0) {
       newIndex = 0;
-    } else if (newIndex >= pictures.length) {
-      newIndex = pictures.length - 1;
+    } else if (newIndex >= items.length / 3) {
+      newIndex = items.length / 3 - 1;
     }
+    console.log(activeIndex);
+
     setActiveIndex(newIndex);
   };
-  console.log("test");
   return (
     <div className="">
       <div className="flex items-center justify-center">
@@ -40,16 +37,28 @@ export default function PlaylistStats({ accessToken }: Props): ReactElement {
             />
           </svg>
         </button>
-        <div className="w-1/3 h-32 overflow-hidden whitespace-nowrap">
+        <div className="lg:w-48 md:w-32 h-16 overflow-hidden whitespace-nowrap">
           <div
-            className="h-32"
+            className="h-16 transition-all ease-in-out duration-300"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
-            {pictures.map((item) => (
-              <div className="inline-flex items-center justify-center">
-                <img className="w-full h-32" src={item} />
-              </div>
-            ))}
+            {items &&
+              items.map((item: any) => (
+                <div className="inline-flex items-center justify-center">
+                  <img
+                    className="w-16 h-16 object-cover"
+                    src={
+                      item.images[0]
+                        ? item.images[0].url
+                        : item.images[1]
+                        ? item.images[1].url
+                        : item.images[2]
+                        ? item.images[2].url
+                        : SpotifyLogo
+                    }
+                  />
+                </div>
+              ))}
           </div>
         </div>
         <button onClick={() => updateIndex(activeIndex + 1)}>
