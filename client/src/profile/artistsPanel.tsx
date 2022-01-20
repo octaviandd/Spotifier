@@ -3,7 +3,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { getFollowedArtists, getUserTopTracks } from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
-import { getRelatedArtists } from "../utils/utils";
+import ArtistCard from "../utils/artistCard";
 
 interface Props {
   accessToken: string;
@@ -11,18 +11,10 @@ interface Props {
 
 export default function ArtistsStats({ accessToken }: Props): ReactElement {
   const [loading, setLoading] = useState(true);
-  const [timeRange, setTimeRange] = useState("medium_term");
   const [state, setState] = useState({
     songs: [],
     artists: [],
   });
-
-  const orderArtistsList = () => {};
-
-  const getRelatedArtist = (id: any) => {
-    let data = getRelatedArtists(accessToken, id);
-    console.log(data);
-  };
 
   useEffect(() => {
     try {
@@ -39,17 +31,7 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
       setLoading(true);
     }
     setLoading(false);
-  }, [loading, timeRange]);
-
-  const destructureData = (data: any) => {
-    let arrayOfSongs: string[] = [];
-    Object.keys(data).forEach((key) => {
-      arrayOfSongs.push(data[key].name);
-    });
-    return arrayOfSongs;
-  };
-
-  console.log(state);
+  }, [loading]);
 
   return (
     <div className="flex flex-col pt-5 px-6 w-full">
@@ -70,35 +52,12 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
         <div className="flex flex-col space-y-6 my-6">
           {!loading &&
             state.artists.map((item) => (
-              <div key={uuidv4()} className="flex items-center bg-zinc-100">
-                <div>
-                  <img
-                    className="rounded-lg w-20 h-20 object-cover"
-                    src={item.images[2].url}
-                  />
-                </div>
-                <div className="w-3/4 px-6">
-                  <div>
-                    <span>{item.name}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span>Followers: {item.followers.total}</span>
-                    <span>Popularity: {item.popularity}</span>
-                  </div>
-                  {/* <div>
-                    [
-                    {item.genres.map((item: any) => (
-                      <span>"{item}"</span>
-                    ))}
-                    ]
-                  </div> */}
-                  <div>
-                    <button onClick={() => getRelatedArtist(item.id)}>
-                      Get similar artists
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ArtistCard
+                accessToken={accessToken}
+                item={item}
+                key={uuidv4()}
+                id={item.id}
+              ></ArtistCard>
             ))}
         </div>
       </div>

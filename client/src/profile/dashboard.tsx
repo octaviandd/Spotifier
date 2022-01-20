@@ -18,9 +18,9 @@ export default function Dashboard({
 }: Props): ReactElement {
   const [state, setState] = useState({
     profile: false,
-    songs: true,
+    songs: false,
     playlists: false,
-    artists: false,
+    artists: true,
     player: false,
   });
 

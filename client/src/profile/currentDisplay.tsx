@@ -17,12 +17,12 @@ export default function CurrentDisplay({
   setParentState,
   accessToken,
 }: Props): ReactElement {
-  const { songs, playlist, artists, player } = parentState;
+  const { songs, playlists, artists, player } = parentState;
 
   const selectCurrentDisplay = () => {
     if (songs) {
       return <SongsPanel accessToken={accessToken}></SongsPanel>;
-    } else if (playlist) {
+    } else if (playlists) {
       return <PlaylistPanel accessToken={accessToken}></PlaylistPanel>;
     } else if (artists) {
       return <ArtistsPanel accessToken={accessToken}></ArtistsPanel>;
