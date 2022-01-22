@@ -10,9 +10,14 @@ interface Props {
   item: any;
   key: any;
   id: string;
+  setModal: any;
 }
 
-export default function ArtistCard({ accessToken, item }: Props): ReactElement {
+export default function ArtistCard({
+  accessToken,
+  item,
+  setModal,
+}: Props): ReactElement {
   const [state, setState] = useState({ similarArtists: [] });
   const [count, setCount] = useState(0);
 
@@ -51,7 +56,8 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
       <div className="justify-self-center self-center flex flex-grow justify-center">
         {state.similarArtists.length > 1 ? (
           <Carousel
-            items={state.similarArtists.slice(0, 12).map((item) => item)}
+            items={state.similarArtists.slice(0, 16).map((item) => item)}
+            setModal={setModal}
           ></Carousel>
         ) : (
           <button

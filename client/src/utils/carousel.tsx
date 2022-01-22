@@ -2,26 +2,70 @@
 
 import React, { ReactElement, useState } from "react";
 import SpotifyLogo from "../assets/spotify.png";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   items: any;
+  setModal: any;
 }
 
-export default function Carousel({ items }: Props): ReactElement {
+const CarouselItem = ({ items, setModal }: Props) => {
+  const [tooltip, setTooltip] = useState(false);
+  const [expander, setExpander] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setExpander(true)}
+      onMouseLeave={() => setExpander(false)}
+      onClick={() => setModal(true)}
+      className="relative inline-flex items-center justify-center"
+    >
+      <a className="relative w-20 h-20">
+        <div
+          className="relative w-20 h-20 bg-cover before:bg-background-opacity before:content-[''] before:top-0 before:bottom-0 before:left-0 before:right-0 before:absolute "
+          style={{
+            backgroundImage: `url(${
+              items.images[0]
+                ? items.images[0].url
+                : items.images[1]
+                ? items.images[1].url
+                : items.images[2]
+                ? items.images[2].url
+                : SpotifyLogo
+            })`,
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-7 w-7 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-100 fill-slate-300"
+            viewBox="0 0 20 20"
+            fill="#fffff"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 110-2h4a1 1 0 011 1v4a1 1 0 11-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 112 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 110 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 110-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+      </a>
+    </div>
+  );
+};
+
+export default function Carousel({ items, setModal }: Props): ReactElement {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const updateIndex = (newIndex: number) => {
     if (newIndex < 0) {
       newIndex = 0;
-    } else if (newIndex >= items.length / 3) {
-      newIndex = items.length / 3 - 1;
+    } else if (newIndex >= items.length / 4) {
+      newIndex = items.length / 4 - 1;
     }
-    console.log(activeIndex);
-
     setActiveIndex(newIndex);
   };
+
   return (
-    <div className="">
+    <div className="relative">
       <div className="flex items-center justify-center">
         <button onClick={() => updateIndex(activeIndex - 1)}>
           <svg
@@ -37,27 +81,14 @@ export default function Carousel({ items }: Props): ReactElement {
             />
           </svg>
         </button>
-        <div className="lg:w-48 md:w-32 h-16 overflow-hidden whitespace-nowrap">
+        <div className="lg:w-80 md:w-60 h-20 overflow-hidden whitespace-nowrap">
           <div
-            className="h-16 transition-all ease-in-out duration-300"
+            className="h-20 transition-all ease-in-out duration-300"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
             {items &&
               items.map((item: any) => (
-                <div className="inline-flex items-center justify-center">
-                  <img
-                    className="w-16 h-16 object-cover"
-                    src={
-                      item.images[0]
-                        ? item.images[0].url
-                        : item.images[1]
-                        ? item.images[1].url
-                        : item.images[2]
-                        ? item.images[2].url
-                        : SpotifyLogo
-                    }
-                  />
-                </div>
+                <CarouselItem setModal={setModal} items={item} key={uuidv4()} />
               ))}
           </div>
         </div>

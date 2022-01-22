@@ -148,3 +148,54 @@ export const getRelatedArtists = async (token: string, id: string) => {
     console.log(error);
   }
 };
+
+export const getFeaturedPlaylists = async (token: string) => {
+  try {
+    let res = await fetch(
+      `https://api.spotify.com/v1/browse/featured-playlists`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPlaylist = async (token: string, id: string) => {
+  try {
+    let res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getArtist = async (token: string, id: string) => {
+  try {
+    let res = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

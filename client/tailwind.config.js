@@ -22,6 +22,9 @@ module.exports = {
       spotify: "#1DB954",
     }),
     extend: {
+      colors: {
+        "background-opacity": "rgba(0, 0, 0, 0.7)",
+      },
       textColor: {
         spotify: "#1DB954",
       },
