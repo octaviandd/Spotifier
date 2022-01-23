@@ -1,7 +1,8 @@
 /** @format */
+import SpotifyLogo from "../assets/spotify.png";
 
-export const aggregateValues = (values: any) => {
-  if (values) {
+export const aggregateValues = (values: any, items: any) => {
+  if (values && items) {
     let aggregatedAcousticness = 0;
     let aggregatedLiveness = 0;
     let aggregatedSpeechiness = 0;
@@ -50,7 +51,16 @@ export const aggregateValues = (values: any) => {
 
     const tempoData = [];
     for (let i = 0; i < tempoValues.length; i++) {
-      tempoData.push({ db: tempoValues[i] });
+      tempoData.push({
+        BPS: tempoValues[i],
+        // icon: items[i].images[0]
+        //   ? items[i].images[0].url
+        //   : items[i].images[1]
+        //   ? items[i].images[1].url
+        //   : items[i].images[2]
+        //   ? items[i].images[2].url
+        //   : SpotifyLogo,
+      });
     }
 
     const loudnessData: any[] = [];

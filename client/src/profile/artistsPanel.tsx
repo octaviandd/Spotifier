@@ -14,6 +14,8 @@ import {
   ArtistFollowersChart,
   ArtistPopularityChart,
 } from "../utils/barCharts";
+import SpotifyLogo from "../assets/spotify.png";
+import { GenresPieChart } from "../utils/pieCharts";
 
 interface Props {
   accessToken: string;
@@ -54,16 +56,37 @@ const Modal = ({ setModal }: any) => {
 const getFollowers = (data: any) => {
   let obj = [];
   for (let i = 0; i < data.length; i++) {
-    obj.push({ name: data[i].name, followers: data[i].followers.total });
+    obj.push({
+      name: data[i].name,
+      followers: data[i].followers.total,
+      icon: data[i].images[0]
+        ? data[i].images[0].url
+        : data[i].images[1]
+        ? data[i].images[1].url
+        : data[i].images[2]
+        ? data[i].images[2].url
+        : SpotifyLogo,
+    });
   }
 
-  obj.push({ name: "Ed Sheeran", followers: 91283053 });
+  obj.push({
+    name: "Ed Sheeran",
+    followers: 91283053,
+  });
 
   obj.sort((a: any, b: any) =>
     a.followers > b.followers ? 1 : b.followers > a.followers ? -1 : 0
   );
 
   return obj;
+};
+
+const createGenresObject = (arr: any) => {
+  let newArr: any = [];
+  arr.map((item: any) => {
+    newArr.push(item.genres);
+  });
+  return newArr;
 };
 
 export default function ArtistsStats({ accessToken }: Props): ReactElement {
@@ -121,13 +144,35 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
         </div>
       </div>
       {/* {modal && <Modal setModal={setModal}></Modal>} */}
-      <div className="flex justify-start items-center pt-20">
-        <div className="p-5">
-          <span className="text-gray-900 text-7xl leading-tight tracking-wide font-medium mb-2">
-            Are your artists popular?
-          </span>
-          <br></br>
-          {/* <p className="text-gray-700 text-xs mb-4 indent-8">
+      <div className="flex flex-col justify-start items-center pt-2 pb-20">
+        <div className="p-5 w-full flex items-center justify-center">
+          <div className="flex justify-center flex-col text-gray-900 text-7xl leading-tight tracking-wide font-medium mb-2 w-full">
+            <div className="text-center">Are your artists popular on </div>
+            <br></br>
+            <div className="text-[#1DB954] text-center">Spotify</div>
+          </div>
+        </div>
+        <div className="h-80">
+          <ArtistPopularityChart
+            artistsValues={state.artists}
+          ></ArtistPopularityChart>
+        </div>
+        <div className="py-4 px-5 border-2 rounded-md drop-shadow-md bg-zinc-100">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <p className="text-black text-xs indent-8">
             The popularity of the track. The value will be between 0 and 100,
             with 100 being the most popular. The popularity of a track is a
             value between 0 and 100, with 100 being the most popular. The
@@ -140,24 +185,32 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
             is derived mathematically from track popularity. Note: the
             popularity value may lag actual popularity by a few days: the value
             is not updated in real time.
-          </p> */}
+          </p>
         </div>
-        <ArtistPopularityChart
-          artistsValues={state.artists}
-        ></ArtistPopularityChart>
       </div>
       {state.artists.length > 1 && (
-        <div className="flex justify-end items-center h-60 mt-10">
-          <div>
+        <div className="flex justify-end items-center h-80 mt-10">
+          <div className="h-full w-full flex flex-start flex-col">
             <span className="text-7xl">How about followers?</span>
           </div>
-          <ArtistFollowersChart
-            accessToken={accessToken}
-            artistsValues={getFollowers(state.artists)}
-          ></ArtistFollowersChart>
+          <div className="">
+            <ArtistFollowersChart
+              accessToken={accessToken}
+              artistsValues={getFollowers(state.artists)}
+            ></ArtistFollowersChart>
+          </div>
         </div>
       )}
-      <div className="flex">Another one</div>
+      {/* {state.artists && (
+        <div className="flex justify-center flex-col text-gray-900 text-7xl leading-tight tracking-wide font-medium mb-2 mt-10  w-full">
+          <div className="text-center">Where do they fit in?</div>
+          <div className="h-80">
+            <GenresPieChart
+              data={createGenresObject(state.artists)}
+            ></GenresPieChart>
+          </div>
+        </div>
+      )} */}
     </div>
   );
 }

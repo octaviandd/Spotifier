@@ -18,13 +18,11 @@ export default function Dashboard({
 }: Props): ReactElement {
   const [state, setState] = useState({
     profile: false,
-    songs: false,
+    songs: true,
     playlists: false,
-    artists: true,
+    artists: false,
     player: false,
   });
-
-  useEffect(() => {}, []);
 
   return accessToken ? (
     <div className="flex space-x-5">

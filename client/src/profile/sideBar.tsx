@@ -19,14 +19,14 @@ export default function SideBar({
     avatar: "",
   });
   const { songs, playlists, artists, player } = parentState;
-  useEffect(() => {
-    getMe(accessToken).then((data) => {
-      setState((prevState) => ({
-        ...prevState,
-        avatar: data.images[0].url,
-      }));
-    });
-  }, []);
+  // useEffect(() => {
+  //   getMe(accessToken).then((data) => {
+  //     setState((prevState) => ({
+  //       ...prevState,
+  //       avatar: data.images[0].url,
+  //     }));
+  //   });
+  // }, []);
 
   const setBarValues = (title: string) => {
     let stateCopy = { ...parentState };

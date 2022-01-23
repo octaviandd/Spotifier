@@ -19,9 +19,14 @@ import {
   ComposedChart,
   Line,
   Area,
+  AreaChart,
 } from "recharts";
 
-import CustomToolTip from "./customToolTip";
+import {
+  CustomToolTip,
+  CustomToolTipFollowersGraph,
+  CustomToolTipTemposGraph,
+} from "./customToolTip";
 
 export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
   const [activeIndex, setActiveItem] = useState(0);
@@ -37,9 +42,8 @@ export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
   //   }
   // }, [graphData]);
 
-  console.log(graphData);
   return (
-    <>
+    <div className="h-80">
       <ResponsiveContainer width={800} height="100%">
         <ComposedChart
           width={400}
@@ -51,7 +55,7 @@ export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
             {graphData.map((entry: any, index: any) => (
               <Cell
                 cursor="pointer"
-                fill={index === graphData.length - 1 ? "#e71430" : "#ffa600"}
+                fill={index === graphData.length - 1 ? "#1DB954" : "#ffa600"}
                 key={`cell-${index}`}
               />
             ))}
@@ -68,7 +72,7 @@ export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
                 value: "Most followed artist",
                 type: "square",
                 id: "ID01",
-                color: "#e71430",
+                color: "#1DB954",
               },
               {
                 value: "Artists you follow",
@@ -78,10 +82,10 @@ export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
               },
             ]}
           />
-          <Tooltip />
+          <Tooltip content={<CustomToolTipFollowersGraph />} />
         </ComposedChart>
       </ResponsiveContainer>
-    </>
+    </div>
   );
 };
 
@@ -106,7 +110,7 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
           <CartesianGrid strokeDasharray="1" vertical={false} />
           <XAxis dataKey="name" />
           <YAxis />
-          <Legend margin={{ top: 20 }} />
+          <Legend wrapperStyle={{ paddingTop: "10px" }} />
           <Tooltip />
         </ComposedChart>
       </ResponsiveContainer>
@@ -117,23 +121,53 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
 export const TemposChart = ({ tempoValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={700} height="90%">
-        <ComposedChart
-          width={300}
+      <ResponsiveContainer width={1000} height="100%">
+        <AreaChart
+          width={1000}
           height={300}
           data={tempoValues}
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         >
-          <Bar dataKey="db" fill="#8884d8" />
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#f70411" stopOpacity={0.9} />
+              <stop offset="95%" stopColor="#e4863a" stopOpacity={0} />
+            </linearGradient>
+          </defs>
           <CartesianGrid strokeDasharray="1" vertical={false} />
           <XAxis dataKey="Decibels" />
           <YAxis />
-          <Legend />
-          <Line type="monotone" dataKey="uv" stroke="#ff7300" />
+          <Legend
+            wrapperStyle={{ paddingTop: "10px" }}
+            payload={[
+              {
+                value: "Beats per second",
+                type: "square",
+                id: "bps",
+                color: "#db1a24",
+              },
+            ]}
+          />
           <Tooltip />
-          <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" />
-          <YAxis />
-        </ComposedChart>
+          <Line
+            type="monotone"
+            unit="M"
+            strokeLinecap="round"
+            strokeWidth={2}
+            style={{ strokeDasharray: `40% 60%` }}
+            dataKey="close"
+            stroke="#db1a24"
+            dot={false}
+            legendType="none"
+          />
+          <Area
+            type="monotone"
+            dataKey="BPS"
+            fill="url(#colorUv)"
+            strokeWidth={2}
+            fillOpacity={1}
+          />
+        </AreaChart>
       </ResponsiveContainer>
     </>
   );
@@ -142,22 +176,19 @@ export const TemposChart = ({ tempoValues }: any) => {
 export const LoudnessChart = ({ loudnessValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={700} height="80%">
+      <ResponsiveContainer width={1000} height="100%">
         <ComposedChart
-          width={300}
+          width={1000}
           height={300}
           data={loudnessValues}
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         >
-          <Bar dataKey="db" fill="#8884d8" />
+          <Bar dataKey="db" fill="#58508d" />
           <CartesianGrid strokeDasharray="3" vertical={false} />
           <XAxis dataKey="Decibels" />
           <YAxis />
           <Legend />
-          <Line type="monotone" dataKey="uv" stroke="#ff7300" />
           <Tooltip />
-          <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" />
-          <YAxis />
         </ComposedChart>
       </ResponsiveContainer>
     </>
@@ -167,7 +198,7 @@ export const LoudnessChart = ({ loudnessValues }: any) => {
 export const CharacteristicsChart = ({ characteristicsValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={600} height="50%">
+      <ResponsiveContainer width={800} height="80%">
         <RadarChart
           cx="50%"
           cy="50%"
@@ -177,15 +208,17 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
           <PolarGrid />
           <PolarAngleAxis dataKey="subject" />
           <Tooltip
+            allowEscapeViewBox={{ x: false, y: true }}
             content={<CustomToolTip />}
             cursor={{ stroke: "red", strokeWidth: 2 }}
+            animationEasing="linear"
           />
           <Radar
-            name="Mike"
+            name="values"
             dataKey="A"
-            stroke="#8884d8"
-            fill="#8884d8"
-            fillOpacity={0.6}
+            stroke="#1DB954"
+            fill="#1DB954"
+            fillOpacity={0.7}
           />
         </RadarChart>
       </ResponsiveContainer>

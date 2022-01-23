@@ -22,7 +22,6 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
   const [state, setState] = useState({
     items: [],
     itemsIds: [],
-    itemsAudio: undefined,
     aggregatedAudioValues: [],
     tempoValues: undefined,
     loudnessValues: undefined,
@@ -50,7 +49,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
       }
     };
     getTracks();
-  }, [loading, timeRange]);
+  }, [timeRange]);
 
   useEffect(() => {
     const getAudio = () => {
@@ -59,12 +58,11 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
         getTracksAudioFeatures(accessToken, state.itemsIds).then((res) => {
           setState((prevState) => ({
             ...prevState,
-            itemsAudio: res.audio_features,
-            aggregatedAudioValues: aggregateValues(res.audio_features).data,
-            tempoValues: aggregateValues(res.audio_features).secondaryData
-              .tempoData,
-            loudnessValues: aggregateValues(res.audio_features).secondaryData
-              .loudnessData,
+            aggregatedAudioValues: aggregateValues(res.audio_features, []).data,
+            tempoValues: aggregateValues(res.audio_features, state.items)
+              .secondaryData.tempoData,
+            loudnessValues: aggregateValues(res.audio_features, [])
+              .secondaryData.loudnessData,
           }));
         });
       } catch (e) {
@@ -133,18 +131,85 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
             <button></button>
           </div>
         </div>
-        <div className="flex justify-center w-[34rem] h-[34rem]">
-          {Object.keys(state.aggregatedAudioValues).length > 1 && (
+        <div className="grid grid-cols-6 my-10">
+          <div className="col-span-3">
+            <span className="text-6xl">
+              That's how{" "}
+              <span className="text-[#1DB954] text-center">Spotify </span>
+              describes a song in numbers.
+            </span>
+          </div>
+          <div className="col-span-3 flex flex-col shadow-lg rounded-tl-md rounded-tr-md">
+            <div className="bg-[#ededed] h-[30px] p-[16px] rounded-md flex gap-1 items-center">
+              <div className="w-[12px] h-[12px] bg-[#FF605C] inline-block rounded-full"></div>
+              <div className="w-[12px] h-[12px] bg-[#FFBD44] inline-block rounded-full"></div>
+              <div className="w-[12px] h-[12px] bg-[#00CA4E] inline-block rounded-full"></div>
+            </div>
+            <div className="flex flex-col pl-5">
+              <span>{"{"}</span>
+              <span className="pl-5">danceability: ".67" </span>
+              <span className="pl-5">valence: ".22"</span>
+              <span className="pl-5">instrumentalness: ".77"</span>
+              <span className="pl-5">acousticness: ".45"</span>
+              <span className="pl-5">energy: ".88"</span>
+              <span className="pl-5">speechiness: ".34"</span>
+              <span className="pl-5">liveness: ".12"</span>
+              <span>{"}"}</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col items-center justify-center h-[34rem]">
+          <div className="text-6xl text-center my-10">
+            Here's how your average song looks like.
+          </div>
+          {state.aggregatedAudioValues.length > 1 && (
             <CharacteristicsChart
               characteristicsValues={state.aggregatedAudioValues}
             ></CharacteristicsChart>
           )}
         </div>
-        <div className="w-60 h-60 m-w-60 m-h-60">
-          <TemposChart tempoValues={state.tempoValues}></TemposChart>
+        <div className="my-5 ">
+          <div className="grid grid-cols-3 grid-rows-3 ">
+            <span className="text-6xl col-start-1 row-start-1 col-end-3">
+              Remember this?
+            </span>
+            <div className="col-start-2 row-start-2">
+              <div className="flex items-center bg-[#D9DADA] rounded-2xl w-full p-3">
+                <span className="bg-[#F80E4B] p-3 rounded-md inline-block">
+                  <svg
+                    // fill="#F80E4B"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="#fff"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+                <div className="flex flex-col pl-4">
+                  <span className="font-semibold">
+                    Volume Should Be Turned Down
+                  </span>
+                  <span className="font-thin">
+                    Based on your headphone usage over the last seven days,
+                    you've exceeded the recommended limit.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="h-[34rem] w-full flex items-center">
+            <LoudnessChart
+              loudnessValues={state.loudnessValues}
+            ></LoudnessChart>
+          </div>
         </div>
-        <div className="w-60 h-[36rem]">
-          <LoudnessChart loudnessValues={state.loudnessValues}></LoudnessChart>
+        <div className="h-[34rem] w-full flex items-center">
+          <TemposChart tempoValues={state.tempoValues}></TemposChart>
         </div>
       </div>
     </div>

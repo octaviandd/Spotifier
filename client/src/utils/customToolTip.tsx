@@ -2,11 +2,7 @@
 
 import React, { ReactElement } from "react";
 
-export default function CustomToolTip({
-  active,
-  payload,
-  label,
-}: any): ReactElement {
+export function CustomToolTip({ active, payload, label }: any): ReactElement {
   let desc = "";
   if (label === "Liveness") {
     desc =
@@ -47,3 +43,47 @@ export default function CustomToolTip({
 
   return null;
 }
+
+export const CustomToolTipFollowersGraph = ({
+  active,
+  payload,
+  label,
+}: any): ReactElement => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <p className="label">
+          <small>{`${label} : ${payload[0].value}`}</small>
+        </p>
+        <img
+          src={payload[0].payload.icon}
+          className="h-12 w-12 rounded-md object-cover"
+        ></img>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+export const CustomToolTipTemposGraph = ({
+  active,
+  payload,
+  label,
+}: any): ReactElement => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <p className="label">
+          <small>{`${label} : ${payload[0].value}`}</small>
+        </p>
+        <img
+          src={payload[0].payload.icon}
+          className="h-12 w-12 rounded-md object-cover"
+        ></img>
+      </div>
+    );
+  }
+
+  return null;
+};
