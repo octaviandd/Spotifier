@@ -11,6 +11,7 @@ import {
   CharacteristicsChart,
 } from "../utils/barCharts";
 import { getItemsID } from "../utils/filterIds";
+import SongsDataInputs from "../utils/songsDataInputs";
 
 interface Props {
   accessToken: string;
@@ -174,7 +175,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               Remember this?
             </span>
             <div className="col-start-2 row-start-2">
-              <div className="flex items-center bg-[#D9DADA] rounded-2xl w-full p-3">
+              <div className="flex items-center bg-[#D9DADA] rounded-2xl w-full p-3 drop-shadow-xl">
                 <span className="bg-[#F80E4B] p-3 rounded-md inline-block">
                   <svg
                     // fill="#F80E4B"
@@ -211,6 +212,9 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
         <div className="h-[34rem] w-full flex items-center">
           <TemposChart tempoValues={state.tempoValues}></TemposChart>
         </div>
+      </div>
+      <div>
+        <SongsDataInputs accessToken={accessToken}></SongsDataInputs>
       </div>
     </div>
   );

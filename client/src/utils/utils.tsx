@@ -199,3 +199,39 @@ export const getArtist = async (token: string, id: string) => {
     console.log(error);
   }
 };
+
+export const getRecommendedSongs = async (
+  token: string,
+  genres: any,
+  soundData: any
+) => {
+  console.log(soundData);
+  try {
+    let res = await fetch(
+      `https://api.spotify.com/v1/recommendations?` +
+        new URLSearchParams({
+          seed_genres: genres,
+          limit: "50",
+          target_danceability: soundData.danceability,
+          target_acousticness: soundData.acousticness,
+          target_energy: soundData.energy,
+          target_instrumentalness: soundData.instrumentalness,
+          target_liveness: soundData.liveness,
+          target_loudness: soundData.loudness,
+          target_speechiness: soundData.speechiness,
+          target_valence: soundData.valence,
+        }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

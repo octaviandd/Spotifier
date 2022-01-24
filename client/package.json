@@ -12,6 +12,7 @@
   "devDependencies": {
     "@types/d3": "^7.1.0",
     "@types/js-cookie": "^3.0.1",
+    "@types/lodash.round": "^4.0.6",
     "@types/react": "^17.0.26",
     "@types/react-dom": "^17.0.9",
     "@types/react-router": "^5.1.16",
@@ -41,6 +42,7 @@
     "d3": "^7.1.1",
     "install": "^0.13.0",
     "js-cookie": "^3.0.1",
+    "lodash.round": "^4.0.4",
     "npm": "^8.3.1",
     "react": "^17.0.2",
     "react-cookie": "^4.1.1",
