@@ -1,13 +1,7 @@
 /** @format */
 
 import React, { ReactElement, useEffect, useState } from "react";
-import {
-  getFollowedArtists,
-  getUserTopTracks,
-  getFeaturedPlaylists,
-  getPlaylist,
-  getArtist,
-} from "../utils/utils";
+import { getFollowedArtists, searchArtist } from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import ArtistCard from "../utils/artistCard";
 import {
@@ -68,11 +62,6 @@ const getFollowers = (data: any) => {
         : SpotifyLogo,
     });
   }
-
-  obj.push({
-    name: "Ed Sheeran",
-    followers: 91283053,
-  });
 
   obj.sort((a: any, b: any) =>
     a.followers > b.followers ? 1 : b.followers > a.followers ? -1 : 0

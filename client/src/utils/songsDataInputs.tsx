@@ -72,8 +72,6 @@ export default function SongsDataInputs({
     currentlyHeldArtists,
   ]);
 
-  console.log(initialArtists);
-
   return (
     <div className="grid grid-cols-7 col-row-5 drop-shadow-md rounded-xl bg-[#fff]">
       <div className="w-full col-start-1 col-end-8 row-start-1">
@@ -267,8 +265,8 @@ export default function SongsDataInputs({
           </div>
         </div>
       </div>
-      <div className=" w-full row-start-3 py-3 px-3 col-start-1 col-end-7">
-        <div className="relative flex items-center">
+      <div className="w-full row-start-3 py-3 px-3 col-start-1 col-end-8">
+        <div className="relative flex items-center w-full">
           <div className="relative flex flex-col items-center">
             <span className="font-semibold text-xl pb-4 pl-3">Artists</span>
             <input
@@ -307,7 +305,7 @@ export default function SongsDataInputs({
           </div>
         </div>
         {currentlyHeldArtists.length > 0 && (
-          <div className="flex flex-wrap w-full flex-row space-x-3 py-4">
+          <div className="flex flex-wrap w-full flex-grow flex-row space-x-3 py-4">
             {currentlyHeldArtists.map((item: any) => (
               <div
                 key={uuidv4()}

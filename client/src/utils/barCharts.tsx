@@ -1,7 +1,8 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import { getArtist } from "./utils";
+import { getArtist, searchArtist } from "./utils";
+import SpotifyLogo from "../assets/spotify.png";
 import {
   Radar,
   RadarChart,
@@ -29,18 +30,31 @@ import {
 } from "./customToolTip";
 
 export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
-  const [activeIndex, setActiveItem] = useState(0);
   const [graphData, setGraphData] = useState(artistsValues);
-  // useEffect(() => {
-  //   try {
-  //     let id = "6eUKZXaKkcviH0Ku9w2n3V";
-  //     getArtist(accessToken, id).then((data) => {
-  //       graphData.push({ name: data.name, followers: data.followers.total });
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [graphData]);
+
+  const getTopArtist = () => {
+    searchArtist(accessToken, "Ed Sheeran").then((res) => {
+      graphData.push({
+        name: res.artists.items[0].name,
+        followers: res.artists.items[0].followers.total,
+        icon: res.artists.items[0].images[0]
+          ? res.artists.items[0].images[0].url
+          : res.artists.items[0].images[1]
+          ? res.artists.items[0].images[1].url
+          : res.artists.items[0].images[2]
+          ? res.artists.items[0].images[2].url
+          : SpotifyLogo,
+      });
+    });
+  };
+
+  useEffect(() => {
+    try {
+      getTopArtist();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [graphData]);
 
   return (
     <div className="h-80">

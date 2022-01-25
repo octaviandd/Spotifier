@@ -61,9 +61,9 @@ export default function SearchDropDown({
               />
             </svg>
           </button>
-          <div className="lg:w-96 md:w-64 h-20 overflow-hidden whitespace-nowrap px-5">
+          <div className="w-full h-20 overflow-hidden whitespace-nowrap px-5">
             <div
-              className="h-20 transition-all ease-in-out duration-300 flex items-center space-x-3"
+              className="w-[30rem] h-20 transition-all ease-in-out duration-300 flex items-center space-x-3"
               style={{ transform: `translateX(-${activeIndex * 100}%)` }}
             >
               {artists &&
@@ -76,10 +76,21 @@ export default function SearchDropDown({
                     <span
                       className="cursor-pointer"
                       onClick={() => {
-                        setCurrentArtists((prevItems: any) => [
-                          ...prevItems,
-                          item,
-                        ]);
+                        setCurrentArtists((prevItems: any) => {
+                          if (prevItems.length < 5) {
+                            if (
+                              !prevItems.find(
+                                (current: any) => current.id === item.id
+                              )
+                            ) {
+                              return [...prevItems, item];
+                            } else {
+                              return [...prevItems];
+                            }
+                          } else {
+                            return [...prevItems];
+                          }
+                        });
                       }}
                     >
                       <svg
