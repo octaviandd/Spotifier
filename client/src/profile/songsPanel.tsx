@@ -1,8 +1,12 @@
 /** @format */
 
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState, useRef } from "react";
 import SongCard from "../utils/songCard";
-import { getTracksAudioFeatures, getUserTopTracks } from "../utils/utils";
+import {
+  getTracksAudioFeatures,
+  getUserTopTracks,
+  useIsVisible,
+} from "../utils/utils";
 import { v4 as uuidv4 } from "uuid";
 import { aggregateValues } from "../utils/valuesAggregator";
 import {
@@ -27,6 +31,9 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
     tempoValues: undefined,
     loudnessValues: undefined,
   });
+
+  const elemRef = useRef();
+  const isVisible = useIsVisible(elemRef);
 
   const handleTimeRange = (e: string) => {
     setTimeRange(e);
@@ -77,7 +84,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
 
   return (
     <div className="flex justify-center flex-col pt-5 px-6">
-      <div className="mb-10">
+      <div className="mb-10 h-full min-h-min">
         <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-grey-500">
           <div className="flex-grow">
             <span className="text-4xl font-mono">1. Favorite Songs</span>
@@ -159,7 +166,10 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center h-[34rem]">
+        <div
+          className="flex flex-col items-center justify-center h-[34rem]"
+          ref={elemRef}
+        >
           <div className="text-6xl text-center my-10">
             Here's how your average song looks like.
           </div>
@@ -169,8 +179,8 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
             ></CharacteristicsChart>
           )}
         </div>
-        <div className="my-5 ">
-          <div className="grid grid-cols-3 grid-rows-3 ">
+        <div className="my-5">
+          <div className="grid grid-cols-3 grid-rows-2">
             <span className="text-6xl col-start-1 row-start-1 col-end-3">
               Remember this?
             </span>
@@ -203,14 +213,16 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               </div>
             </div>
           </div>
-          <div className="h-[34rem] w-full flex items-center">
-            <LoudnessChart
-              loudnessValues={state.loudnessValues}
-            ></LoudnessChart>
+          <div className="grid grid-cols-2">
+            <div className="h-[26rem] w-full flex items-center col-start-1">
+              <LoudnessChart
+                loudnessValues={state.loudnessValues}
+              ></LoudnessChart>
+            </div>
+            <div className="h-[26rem] w-full flex items-center col-start-2">
+              <TemposChart tempoValues={state.tempoValues}></TemposChart>
+            </div>
           </div>
-        </div>
-        <div className="h-[34rem] w-full flex items-center">
-          <TemposChart tempoValues={state.tempoValues}></TemposChart>
         </div>
       </div>
       <div>

@@ -99,7 +99,7 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
   }
   return (
     <>
-      <ResponsiveContainer width={800} height="100%">
+      <ResponsiveContainer width={800} height="90%">
         <ComposedChart
           width={400}
           height={300}
@@ -121,9 +121,9 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
 export const TemposChart = ({ tempoValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={1000} height="100%">
+      <ResponsiveContainer width={600} height="75%">
         <AreaChart
-          width={1000}
+          width={600}
           height={300}
           data={tempoValues}
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
@@ -138,7 +138,7 @@ export const TemposChart = ({ tempoValues }: any) => {
           <XAxis dataKey="Decibels" />
           <YAxis />
           <Legend
-            wrapperStyle={{ paddingTop: "10px" }}
+            wrapperStyle={{ paddingTop: "10px", paddingLeft: "20px" }}
             payload={[
               {
                 value: "Beats per second",
@@ -176,9 +176,9 @@ export const TemposChart = ({ tempoValues }: any) => {
 export const LoudnessChart = ({ loudnessValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={1000} height="100%">
+      <ResponsiveContainer width={600} height="75%">
         <ComposedChart
-          width={1000}
+          width={600}
           height={300}
           data={loudnessValues}
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}

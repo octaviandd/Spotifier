@@ -1,5 +1,30 @@
 /** @format */
 
+import { useState, useEffect } from "react";
+
+export const useIsVisible = (elementRef: any) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (elementRef.current) {
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsVisible(true);
+              observer.unobserve(elementRef.current);
+            }
+          });
+        },
+        { root: null, rootMargin: "0px 0px 0px 0px", threshold: 0 }
+      );
+      observer.observe(elementRef.current);
+    }
+  }, [elementRef]);
+
+  return isVisible;
+};
+
 const generateRandomString = function (length: number): string {
   let text = "";
   let possible =
@@ -205,7 +230,6 @@ export const getRecommendedSongs = async (
   genres: any,
   soundData: any
 ) => {
-  console.log(soundData);
   try {
     let res = await fetch(
       `https://api.spotify.com/v1/recommendations?` +
@@ -221,6 +245,26 @@ export const getRecommendedSongs = async (
           target_speechiness: soundData.speechiness,
           target_valence: soundData.valence,
         }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchArtist = async (token: string, name: string) => {
+  try {
+    let res = await fetch(
+      `https://api.spotify.com/v1/search?` +
+        new URLSearchParams({ q: name, type: "artist", limit: "20" }),
       {
         headers: {
           "Content-Type": "application/json",

@@ -1,17 +1,13 @@
 /** @format */
 
 import React, { ReactElement, useState, useRef, useEffect } from "react";
-import { getRecommendedSongs } from "../utils/utils";
+import { getRecommendedSongs, searchArtist } from "../utils/utils";
 import round from "lodash.round";
 import { v4 as uuidv4 } from "uuid";
+import SearchDropDown from "../utils/searchDropDown";
 
 interface Props {
   accessToken: string;
-}
-
-function roundedToFixed(input: number, digits: number) {
-  var rounded = Math.pow(10, digits);
-  return (Math.round(input * rounded) / rounded).toFixed(digits);
 }
 
 export default function SongsDataInputs({ accessToken }: Props): ReactElement {
@@ -23,7 +19,8 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
   const [valence, setValence] = useState(0.5);
   const [instrumentalness, setInstrumentalness] = useState(0.5);
   const [liveness, setLiveness] = useState(0.5);
-
+  const [artists, setArtists] = useState();
+  const [searchValue, setSearchValue] = useState("");
   const [isActive, setActive] = useState(false);
   const [seedGenres, changeGenres] = useState([
     "dance",
@@ -48,7 +45,6 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
         instrumentalness,
         liveness,
       }).then((res) => {
-        console.log(res);
         setItems(res);
       });
     } catch (error) {
@@ -57,39 +53,44 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
   }, [danceability, energy, speechiness, acousticness, loudness, valence]);
 
   return (
-    <div className="grid grid-cols-7 col-row-4 drop-shadow-md rounded-xl bg-[#fff]">
-      <div className="col-start-1 col-end-7 flex flex-col items-center h-full ">
-        <div className="w-full">
-          <div className="bg-[#ededed] h-[30px] p-[16px] rounded-md flex gap-1 items-center w-full">
-            <div className="w-[12px] h-[12px] bg-[#FF605C] inline-block rounded-full"></div>
-            <div className="w-[12px] h-[12px] bg-[#FFBD44] inline-block rounded-full"></div>
-            <div className="w-[12px] h-[12px] bg-[#00CA4E] inline-block rounded-full"></div>
-          </div>
+    <div className="grid grid-cols-7 col-row-5 drop-shadow-md rounded-xl bg-[#fff]">
+      <div className="w-full col-start-1 col-end-8 row-start-1">
+        <div className="bg-[#ededed] h-[30px] p-[16px] rounded-md flex gap-1 items-center w-full">
+          <div className="w-[12px] h-[12px] bg-[#FF605C] inline-block rounded-full"></div>
+          <div className="w-[12px] h-[12px] bg-[#FFBD44] inline-block rounded-full"></div>
+          <div className="w-[12px] h-[12px] bg-[#00CA4E] inline-block rounded-full"></div>
         </div>
+      </div>
+      <div className="row-start-2 col-start-1 col-end-7 flex flex-col items-center h-full ">
         <div className="flex flex-row w-full space-x-3 px-2 py-4">
           <div className="flex flex-col items-center justify-center">
             <span className="font-bold">Danceability</span>
-            <div className="flex justify-center items-center rounded-lg drop-shadow-md bg-[#D9DADA] text-[#747474]">
+            <div className="flex justify-center items-center rounded-lg drop-shadow-md bg-[#fff] text-[#747474]">
               <button
                 className="p-2 text-lg"
-                onClick={() =>
-                  setDanceability(round(Number(danceability - 0.1), 1))
-                }
+                onClick={() => {
+                  if (danceability > 0) {
+                    setDanceability(round(Number(danceability - 0.1), 1));
+                  }
+                }}
               >
                 -
               </button>
               <input
+                readOnly
                 className="w-2/12 text-center"
                 name="danceability"
-                defaultValue={danceability}
+                value={danceability}
                 max={1}
                 min={0}
               ></input>
               <button
                 className="p-2 text-lg"
-                onClick={() =>
-                  setDanceability(round(Number(danceability + 0.1), 1))
-                }
+                onClick={() => {
+                  if (danceability < 1) {
+                    setDanceability(round(Number(danceability + 0.1), 1));
+                  }
+                }}
               >
                 +
               </button>
@@ -100,18 +101,27 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
             <div className="flex justify-center items-center rounded-lg drop-shadow-md bg-[#fff] text-[#747474]">
               <button
                 className="p-2 text-lg"
-                onClick={() => setEnergy(round(Number(danceability - 0.1), 1))}
+                onClick={() => {
+                  if (energy > 0) {
+                    setEnergy(round(Number(energy - 0.1), 1));
+                  }
+                }}
               >
                 -
               </button>
               <input
+                readOnly
                 className="w-2/12 text-center"
                 name="danceability"
-                defaultValue={energy}
+                value={energy}
               ></input>
               <button
                 className="p-2 text-lg"
-                onClick={() => setEnergy(round(Number(danceability + 0.1), 1))}
+                onClick={() => {
+                  if (energy < 1) {
+                    setEnergy(round(Number(energy + 0.1), 1));
+                  }
+                }}
               >
                 +
               </button>
@@ -122,22 +132,27 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
             <div className="flex justify-center items-center rounded-lg drop-shadow-md bg-[#fff] text-[#747474]">
               <button
                 className="p-2 text-lg"
-                onClick={() =>
-                  setSpeechines(round(Number(danceability - 0.1), 1))
-                }
+                onClick={() => {
+                  if (speechiness > 0) {
+                    setSpeechines(round(Number(speechiness - 0.1), 1));
+                  }
+                }}
               >
                 -
               </button>
               <input
+                readOnly
                 className="text-center w-2/12"
                 name="speechiness"
-                defaultValue={speechiness}
+                value={speechiness}
               ></input>
               <button
                 className="p-2 text-lg"
-                onClick={() =>
-                  setSpeechines(round(Number(danceability + 0.1), 1))
-                }
+                onClick={() => {
+                  if (speechiness < 1) {
+                    setSpeechines(round(Number(speechiness + 0.1), 1));
+                  }
+                }}
               >
                 +
               </button>
@@ -148,22 +163,25 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
             <div className="flex justify-center items-center rounded-lg drop-shadow-md bg-[#fff] text-[#747474]">
               <button
                 className="p-2 text-lg"
-                onClick={() =>
-                  setAcousticness(round(Number(danceability - 0.1), 1))
-                }
+                onClick={() => {
+                  if (acousticness > 0)
+                    setAcousticness(round(Number(acousticness - 0.1), 1));
+                }}
               >
                 -
               </button>
               <input
+                readOnly
                 className="text-center w-2/12"
                 name="acousticness"
-                defaultValue={acousticness}
+                value={acousticness}
               ></input>
               <button
                 className="p-2 text-lg"
-                onClick={() =>
-                  setAcousticness(round(Number(danceability + 0.1), 1))
-                }
+                onClick={() => {
+                  if (acousticness < 1)
+                    setAcousticness(round(Number(acousticness + 0.1), 1));
+                }}
               >
                 +
               </button>
@@ -174,22 +192,25 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
             <div className="flex justify-center items-center rounded-lg drop-shadow-md bg-[#fff] text-[#747474]">
               <button
                 className="p-2 text-lg"
-                onClick={() =>
-                  setLoudness(round(Number(danceability - 0.1), 1))
-                }
+                onClick={() => {
+                  if (loudness > 0)
+                    setLoudness(round(Number(loudness - 0.1), 1));
+                }}
               >
                 -
               </button>
               <input
+                readOnly
                 className="text-center w-2/12"
                 name="loudness"
-                defaultValue={loudness}
+                value={loudness}
               ></input>
               <button
                 className="p-2 text-lg"
-                onClick={() =>
-                  setLoudness(round(Number(danceability + 0.1), 1))
-                }
+                onClick={() => {
+                  if (loudness < 1)
+                    setLoudness(round(Number(loudness + 0.1), 1));
+                }}
               >
                 +
               </button>
@@ -200,18 +221,23 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
             <div className="flex justify-center items-center rounded-lg drop-shadow-md bg-[#fff] text-[#747474]">
               <button
                 className="p-2 text-lg"
-                onClick={() => setValence(round(Number(danceability - 0.1), 1))}
+                onClick={() => {
+                  if (valence > 0) setValence(round(Number(valence - 0.1), 1));
+                }}
               >
                 -
               </button>
               <input
+                readOnly
                 className="text-center w-2/12"
                 name="valence"
-                defaultValue={valence}
+                value={valence}
               ></input>
               <button
                 className="p-2 text-lg"
-                onClick={() => setValence(round(Number(danceability + 0.1), 1))}
+                onClick={() => {
+                  if (valence < 1) setValence(round(Number(valence + 0.1), 1));
+                }}
               >
                 +
               </button>
@@ -219,18 +245,29 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
           </div>
         </div>
       </div>
-      <div className="col-start-1 row-start-2 py-3 px-3">
-        <span className="font-semibold text-xl">Artists</span>
-        <input type="text" placeholder="Search for artists.."></input>
-        <div></div>
-      </div>
-      <div className="col-start-1 row-start-3 py-3 px-3">
-        <span className="font-semibold text-xl">Genres</span>
-        <input type="text" placeholder="Search for genres.."></input>
-        <div></div>
+      <div className="col-start-1 w-full row-start-3 py-3 px-3">
+        <div className="relative flex items-center">
+          <div>
+            <span className="font-semibold text-xl">Artists</span>
+            <input
+              type="text"
+              placeholder="Search for artists.."
+              onChange={(e) => setSearchValue(e.target.value)}
+              value={searchValue}
+            ></input>
+          </div>
+          <div className="flex flex-grow">
+            {searchValue !== "" && (
+              <SearchDropDown
+                searchValue={searchValue}
+                accessToken={accessToken}
+              />
+            )}
+          </div>
+        </div>
       </div>
       {items && (
-        <div className="py-5 flex flex-wrap justify-center items-center col-start-1 col-end-7 row-start-4">
+        <div className="py-5 flex flex-wrap justify-center items-center col-start-1 col-end-7 row-start-5">
           {items.tracks.map((track: any) => (
             <div key={uuidv4()} className="w-[60px] h-[60px] pr-3 relative">
               <div
