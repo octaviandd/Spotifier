@@ -81,14 +81,6 @@ const getFollowers = (data: any) => {
   return obj;
 };
 
-const createGenresObject = (arr: any) => {
-  let newArr: any = [];
-  arr.map((item: any) => {
-    newArr.push(item.genres);
-  });
-  return newArr;
-};
-
 export default function ArtistsStats({ accessToken }: Props): ReactElement {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -201,16 +193,6 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
           </div>
         </div>
       )}
-      {/* {state.artists && (
-        <div className="flex justify-center flex-col text-gray-900 text-7xl leading-tight tracking-wide font-medium mb-2 mt-10  w-full">
-          <div className="text-center">Where do they fit in?</div>
-          <div className="h-80">
-            <GenresPieChart
-              data={createGenresObject(state.artists)}
-            ></GenresPieChart>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }

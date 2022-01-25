@@ -8,14 +8,18 @@ import { v4 as uuidv4 } from "uuid";
 type Props = {
   searchValue: string;
   accessToken: string;
+  setCurrentArtists: any;
 };
 
-export default function SearchDropDown({ searchValue, accessToken }: Props) {
+export default function SearchDropDown({
+  searchValue,
+  accessToken,
+  setCurrentArtists,
+}: Props) {
   const [artists, setArtists]: any = useState();
 
   const getListOfArtists = () => {
     searchArtist(accessToken, searchValue).then((res) => {
-      console.log(res);
       setArtists(res.artists.items);
     });
   };
@@ -41,48 +45,76 @@ export default function SearchDropDown({ searchValue, accessToken }: Props) {
 
   return (
     <div className="relative">
-      <div className="flex items-center justify-center">
-        <button onClick={() => updateIndex(activeIndex - 1)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-        <div className="lg:w-80 md:w-60 h-20 overflow-hidden whitespace-nowrap">
-          <div
-            className="h-20 transition-all ease-in-out duration-300"
-            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-          >
-            {artists &&
-              artists.map((item: any) => (
-                <span> {item.name}</span>
-                // <CarouselItem setModal={setModal} items={item} key={uuidv4()} />
-              ))}
+      {artists && (
+        <div className="flex items-center justify-center">
+          <button onClick={() => updateIndex(activeIndex - 1)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+          <div className="lg:w-96 md:w-64 h-20 overflow-hidden whitespace-nowrap px-5">
+            <div
+              className="h-20 transition-all ease-in-out duration-300 flex items-center space-x-3"
+              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            >
+              {artists &&
+                artists.map((item: any) => (
+                  <div
+                    key={uuidv4()}
+                    className="bg-neutral-50 border border-slate-600 rounded-lg py-2 px-4 flex flex-col items-center justify-center"
+                  >
+                    <span className="">{item.name}</span>
+                    <span
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setCurrentArtists((prevItems: any) => [
+                          ...prevItems,
+                          item,
+                        ]);
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="#1DB954"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                ))}
+            </div>
           </div>
+          <button onClick={() => updateIndex(activeIndex + 1)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
         </div>
-        <button onClick={() => updateIndex(activeIndex + 1)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
+      )}
     </div>
   );
 }

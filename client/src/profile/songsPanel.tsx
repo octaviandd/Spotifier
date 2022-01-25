@@ -82,6 +82,8 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
     getAudio();
   }, [state.items]);
 
+  console.log(state.items);
+
   return (
     <div className="flex justify-center flex-col pt-5 px-6">
       <div className="mb-10 h-full min-h-min">
@@ -226,7 +228,10 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
         </div>
       </div>
       <div>
-        <SongsDataInputs accessToken={accessToken}></SongsDataInputs>
+        <SongsDataInputs
+          accessToken={accessToken}
+          initialArtists={state.items.slice(0, 3)}
+        ></SongsDataInputs>
       </div>
     </div>
   );

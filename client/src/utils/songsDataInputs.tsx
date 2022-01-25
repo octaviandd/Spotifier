@@ -8,9 +8,13 @@ import SearchDropDown from "../utils/searchDropDown";
 
 interface Props {
   accessToken: string;
+  initialArtists: any;
 }
 
-export default function SongsDataInputs({ accessToken }: Props): ReactElement {
+export default function SongsDataInputs({
+  accessToken,
+  initialArtists,
+}: Props): ReactElement {
   const [danceability, setDanceability] = useState(0.5);
   const [energy, setEnergy] = useState(0.5);
   const [speechiness, setSpeechines] = useState(0.5);
@@ -22,35 +26,53 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
   const [artists, setArtists] = useState();
   const [searchValue, setSearchValue] = useState("");
   const [isActive, setActive] = useState(false);
-  const [seedGenres, changeGenres] = useState([
-    "dance",
-    "hip-hop",
-    "pop",
-    "summer",
+
+  const [currentlyHeldArtists, setCurrentArtists] = useState([
+    { id: "0nLiqZ6A27jJri2VCalIUs" },
   ]);
-
-  const ref = useRef();
-
   const [items, setItems] = useState(undefined);
 
+  const handleRemove = (id: string) => {
+    const newList = currentlyHeldArtists.filter((item) => item.id !== id);
+    setCurrentArtists(newList);
+  };
+
   useEffect(() => {
-    try {
-      getRecommendedSongs(accessToken, seedGenres, {
-        danceability,
-        energy,
-        speechiness,
-        acousticness,
-        loudness,
-        valence,
-        instrumentalness,
-        liveness,
-      }).then((res) => {
-        setItems(res);
-      });
-    } catch (error) {
-      console.log(error);
+    if (currentlyHeldArtists.length > 0) {
+      try {
+        getRecommendedSongs(
+          accessToken,
+          currentlyHeldArtists.map((item) => item.id),
+          {
+            danceability,
+            energy,
+            speechiness,
+            acousticness,
+            loudness,
+            valence,
+            instrumentalness,
+            liveness,
+          }
+        ).then((res) => {
+          setItems(res);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setItems(undefined);
     }
-  }, [danceability, energy, speechiness, acousticness, loudness, valence]);
+  }, [
+    danceability,
+    energy,
+    speechiness,
+    acousticness,
+    loudness,
+    valence,
+    currentlyHeldArtists,
+  ]);
+
+  console.log(initialArtists);
 
   return (
     <div className="grid grid-cols-7 col-row-5 drop-shadow-md rounded-xl bg-[#fff]">
@@ -245,26 +267,75 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
           </div>
         </div>
       </div>
-      <div className="col-start-1 w-full row-start-3 py-3 px-3">
+      <div className=" w-full row-start-3 py-3 px-3 col-start-1 col-end-7">
         <div className="relative flex items-center">
-          <div>
-            <span className="font-semibold text-xl">Artists</span>
+          <div className="relative flex flex-col items-center">
+            <span className="font-semibold text-xl pb-4 pl-3">Artists</span>
             <input
               type="text"
               placeholder="Search for artists.."
               onChange={(e) => setSearchValue(e.target.value)}
               value={searchValue}
+              className="relative leading-[20px] rounded-md border-1 border-[#dbdbdb] bg-[#fafafa] pr-[10px] py-[3px] pl-[24px] focus:left-[10px]"
             ></input>
+            <span
+              className="absolute opacity-1 top-[45px] right-[3px] cursor-pointer"
+              onClick={() => setSearchValue("")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className=" rounded-full w-6 h-6 py-[1px] p-[3px] "
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
           </div>
-          <div className="flex flex-grow">
+          <div className="flex flex-grow ml-5">
             {searchValue !== "" && (
               <SearchDropDown
                 searchValue={searchValue}
                 accessToken={accessToken}
+                setCurrentArtists={setCurrentArtists}
               />
             )}
           </div>
         </div>
+        {currentlyHeldArtists.length > 0 && (
+          <div className="flex flex-wrap w-full flex-row space-x-3 py-4">
+            {currentlyHeldArtists.map((item: any) => (
+              <div
+                key={uuidv4()}
+                className="flex items-center border border-[#dbdbdb] bg-zinc-100 rounded-xl px-3 py-2"
+              >
+                <span className="whitespace-nowrap">{item.name}</span>
+                <span
+                  className="cursor-pointer"
+                  id={item.id}
+                  onClick={() => handleRemove(item.id)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className=" rounded-full w-6 h-6 py-[1px] p-[3px] "
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       {items && (
         <div className="py-5 flex flex-wrap justify-center items-center col-start-1 col-end-7 row-start-5">
@@ -278,7 +349,7 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`${track.external_urls.spotify}`}
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden hover:block"
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden hover:block cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -227,14 +227,14 @@ export const getArtist = async (token: string, id: string) => {
 
 export const getRecommendedSongs = async (
   token: string,
-  genres: any,
+  seedArtists: any,
   soundData: any
 ) => {
   try {
     let res = await fetch(
       `https://api.spotify.com/v1/recommendations?` +
         new URLSearchParams({
-          seed_genres: genres,
+          seed_artists: seedArtists,
           limit: "50",
           target_danceability: soundData.danceability,
           target_acousticness: soundData.acousticness,
