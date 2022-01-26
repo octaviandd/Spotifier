@@ -19,14 +19,14 @@ export default function SideBar({
     avatar: "",
   });
   const { songs, playlists, artists, player } = parentState;
-  // useEffect(() => {
-  //   getMe(accessToken).then((data) => {
-  //     setState((prevState) => ({
-  //       ...prevState,
-  //       avatar: data.images[0].url,
-  //     }));
-  //   });
-  // }, []);
+  useEffect(() => {
+    getMe(accessToken).then((data) => {
+      setState((prevState) => ({
+        ...prevState,
+        avatar: data.images[0].url,
+      }));
+    });
+  }, []);
 
   const setBarValues = (title: string) => {
     let stateCopy = { ...parentState };
@@ -41,12 +41,12 @@ export default function SideBar({
   };
 
   return (
-    <nav className="flex  flex-col bg-white drop-shadow-xl font-custom px-10 py-10 my-10 h-[42rem]">
-      <div className="flex  flex-col">
+    <nav className="flex flex-col bg-white drop-shadow-xl font-custom px-10 py-10 my-10 h-[42rem] z-100">
+      <div className="flex h-full flex-col">
         <h3 className="pb-20 pt-6 text-3xl bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-red-200">
           Statify
         </h3>
-        <div className="flex flex-col items-center justify-center space-y-4">
+        <div className="flex flex-col items-center justify-center space-y-4 flex-grow">
           <div
             className={
               songs
@@ -55,7 +55,6 @@ export default function SideBar({
             }
             onClick={() => setBarValues("songs")}
           >
-            {/* <input id="songs" type="checkbox" className="hidden" /> */}
             <span className="group-hover:text-white cursor-pointer">Songs</span>
           </div>
 
@@ -67,7 +66,6 @@ export default function SideBar({
             }
             onClick={() => setBarValues("artists")}
           >
-            {/* <input id="artists" type="checkbox" className="hidden" /> */}
             <span className="group-hover:text-white cursor-pointer">
               Artists
             </span>
@@ -80,7 +78,6 @@ export default function SideBar({
             }
             onClick={() => setBarValues("playlists")}
           >
-            {/* <input id="artists" type="checkbox" className="hidden" /> */}
             <span className="group-hover:text-white cursor-pointer">
               Playlists
             </span>
@@ -93,11 +90,16 @@ export default function SideBar({
             }
             onClick={() => setBarValues("player")}
           >
-            {/* <input id="artists" type="checkbox" className="hidden" /> */}
             <span className="group-hover:text-white cursor-pointer">
               Player
             </span>
           </div>
+        </div>
+        <div className="flex self-end">
+          <img
+            src={state.avatar}
+            className="w-20 h-20 rounded-full object-cover object-top mt-auto"
+          />
         </div>
       </div>
     </nav>

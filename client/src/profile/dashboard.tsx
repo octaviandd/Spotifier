@@ -25,7 +25,7 @@ export default function Dashboard({
   });
 
   return accessToken ? (
-    <div className="flex space-x-5">
+    <div className="flex space-x-5 relative">
       <SideBar
         parentState={state}
         setParentState={setState}

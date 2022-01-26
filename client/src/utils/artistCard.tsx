@@ -19,7 +19,6 @@ export default function ArtistCard({
   setModal,
 }: Props): ReactElement {
   const [state, setState] = useState({ similarArtists: [] });
-  const [count, setCount] = useState(0);
 
   const getSimilarArtists = () => {
     getRelatedArtists(accessToken, item.id).then((data) => {

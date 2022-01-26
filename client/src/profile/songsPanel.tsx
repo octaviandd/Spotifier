@@ -213,13 +213,13 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2">
-            <div className="h-[26rem] w-full flex items-center col-start-1">
+          <div className="flex flex-wrap pt-10">
+            <div className="h-[21rem] w-full flex items-center col-start-1">
               <LoudnessChart
                 loudnessValues={state.loudnessValues}
               ></LoudnessChart>
             </div>
-            <div className="h-[26rem] w-full flex items-center col-start-2">
+            <div className="h-[21rem] w-full flex items-center col-start-2">
               <TemposChart tempoValues={state.tempoValues}></TemposChart>
             </div>
           </div>

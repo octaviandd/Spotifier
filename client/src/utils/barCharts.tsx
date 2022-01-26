@@ -135,7 +135,7 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
 export const TemposChart = ({ tempoValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={600} height="75%">
+      <ResponsiveContainer width="90%" height="100%">
         <AreaChart
           width={600}
           height={300}
@@ -190,7 +190,7 @@ export const TemposChart = ({ tempoValues }: any) => {
 export const LoudnessChart = ({ loudnessValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={600} height="75%">
+      <ResponsiveContainer width="90%" height="100%">
         <ComposedChart
           width={600}
           height={300}
