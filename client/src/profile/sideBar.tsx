@@ -2,8 +2,6 @@
 
 import React, { ReactElement, useEffect, useState } from "react";
 import { getMe } from "../utils/utils";
-import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
 interface Props {
   parentState: any;
   setParentState: any;

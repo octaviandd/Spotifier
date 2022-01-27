@@ -57,15 +57,28 @@ const CarouselItem = ({ items, setModal }: Props) => {
         <div className="border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
           <div className="flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
             <h5 className="text-xl font-medium leading-normal text-gray-800">
-              Modal title
+              {items.name}
             </h5>
             <button
               type="button"
               className="box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
             ></button>
           </div>
-          <div className="relative p-4">
-            <p>This is a vertically centered modal.</p>
+          <div className="relative p-4 flex flex-col">
+            <img
+              className="w-36 h-36"
+              src={
+                items.images[0]
+                  ? items.images[0].url
+                  : items.images[1]
+                  ? items.images[1].url
+                  : items.images[2]
+                  ? items.images[2].url
+                  : SpotifyLogo
+              }
+            />
+            <p>Followers: {items.followers.total}</p>
+            <p>Popularity: {items.popularity}</p>
           </div>
           <div className="flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
             <button

@@ -7,8 +7,6 @@ export const Modal = (props: any) => {
   const { open, onClose, locked } = props;
   const backdrop = useRef(null);
 
-  console.log(open);
-
   useEffect(() => {
     const { current } = backdrop;
     const transitionEnd = () => setActive(open);

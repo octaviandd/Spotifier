@@ -1,7 +1,12 @@
 /** @format */
 
-import React, { ReactElement, useEffect, useState, useRef } from "react";
-import SongCard from "../utils/songCard";
+import React, {
+  ReactElement,
+  useEffect,
+  useState,
+  useRef,
+  Suspense,
+} from "react";
 import {
   getTracksAudioFeatures,
   getUserTopTracks,
@@ -14,8 +19,12 @@ import {
   LoudnessChart,
   CharacteristicsChart,
 } from "../utils/barCharts";
+
+const LazySongDataInputs = React.lazy(() => import("../utils/songsDataInputs"));
+const SongCard = React.lazy(() => import("../utils/songCard"));
+// const LazyTemposChart = React.lazy(() => import("../utils/barCharts"))
+
 import { getItemsID } from "../utils/filterIds";
-import SongsDataInputs from "../utils/songsDataInputs";
 
 interface Props {
   accessToken: string;
@@ -108,10 +117,12 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
             {state.items.map((item) => {
               return (
                 <React.Fragment key={uuidv4()}>
-                  <SongCard
-                    item={item}
-                    count={state.items.indexOf(item)}
-                  ></SongCard>
+                  <Suspense fallback={<></>}>
+                    <SongCard
+                      item={item}
+                      count={state.items.indexOf(item)}
+                    ></SongCard>
+                  </Suspense>
                 </React.Fragment>
               );
             })}
@@ -213,23 +224,27 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap pt-10">
-            <div className="h-[21rem] w-full flex items-center col-start-1">
-              <LoudnessChart
-                loudnessValues={state.loudnessValues}
-              ></LoudnessChart>
+          <Suspense fallback={<div>wait</div>}>
+            <div className="flex flex-wrap pt-10">
+              <div className="h-[21rem] w-full flex items-center col-start-1">
+                <LoudnessChart
+                  loudnessValues={state.loudnessValues}
+                ></LoudnessChart>
+              </div>
+              <div className="h-[21rem] w-full flex items-center col-start-2">
+                <TemposChart tempoValues={state.tempoValues}></TemposChart>
+              </div>
             </div>
-            <div className="h-[21rem] w-full flex items-center col-start-2">
-              <TemposChart tempoValues={state.tempoValues}></TemposChart>
-            </div>
-          </div>
+          </Suspense>
         </div>
       </div>
       <div>
-        <SongsDataInputs
-          accessToken={accessToken}
-          initialArtists={state.items.slice(0, 3)}
-        ></SongsDataInputs>
+        <Suspense fallback={<div>waiting</div>}>
+          <LazySongDataInputs
+            accessToken={accessToken}
+            initialArtists={state.items.slice(0, 3)}
+          ></LazySongDataInputs>
+        </Suspense>
       </div>
     </div>
   );

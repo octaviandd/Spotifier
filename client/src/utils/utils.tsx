@@ -279,3 +279,23 @@ export const searchArtist = async (token: string, name: string) => {
     console.log(error);
   }
 };
+
+export const getUserPlaylists = async (token: string, userID: string) => {
+  try {
+    let res = await fetch(
+      `https://api.spotify.com/v1/users/${userID}/playlists?` +
+        new URLSearchParams({ limit: "20" }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
