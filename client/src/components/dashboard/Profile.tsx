@@ -1,8 +1,8 @@
 /** @format */
 
 import React, { ReactElement, useState, useEffect } from "react";
-import { getMe } from "../utils/utils";
-import SpotifyIcon from "../assets/spotify.png";
+import { getMe } from "../../utils/SpotifyAPI";
+import SpotifyIcon from "../../assets/spotify.png";
 
 interface Props {}
 

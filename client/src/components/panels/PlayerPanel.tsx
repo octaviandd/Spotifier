@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { ReactElement, useMemo, useState } from "react";
-import WebPlayback from "../utils/webPlayback";
+import WebPlayback from "../../utils/webPlayback";
 
 interface Props {
   accessToken: string;

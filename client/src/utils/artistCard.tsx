@@ -1,9 +1,8 @@
 /** @format */
 
 import React, { ReactElement, useState, useEffect } from "react";
-import { getRelatedArtists } from "../utils/utils";
-import { v4 as uuidv4 } from "uuid";
-import Carousel from "../utils/carousel";
+import { getRelatedArtists } from "./SpotifyAPI";
+import Carousel from "./Carousel";
 
 interface Props {
   accessToken: string;

@@ -1,11 +1,11 @@
 /** @format */
 
-import React, { ReactElement, useEffect, useState } from "react";
-import { URL } from "../utils/utils";
+import React, { ReactElement } from "react";
+import { URL } from "../utils/SpotifyAPI";
 
 interface Props {}
 
-export default function Navbar({}: Props): ReactElement {
+export default function HomepageNavbar({}: Props): ReactElement {
   return (
     <nav className="bg-white fixed drop-shadow-lg w-full z-10">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">

@@ -1,6 +1,124 @@
 /** @format */
 
 import { useState, useEffect } from "react";
+import SpotifyLogo from "../assets/spotify.png";
+
+export const aggregateValues = (values: any, items: any) => {
+  if (values && items) {
+    let aggregatedAcousticness = 0;
+    let aggregatedLiveness = 0;
+    let aggregatedSpeechiness = 0;
+    let aggregatedEnergy = 0;
+    let aggregatedInstrumentalness = 0;
+    let aggregatedLoudness = 0;
+    let aggregatedTempo = 0;
+    let aggregatedValence = 0;
+    let aggregatedDanceability = 0;
+    let tempoValues = [];
+    let loudnessValues = [];
+
+    if (values.length > 1) {
+      for (let i = 0; i < values.length; i++) {
+        aggregatedAcousticness += values[i].acousticness;
+        aggregatedLiveness += values[i].liveness;
+        aggregatedSpeechiness += values[i].speechiness;
+        aggregatedEnergy += values[i].energy;
+        aggregatedInstrumentalness += values[i].instrumentalness;
+        aggregatedLoudness += values[i].loudness;
+        aggregatedTempo += values[i].tempo;
+        aggregatedValence += values[i].valence;
+        aggregatedDanceability += values[i].danceability;
+        tempoValues.push(values[i].tempo);
+        loudnessValues.push(values[i].loudness);
+      }
+    }
+
+    aggregatedAcousticness = Number(
+      ((aggregatedAcousticness * 100) / 50).toFixed(0)
+    );
+    aggregatedLiveness = Number(((aggregatedLiveness * 100) / 50).toFixed(0));
+    aggregatedSpeechiness = Number(
+      ((aggregatedSpeechiness * 100) / 50).toFixed(0)
+    );
+    aggregatedEnergy = Number(((aggregatedEnergy * 100) / 50).toFixed(0));
+    aggregatedInstrumentalness = Number(
+      ((aggregatedInstrumentalness * 100) / 50).toFixed(0)
+    );
+    aggregatedLoudness = Number((aggregatedLoudness / 50).toFixed(0));
+    aggregatedTempo = Number((aggregatedTempo / 50).toFixed(0));
+    aggregatedValence = Number(((aggregatedValence * 100) / 50).toFixed(0));
+    aggregatedDanceability = Number(
+      ((aggregatedDanceability * 100) / 50).toFixed(0)
+    );
+
+    const tempoData = [];
+    for (let i = 0; i < tempoValues.length; i++) {
+      tempoData.push({
+        BPS: tempoValues[i],
+        // icon: items[i].images[0]
+        //   ? items[i].images[0].url
+        //   : items[i].images[1]
+        //   ? items[i].images[1].url
+        //   : items[i].images[2]
+        //   ? items[i].images[2].url
+        //   : SpotifyLogo,
+      });
+    }
+
+    const loudnessData: any[] = [];
+    for (let i = 0; i < loudnessValues.length; i++) {
+      loudnessData.push({ db: loudnessValues[i] });
+    }
+
+    const data = [
+      {
+        subject: "Danceability",
+        A: aggregatedDanceability,
+        fullMark: 100,
+      },
+      {
+        subject: "Valence",
+        A: aggregatedValence,
+        fullMark: 100,
+      },
+      {
+        subject: "Instrumentalness",
+        A: 99,
+        fullMark: 100,
+      },
+      {
+        subject: "Acousticness",
+        A: aggregatedAcousticness,
+        fullMark: 100,
+      },
+      {
+        subject: "Energy",
+        A: aggregatedEnergy,
+        fullMark: 100,
+      },
+      {
+        subject: "Speechiness",
+        A: aggregatedSpeechiness,
+        fullMark: 100,
+      },
+      {
+        subject: "Liveness",
+        A: aggregatedLiveness,
+        fullMark: 100,
+      },
+    ];
+
+    return { data, secondaryData: { tempoData, loudnessData } };
+  }
+};
+
+export const getItemsID = (arr: any): string[] => {
+  let idsArray = [];
+  for (let i = 0; i < arr.length; i++) {
+    idsArray.push(arr[i].id);
+  }
+  return idsArray;
+};
 
 export const useIsVisible = (elementRef: any) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,279 +141,4 @@ export const useIsVisible = (elementRef: any) => {
   }, [elementRef]);
 
   return isVisible;
-};
-
-const generateRandomString = function (length: number): string {
-  let text = "";
-  let possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-const scope: string =
-  "user-read-private user-read-email user-read-playback-state user-top-read user-read-recently-played user-follow-read user-library-read";
-
-export const URL: string =
-  `https://accounts.spotify.com/authorize?` +
-  new URLSearchParams({
-    client_id: "c80dc2ae16884491b82fca219719f0c4",
-    response_type: "token",
-    scope: scope,
-    redirect_uri: "http://localhost:8080",
-    show_dialog: "true",
-    state: generateRandomString(16),
-  });
-
-export const getMe = async (token: string) => {
-  try {
-    let res = await fetch("https://api.spotify.com/v1/me", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getUserTopTracks = async (token: string, time_range: string) => {
-  try {
-    let res = await fetch(
-      "https://api.spotify.com/v1/me/top/tracks?" +
-        new URLSearchParams({
-          time_range: time_range,
-          limit: "50",
-        }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getFollowedArtists = async (token: string) => {
-  try {
-    let res = await fetch(
-      "https://api.spotify.com/v1/me/following?" +
-        new URLSearchParams({
-          type: "artist",
-          limit: "50",
-        }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getRecommendedGenres = async (token: string) => {
-  try {
-    let res = await fetch(
-      "https://api.spotify.com/v1/recommendations/available-genre-seeds?" +
-        new URLSearchParams({
-          type: "artist",
-          limit: "25",
-        }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getTracksAudioFeatures = async (token: string, ids: string[]) => {
-  try {
-    let params = ids.toString();
-    let res = await fetch(
-      "https://api.spotify.com/v1/audio-features?" +
-        new URLSearchParams({ ids: params }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getRelatedArtists = async (token: string, id: string) => {
-  try {
-    let res = await fetch(
-      `https://api.spotify.com/v1/artists/${id}/related-artists`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getFeaturedPlaylists = async (token: string) => {
-  try {
-    let res = await fetch(
-      `https://api.spotify.com/v1/browse/featured-playlists`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getPlaylist = async (token: string, id: string) => {
-  try {
-    let res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getArtist = async (token: string, id: string) => {
-  try {
-    let res = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getRecommendedSongs = async (
-  token: string,
-  seedArtists: any,
-  soundData: any
-) => {
-  try {
-    let res = await fetch(
-      `https://api.spotify.com/v1/recommendations?` +
-        new URLSearchParams({
-          seed_artists: seedArtists,
-          limit: "50",
-          target_danceability: soundData.danceability,
-          target_acousticness: soundData.acousticness,
-          target_energy: soundData.energy,
-          target_instrumentalness: soundData.instrumentalness,
-          target_liveness: soundData.liveness,
-          target_loudness: soundData.loudness,
-          target_speechiness: soundData.speechiness,
-          target_valence: soundData.valence,
-        }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const searchArtist = async (token: string, name: string) => {
-  try {
-    let res = await fetch(
-      `https://api.spotify.com/v1/search?` +
-        new URLSearchParams({ q: name, type: "artist", limit: "20" }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getUserPlaylists = async (token: string, userID: string) => {
-  try {
-    let res = await fetch(
-      `https://api.spotify.com/v1/users/${userID}/playlists?` +
-        new URLSearchParams({ limit: "20" }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
 };

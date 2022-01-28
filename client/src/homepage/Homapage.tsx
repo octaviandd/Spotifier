@@ -2,9 +2,9 @@
 
 import React, { ReactElement, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "../profile/dashboard";
-import Default from "./default";
-import Callback from "./callback";
+import Dashboard from "../components/dashboard/Dashboard";
+import Default from "./Default";
+import Callback from "./Callback";
 interface Props {}
 
 export default function Homepage({}: Props): ReactElement {

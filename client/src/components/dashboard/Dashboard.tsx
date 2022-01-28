@@ -1,11 +1,9 @@
 /** @format */
 
 import React, { ReactElement, useEffect, useState } from "react";
-import { fetchTokens } from "../utils/useFetch";
-import { getMe } from "../utils/utils";
-import SideBar from "./sideBar";
+import DashboardSideBar from "./DashboardSideBar";
 import { Navigate } from "react-router-dom";
-import CurrentDisplay from "../profile/currentDisplay";
+import CurrentDisplay from "./CurrentDisplay";
 
 interface Props {
   accessToken: string;
@@ -25,8 +23,8 @@ export default function Dashboard({
   });
 
   return accessToken ? (
-    <div className="flex space-x-5 relative">
-      <SideBar
+    <div className="flex space-x-5 relative bg-[#202023]">
+      <DashboardSideBar
         parentState={state}
         setParentState={setState}
         accessToken={accessToken}

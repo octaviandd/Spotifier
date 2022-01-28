@@ -3,7 +3,7 @@ import "./style.css";
 
 import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
-import Homepage from "./home/homepage";
+import Homepage from "./homepage/Homapage";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(

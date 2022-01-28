@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import { getArtist, searchArtist } from "./utils";
+import { searchArtist } from "./SpotifyAPI";
 import SpotifyLogo from "../assets/spotify.png";
 import {
   Radar,
@@ -12,7 +12,6 @@ import {
   Tooltip,
   Bar,
   Legend,
-  BarChart,
   Cell,
   CartesianGrid,
   XAxis,
@@ -23,11 +22,7 @@ import {
   AreaChart,
 } from "recharts";
 
-import {
-  CustomToolTip,
-  CustomToolTipFollowersGraph,
-  CustomToolTipTemposGraph,
-} from "./customToolTip";
+import { CustomToolTip, CustomToolTipFollowersGraph } from "./CustomToolTips";
 
 export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
   const [graphData, setGraphData] = useState(artistsValues);
@@ -220,7 +215,10 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
           data={characteristicsValues}
         >
           <PolarGrid />
-          <PolarAngleAxis dataKey="subject" />
+          <PolarAngleAxis
+            dataKey="subject"
+            label={<CustomLabel />}
+          ></PolarAngleAxis>
           <Tooltip
             allowEscapeViewBox={{ x: false, y: true }}
             content={<CustomToolTip />}
@@ -237,5 +235,15 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
         </RadarChart>
       </ResponsiveContainer>
     </>
+  );
+};
+
+const CustomLabel = (props: any) => {
+  const { x, y, stroke, value } = props;
+
+  return (
+    <text x={x} y={y} style={{ fill: "white" }}>
+      {value}
+    </text>
   );
 };

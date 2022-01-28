@@ -15,8 +15,6 @@ function millisecondsToMinutesAndSeconds(milliseconds: number) {
     : minutes + ":" + (Number(seconds) < 10 ? "0" : "") + seconds;
 }
 
-millisecondsToMinutesAndSeconds(298999); // "4:59"
-
 export default function SongCard({ item, count }: Props): ReactElement {
   return (
     <div className="flex mt-4 items-center">
@@ -30,7 +28,7 @@ export default function SongCard({ item, count }: Props): ReactElement {
       </div>
       <div className="flex flex-col py-2 px-5">
         <span className="">{item.name}</span>
-        <span className="text-gray-700 text-sm">
+        <span className="text-slate-400 text-sm">
           {item.album.artists[0].name}
         </span>
       </div>

@@ -1,10 +1,10 @@
 /** @format */
 
 import React, { ReactElement } from "react";
-import SongsPanel from "./songsPanel";
-import PlaylistPanel from "./playlistPanel";
-import ArtistsPanel from "./artistsPanel";
-import PlayerPanel from "./playerPanel";
+import SongsPanel from "../panels/SongsPanel";
+import PlaylistPanel from "../panels/PlaylistPanel";
+import ArtistsPanel from "../panels/ArtistPanel";
+import PlayerPanel from "../panels/PlayerPanel";
 
 interface Props {
   parentState: any;
@@ -32,7 +32,7 @@ export default function CurrentDisplay({
   };
 
   return (
-    <div className="flex bg-white drop-shadow-xl font-custom my-10 py-10 w-full ">
+    <div className="flex bg-white drop-shadow-xl font-sans text-white my-10 py-10 w-full bg-[#323234]">
       {selectCurrentDisplay()}
     </div>
   );

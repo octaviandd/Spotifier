@@ -1,8 +1,12 @@
 /** @format */
 
 import React, { ReactElement, useState, useEffect } from "react";
-import { getFeaturedPlaylists, getMe, getUserPlaylists } from "../utils/utils";
-import SpotifyLogo from "../assets/spotify.png";
+import {
+  getFeaturedPlaylists,
+  getMe,
+  getUserPlaylists,
+} from "../../utils/SpotifyAPI";
+import SpotifyLogo from "../../assets/spotify.png";
 import { uniqueId } from "lodash";
 
 interface Props {

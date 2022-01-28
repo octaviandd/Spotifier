@@ -30,7 +30,7 @@ export function CustomToolTip({ active, payload, label }: any): ReactElement {
   if (active && payload && payload.length) {
     return (
       <div className="custom-tooltip">
-        <p className="label">
+        <p className="label font-bold">
           <small>{`${label} : ${payload[0].value}`}</small>
         </p>
 

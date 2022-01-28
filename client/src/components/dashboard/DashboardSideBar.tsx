@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { ReactElement, useEffect, useState } from "react";
-import { getMe } from "../utils/utils";
+import { getMe } from "../../utils/SpotifyAPI";
 interface Props {
   parentState: any;
   setParentState: any;
@@ -39,7 +39,7 @@ export default function SideBar({
   };
 
   return (
-    <nav className="flex flex-col bg-white drop-shadow-xl font-custom px-10 py-10 my-10 h-[42rem] z-100">
+    <nav className="flex flex-col bg-[#323234] drop-shadow-xl font-custom px-10 py-10 my-10 h-[42rem] z-100 font-sans text-slate-100 rounded-tr-lg rounded-br-lg">
       <div className="flex h-full flex-col">
         <h3 className="pb-20 pt-6 text-3xl bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-red-200">
           Statify
@@ -48,8 +48,8 @@ export default function SideBar({
           <div
             className={
               songs
-                ? "transition duration-500 ease-in-out group rounded-md bg-black text-white  w-full flex justify-center py-4 cursor-pointer"
-                : "transition duration-500 ease-in-out group rounded-md hover:bg-black w-full flex justify-center py-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white w-full flex justify-center py-4 cursor-pointer"
+                : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center py-4 cursor-pointer"
             }
             onClick={() => setBarValues("songs")}
           >
@@ -59,8 +59,8 @@ export default function SideBar({
           <div
             className={
               artists
-                ? "transition duration-500 ease-in-out group rounded-md bg-black text-white  w-full flex justify-center py-4 cursor-pointer"
-                : "transition duration-500 ease-in-out group rounded-md hover:bg-black  w-full flex justify-center py-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center py-4 cursor-pointer"
+                : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center py-4 cursor-pointer"
             }
             onClick={() => setBarValues("artists")}
           >
@@ -71,8 +71,8 @@ export default function SideBar({
           <div
             className={
               playlists
-                ? "transition duration-500 ease-in-out group rounded-md bg-black text-white  w-full flex justify-center py-4 cursor-pointer"
-                : "transition duration-500 ease-in-out group rounded-md hover:bg-black  w-full flex justify-center py-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center py-4 cursor-pointer"
+                : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center py-4 cursor-pointer"
             }
             onClick={() => setBarValues("playlists")}
           >
@@ -83,8 +83,8 @@ export default function SideBar({
           <div
             className={
               player
-                ? "transition duration-500 ease-in-out group rounded-md bg-black text-white  w-full flex justify-center py-4 cursor-pointer"
-                : "transition duration-500 ease-in-out group rounded-md hover:bg-black  w-full flex justify-center py-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center py-4 cursor-pointer"
+                : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center py-4 cursor-pointer"
             }
             onClick={() => setBarValues("player")}
           >

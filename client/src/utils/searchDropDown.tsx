@@ -1,8 +1,7 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import { searchArtist } from "../utils/utils";
-import SpotifyLogo from "../assets/spotify.png";
+import { searchArtist } from "./SpotifyAPI";
 import { v4 as uuidv4 } from "uuid";
 
 type Props = {

@@ -1,6 +1,6 @@
 /** @format */
 import React, { useRef, useEffect, useState } from "react";
-import Portal from "./portal";
+import Portal from "./Portal";
 
 export const Modal = (props: any) => {
   const [active, setActive] = useState(false);

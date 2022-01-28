@@ -1,10 +1,10 @@
 /** @format */
 
 import React, { ReactElement, useState, useRef, useEffect } from "react";
-import { getRecommendedSongs, searchArtist } from "../utils/utils";
+import { getRecommendedSongs } from "./SpotifyAPI";
 import round from "lodash.round";
 import { v4 as uuidv4 } from "uuid";
-import SearchDropDown from "../utils/searchDropDown";
+import SearchDropDown from "./SearchDropDown";
 
 interface Props {
   accessToken: string;

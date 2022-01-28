@@ -1,16 +1,7 @@
 /** @format */
 
-import Cookies from "js-cookie";
-import React, { ReactElement, useEffect, useState } from "react";
-import {
-  Routes,
-  Route,
-  BrowserRouter as Router,
-  useSearchParams,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
-import Dashboard from "../profile/dashboard";
+import React, { ReactElement, useEffect } from "react";
+import Dashboard from "../components/dashboard/Dashboard";
 import { fetchTokens } from "../utils/useFetch";
 
 interface Props {

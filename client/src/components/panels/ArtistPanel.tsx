@@ -1,15 +1,14 @@
 /** @format */
 
 import React, { ReactElement, useEffect, useState } from "react";
-import { getFollowedArtists, searchArtist } from "../utils/utils";
+import { getFollowedArtists } from "../../utils/SpotifyAPI";
 import { v4 as uuidv4 } from "uuid";
-import ArtistCard from "../utils/artistCard";
+import ArtistCard from "../../utils/ArtistCard";
 import {
   ArtistFollowersChart,
   ArtistPopularityChart,
-} from "../utils/barCharts";
-import SpotifyLogo from "../assets/spotify.png";
-import { GenresPieChart } from "../utils/pieCharts";
+} from "../../utils/BarCharts";
+import SpotifyLogo from "../../assets/spotify.png";
 
 interface Props {
   accessToken: string;

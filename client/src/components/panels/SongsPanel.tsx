@@ -10,21 +10,21 @@ import React, {
 import {
   getTracksAudioFeatures,
   getUserTopTracks,
-  useIsVisible,
-} from "../utils/utils";
+} from "../../utils/SpotifyAPI";
 import { v4 as uuidv4 } from "uuid";
-import { aggregateValues } from "../utils/valuesAggregator";
+import { aggregateValues, useIsVisible } from "../../utils/utils";
 import {
   TemposChart,
   LoudnessChart,
   CharacteristicsChart,
-} from "../utils/barCharts";
+} from "../../utils/BarCharts";
+import { getItemsID } from "../../utils/utils";
 
-const LazySongDataInputs = React.lazy(() => import("../utils/songsDataInputs"));
-const SongCard = React.lazy(() => import("../utils/songCard"));
+const LazySongDataInputs = React.lazy(
+  () => import("../../utils/SongsDataInput")
+);
+const SongCard = React.lazy(() => import("../../utils/SongCard"));
 // const LazyTemposChart = React.lazy(() => import("../utils/barCharts"))
-
-import { getItemsID } from "../utils/filterIds";
 
 interface Props {
   accessToken: string;
@@ -94,16 +94,16 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
   return (
     <div className="flex justify-center flex-col pt-5 px-6">
       <div className="mb-10 h-full min-h-min">
-        <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-grey-500">
+        <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-[#525252]">
           <div className="flex-grow">
-            <span className="text-4xl font-mono">1. Favorite Songs</span>
+            <span className="text-4xl">Favorite Songs</span>
           </div>
-          <div className="flex-grow">
+          <div className="flex flex-grow justify-end">
             <select
               value={timeRange}
               name="Date"
               onChange={(e) => handleTimeRange(e.target.value)}
-              className="py-3 px-5 rounded-md"
+              className="py-3 px-5 rounded-md text-black"
             >
               <option value="short_term">Last Month</option>
               <option value="medium_term">Last Six Months</option>
@@ -132,16 +132,16 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
         )}
       </div>
       <div className="relative w-full h-full">
-        <div className="flex flex-row border-b-2 border-grey-500 pb-10 pt-5">
+        <div className="flex flex-row border-b-2 border-[#525252] pb-10 pt-5">
           <div className="flex-grow">
-            <span className="text-4xl font-mono ">2. Songs Stats</span>
+            <span className="text-4xl ">Songs Stats</span>
           </div>
-          <div className="flex-grow">
+          <div className="flex flex-grow justify-end">
             <select
               value={timeRange}
               name="Date"
               onChange={(e) => handleTimeRange(e.target.value)}
-              className="py-3 px-5 rounded-md"
+              className="py-3 px-5 rounded-md text-black"
             >
               <option value="short_term">Last Month</option>
               <option value="medium_term">Last Six Months</option>
@@ -154,25 +154,41 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           <div className="col-span-3">
             <span className="text-6xl">
               That's how{" "}
-              <span className="text-[#1DB954] text-center">Spotify </span>
+              <span className="text-[#1DB954] text-center font-bold">
+                Spotify{" "}
+              </span>
               describes a song in numbers.
             </span>
           </div>
-          <div className="col-span-3 flex flex-col shadow-lg rounded-tl-md rounded-tr-md">
-            <div className="bg-[#ededed] h-[30px] p-[16px] rounded-md flex gap-1 items-center">
+          <div className="col-span-3 flex flex-col  ">
+            <div className="bg-[#ededed] h-[30px] p-[16px] flex gap-1 items-center shadow-lg rounded-tl-md rounded-tr-md">
               <div className="w-[12px] h-[12px] bg-[#FF605C] inline-block rounded-full"></div>
               <div className="w-[12px] h-[12px] bg-[#FFBD44] inline-block rounded-full"></div>
               <div className="w-[12px] h-[12px] bg-[#00CA4E] inline-block rounded-full"></div>
             </div>
-            <div className="flex flex-col pl-5">
+            <div className="flex flex-col pl-5 bg-white text-black">
               <span>{"{"}</span>
-              <span className="pl-5">danceability: ".67" </span>
-              <span className="pl-5">valence: ".22"</span>
-              <span className="pl-5">instrumentalness: ".77"</span>
-              <span className="pl-5">acousticness: ".45"</span>
-              <span className="pl-5">energy: ".88"</span>
-              <span className="pl-5">speechiness: ".34"</span>
-              <span className="pl-5">liveness: ".12"</span>
+              <span className="pl-5">
+                danceability: <span className="text-teal-500">".67"</span>{" "}
+              </span>
+              <span className="pl-5">
+                valence: <span className="text-teal-500">".22"</span>
+              </span>
+              <span className="pl-5">
+                instrumentalness: <span className="text-teal-500">".77"</span>
+              </span>
+              <span className="pl-5">
+                acousticness: <span className="text-teal-500">".45"</span>
+              </span>
+              <span className="pl-5">
+                energy: <span className="text-teal-500">".88"</span>
+              </span>
+              <span className="pl-5">
+                speechiness: <span className="text-teal-500">".34"</span>
+              </span>
+              <span className="pl-5">
+                liveness: <span className="text-teal-500">".12"</span>
+              </span>
               <span>{"}"}</span>
             </div>
           </div>
@@ -196,7 +212,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               Remember this?
             </span>
             <div className="col-start-2 row-start-2">
-              <div className="flex items-center bg-[#D9DADA] rounded-2xl w-full p-3 drop-shadow-xl">
+              <div className="flex items-center bg-[#D9DADA] rounded-2xl w-full p-3 drop-shadow-xl text-black">
                 <span className="bg-[#F80E4B] p-3 rounded-md inline-block">
                   <svg
                     // fill="#F80E4B"
