@@ -32,7 +32,7 @@ export default function CurrentDisplay({
   };
 
   return (
-    <div className="flex bg-white drop-shadow-xl font-sans text-white my-10 py-10 w-full bg-[#323234]">
+    <div className="flex bg-white drop-shadow-xl font-sans text-white mt-48 py-10 w-full bg-[#202023]">
       {selectCurrentDisplay()}
     </div>
   );
