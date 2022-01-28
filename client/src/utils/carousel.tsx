@@ -6,10 +6,9 @@ import { CarouselItem } from "./CarouselItem";
 
 interface Props {
   items: any;
-  setModal: any;
 }
 
-export default function Carousel({ items, setModal }: Props): ReactElement {
+export default function Carousel({ items }: Props): ReactElement {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const updateIndex = (newIndex: number) => {
@@ -38,14 +37,14 @@ export default function Carousel({ items, setModal }: Props): ReactElement {
             />
           </svg>
         </button>
-        <div className="lg:w-80 md:w-60 h-20 overflow-hidden whitespace-nowrap">
+        <div className="lg:w-60 md:w-40 h-20 overflow-hidden whitespace-nowrap">
           <div
             className="h-20 transition-all ease-in-out duration-300"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
             {items &&
               items.map((item: any) => (
-                <CarouselItem setModal={setModal} items={item} key={uuidv4()} />
+                <CarouselItem items={item} key={uuidv4()} />
               ))}
           </div>
         </div>

@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState, useRef } from "react";
 import { getMe } from "../../utils/SpotifyAPI";
 interface Props {
   parentState: any;
@@ -16,7 +16,29 @@ export default function SideBar({
   const [state, setState] = useState({
     avatar: "",
   });
+  const [scrollState, setScrollState] = useState("top");
+  let listener: any = null;
   const { songs, playlists, artists, player } = parentState;
+  const ref: any = useRef();
+
+  useEffect(() => {
+    listener = document.addEventListener("scroll", (e) => {
+      var scrolled = document.scrollingElement.scrollTop;
+      if (scrolled >= 90) {
+        if (scrollState !== "amir") {
+          setScrollState("amir");
+        }
+      } else {
+        if (scrollState !== "top") {
+          setScrollState("top");
+        }
+      }
+    });
+    return () => {
+      document.removeEventListener("scroll", listener);
+    };
+  }, [scrollState]);
+
   useEffect(() => {
     getMe(accessToken).then((data) => {
       setState((prevState) => ({
@@ -39,7 +61,14 @@ export default function SideBar({
   };
 
   return (
-    <nav className="fixed flex justify-center top-0 my-0 mx-auto bg-[#202022] drop-shadow-2xl font-sans px-10 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0">
+    <nav
+      ref={ref}
+      className={
+        scrollState === "top"
+          ? "fixed flex transition-all justify-center top-0 my-0 mx-auto bg-[#202022] font-sans px-10 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
+          : "fixed flex transition-all justify-center top-0 my-0 mx-auto bg-[#202023] drop-shadow-xl font-sans px-10 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
+      }
+    >
       <div className="flex items-center space-x-5 p-4">
         <div className="">
           <h3 className=" text-3xl bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-red-200">
@@ -81,7 +110,7 @@ export default function SideBar({
               Playlists
             </span>
           </div>
-          <div
+          {/* <div
             className={
               player
                 ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center p-4 cursor-pointer"
@@ -92,7 +121,7 @@ export default function SideBar({
             <span className="group-hover:text-white cursor-pointer">
               Player
             </span>
-          </div>
+          </div> */}
         </div>
         <div className="flex">
           <img

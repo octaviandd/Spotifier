@@ -9,14 +9,9 @@ interface Props {
   item: any;
   key: any;
   id: string;
-  setModal: any;
 }
 
-export default function ArtistCard({
-  accessToken,
-  item,
-  setModal,
-}: Props): ReactElement {
+export default function ArtistCard({ accessToken, item }: Props): ReactElement {
   const [state, setState] = useState({ similarArtists: [] });
 
   const getSimilarArtists = () => {
@@ -31,7 +26,7 @@ export default function ArtistCard({
   useEffect(() => {}, [state.similarArtists]);
 
   return (
-    <div className="grid grid-cols-2 0 bg-zinc-100 ">
+    <div className="grid grid-cols-2 bg-[#2c2c30] rounded-xl text-white">
       <div className="flex items-center">
         <div className="">
           <img
@@ -41,11 +36,11 @@ export default function ArtistCard({
         </div>
         <div className="w-3/4 px-6">
           <div>
-            <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">
+            <h5 className="text-slate-100 text-xl leading-tight font-medium mb-2">
               {item.name}
             </h5>
           </div>
-          <div className="flex flex-col text-gray-700 text-base mb-4">
+          <div className="flex flex-col text-slate-400 text-base mb-4">
             <span>Followers: {item.followers.total}</span>
             <span>Popularity: {item.popularity}</span>
           </div>
@@ -55,13 +50,12 @@ export default function ArtistCard({
         {state.similarArtists.length > 1 ? (
           <Carousel
             items={state.similarArtists.slice(0, 16).map((item) => item)}
-            setModal={setModal}
           ></Carousel>
         ) : (
           <button
             onClick={() => getSimilarArtists()}
             type="button"
-            className="inline-block px-6 py-2.5 bg-gray-800 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-900 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg transition duration-150 ease-in-out"
+            className="inline-block px-6 py-2.5 bg-teal-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-teal-300 hover:shadow-lg focus:bg-teal-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-500 active:shadow-lg transition duration-150 ease-in-out"
           >
             Explore similar artists
           </button>

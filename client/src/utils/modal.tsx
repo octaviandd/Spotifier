@@ -26,7 +26,6 @@ export const Modal = (props: any) => {
       window.setTimeout(() => {
         (document.activeElement as HTMLElement).blur();
         setActive(open);
-        document.querySelector("#root").setAttribute("inert", "true");
       }, 10);
     }
 
@@ -36,7 +35,6 @@ export const Modal = (props: any) => {
         current.removeEventListener("click", clickHandler);
       }
       window.removeEventListener("keyup", keyHandler);
-      document.querySelector("#root").removeAttribute("inert");
     };
   }, [open, locked, onClose]);
 
@@ -48,13 +46,13 @@ export const Modal = (props: any) => {
             ref={backdrop}
             className={
               open
-                ? "fixed inset-0  transition-all flex justify-center items-center backdrop-blur-sm"
-                : " fixed inset-0 transition-all flex justify-center items-center backdrop-blur-sm"
+                ? "fixed inset-0  transition-all flex justify-center items-center backdrop-blur-sm rounded-lg"
+                : " fixed inset-0 transition-all flex justify-center items-center backdrop-blur-sm rounded-lg"
             }
             style={{ backgroundColor: "rgba(51, 51, 51, 0.3)" }}
           >
-            <div className="relative bg-white opacity-1">
-              <div className="relative w-auto pointer-events-none">
+            <div className="relative bg-white opacity-1 rounded-lg">
+              <div className="relative w-auto pointer-events-none rounded-lg">
                 {props.children}
               </div>
             </div>

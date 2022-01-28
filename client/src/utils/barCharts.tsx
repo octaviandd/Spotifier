@@ -19,6 +19,7 @@ import {
   ComposedChart,
   Line,
   Area,
+  Label,
   AreaChart,
 } from "recharts";
 
@@ -115,17 +116,26 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
           data={graphData}
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         >
-          <Bar dataKey="popularity" fill="#003f5c" />
+          <Bar dataKey="popularity" fill="#1DB954" />
           <CartesianGrid strokeDasharray="1" vertical={false} />
           <XAxis dataKey="name" />
           <YAxis />
           <Legend wrapperStyle={{ paddingTop: "10px" }} />
-          <Tooltip />
+          <Tooltip
+            contentStyle={{ color: "black" }}
+            wrapperStyle={{ color: "black" }}
+            itemStyle={{ color: "black" }}
+          />
         </ComposedChart>
       </ResponsiveContainer>
     </>
   );
 };
+
+function tooltipContent(tooltipProps: any) {
+  console.log(tooltipProps);
+  return <div>items: {tooltipProps.payload.length}</div>;
+}
 
 export const TemposChart = ({ tempoValues }: any) => {
   return (
@@ -193,7 +203,7 @@ export const LoudnessChart = ({ loudnessValues }: any) => {
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         >
           <Bar dataKey="db" fill="#58508d" />
-          <CartesianGrid strokeDasharray="3" vertical={false} />
+          <CartesianGrid strokeDasharray="1" vertical={false} />
           <XAxis dataKey="Decibels" />
           <YAxis />
           <Legend />
@@ -215,10 +225,7 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
           data={characteristicsValues}
         >
           <PolarGrid />
-          <PolarAngleAxis
-            dataKey="subject"
-            label={<CustomLabel />}
-          ></PolarAngleAxis>
+          <PolarAngleAxis dataKey="subject" tick={customTick}></PolarAngleAxis>
           <Tooltip
             allowEscapeViewBox={{ x: false, y: true }}
             content={<CustomToolTip />}
@@ -238,12 +245,22 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
   );
 };
 
-const CustomLabel = (props: any) => {
-  const { x, y, stroke, value } = props;
-
+function customTick({ payload, x, y, textAnchor, stroke, radius }: any) {
   return (
-    <text x={x} y={y} style={{ fill: "white" }}>
-      {value}
-    </text>
+    <g className="recharts-layer recharts-polar-angle-axis-tick text-white">
+      <text
+        radius={radius}
+        stroke={stroke}
+        x={x}
+        y={y}
+        className="recharts-text recharts-polar-angle-axis-tick-value"
+        textAnchor={textAnchor}
+        fill="white"
+      >
+        <tspan x={x} dy="0em">
+          {payload.value}
+        </tspan>
+      </text>
+    </g>
   );
-};
+}

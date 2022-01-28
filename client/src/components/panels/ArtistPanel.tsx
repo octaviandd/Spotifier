@@ -39,7 +39,6 @@ const getFollowers = (data: any) => {
 
 export default function ArtistsStats({ accessToken }: Props): ReactElement {
   const [loading, setLoading] = useState(true);
-  const [modal, setModal] = useState(false);
   const [state, setState] = useState({
     songs: [],
     artists: [],
@@ -65,12 +64,12 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
   return (
     <div className="flex flex-col pt-5 px-6 w-full">
       <div className="mb-10">
-        <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-grey-500">
+        <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-[#525252]">
           <div className="flex-grow">
-            <span className="text-4xl font-mono">1. Followed artists</span>
+            <span className="text-4xl font-mono">Followed artists</span>
           </div>
-          <div className="flex-grow">
-            <select className="py-3 px-5 rounded-md">
+          <div className="flex justify-end flex-grow text-black">
+            <select className="py-3 px-5 rounded-md appearance-none">
               <option value="popularity">By Popularity</option>
               <option value="followers">By Followers</option>
               <option value="alphabet">By Name</option>
@@ -78,7 +77,7 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
             <button></button>
           </div>
         </div>
-        <div className="flex flex-col space-y-6 my-6">
+        <div className="grid grid-cols-2 grid-row-auto gap-y-6 gap-x-6 pt-6">
           {!loading &&
             state.artists.map((item) => (
               <ArtistCard
@@ -86,18 +85,16 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
                 item={item}
                 key={uuidv4()}
                 id={item.id}
-                setModal={setModal}
               ></ArtistCard>
             ))}
         </div>
       </div>
-      {/* {modal && <Modal setModal={setModal}></Modal>} */}
       <div className="flex flex-col justify-start items-center pt-2 pb-20">
         <div className="p-5 w-full flex items-center justify-center">
-          <div className="flex justify-center flex-col text-gray-900 text-7xl leading-tight tracking-wide font-medium mb-2 w-full">
+          <div className="flex justify-center flex-col text-slate-100 text-7xl leading-tight tracking-wide font-medium mb-2 w-full">
             <div className="text-center">Are your artists popular on </div>
             <br></br>
-            <div className="text-[#1DB954] text-center">Spotify</div>
+            <div className="text-[#1DB954] text-center font-bold">Spotify</div>
           </div>
         </div>
         <div className="h-80">

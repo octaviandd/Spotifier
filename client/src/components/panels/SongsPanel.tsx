@@ -103,7 +103,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               value={timeRange}
               name="Date"
               onChange={(e) => handleTimeRange(e.target.value)}
-              className="py-3 px-5 rounded-md text-black"
+              className="py-3 px-5 rounded-md text-black appearance-none"
             >
               <option value="short_term">Last Month</option>
               <option value="medium_term">Last Six Months</option>
@@ -141,7 +141,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               value={timeRange}
               name="Date"
               onChange={(e) => handleTimeRange(e.target.value)}
-              className="py-3 px-5 rounded-md text-black"
+              className="py-3 px-5 rounded-md text-black appearance-none"
             >
               <option value="short_term">Last Month</option>
               <option value="medium_term">Last Six Months</option>
@@ -151,8 +151,8 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           </div>
         </div>
         <div className="grid grid-cols-6 my-10">
-          <div className="col-span-3">
-            <span className="text-6xl">
+          <div className="col-span-3 justify-self-center flex justify-center items-center">
+            <span className="text-6xl text-center">
               That's how{" "}
               <span className="text-[#1DB954] text-center font-bold">
                 Spotify{" "}
@@ -160,7 +160,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               describes a song in numbers.
             </span>
           </div>
-          <div className="col-span-3 flex flex-col  ">
+          <div className="col-span-3 flex flex-col">
             <div className="bg-[#ededed] h-[30px] p-[16px] flex gap-1 items-center shadow-lg rounded-tl-md rounded-tr-md">
               <div className="w-[12px] h-[12px] bg-[#FF605C] inline-block rounded-full"></div>
               <div className="w-[12px] h-[12px] bg-[#FFBD44] inline-block rounded-full"></div>
@@ -207,9 +207,9 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           )}
         </div>
         <div className="my-5">
-          <div className="grid grid-cols-3 grid-rows-2">
+          <div className="grid grid-cols-3 grid-rows-2 my-5">
             <span className="text-6xl col-start-1 row-start-1 col-end-3">
-              Remember this?
+              Ever gotten this?
             </span>
             <div className="col-start-2 row-start-2">
               <div className="flex items-center bg-[#D9DADA] rounded-2xl w-full p-3 drop-shadow-xl text-black">

@@ -4,14 +4,12 @@ import { Modal } from "./Modal";
 import SpotifyLogo from "../assets/spotify.png";
 
 interface Props {
-  setModal: any;
   items: any;
 }
 
-export const CarouselItem = ({ items, setModal }: Props) => {
-  const [tooltip, setTooltip] = useState(false);
-  const [expander, setExpander] = useState(false);
+export const CarouselItem = ({ items }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  console.log(items);
 
   return (
     <>
@@ -52,19 +50,10 @@ export const CarouselItem = ({ items, setModal }: Props) => {
         </a>
       </div>
       <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-        <div className="border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-          <div className="flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-            <h5 className="text-xl font-medium leading-normal text-gray-800">
-              {items.name}
-            </h5>
-            <button
-              type="button"
-              className="box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-            ></button>
-          </div>
-          <div className="relative p-4 flex flex-col">
+        <div className="max-w-xs bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 pointer-events-auto">
+          <a className="rounded-lg">
             <img
-              className="w-36 h-36"
+              className="object-cover rounded-t-lg m-w-xs h-auto"
               src={
                 items.images[0]
                   ? items.images[0].url
@@ -75,17 +64,61 @@ export const CarouselItem = ({ items, setModal }: Props) => {
                   : SpotifyLogo
               }
             />
-            <p>Followers: {items.followers.total}</p>
-            <p>Popularity: {items.popularity}</p>
-          </div>
-          <div className="flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-            <button
-              onClick={() => setIsOpen(false)}
-              type="button"
-              className="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-            >
-              Close
-            </button>
+          </a>
+          <div className="p-5 rounded-lg">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              {items.name}
+            </h5>
+            <div className="relative p-4 flex flex-col">
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Followers: {items.followers.total}
+              </p>
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Popularity: {items.popularity}
+              </p>
+            </div>
+            <div className="flex items-center justify-between">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={items.external_urls.spotify}
+                className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Check Spotify Profile
+                <svg
+                  className="ml-2 -mr-1 w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+              <button
+                onClick={() => setIsOpen(false)}
+                type="button"
+                className="cursor-pointer inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </Modal>

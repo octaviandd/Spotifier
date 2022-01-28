@@ -51,7 +51,7 @@ export default function SearchDropDown({
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               viewBox="0 0 20 20"
-              fill="currentColor"
+              fill="#202023"
             >
               <path
                 fillRule="evenodd"
@@ -69,9 +69,9 @@ export default function SearchDropDown({
                 artists.map((item: any) => (
                   <div
                     key={uuidv4()}
-                    className="bg-neutral-50 border border-slate-600 rounded-lg py-2 px-4 flex flex-col items-center justify-center"
+                    className="bg-[#202023] border border-slate-600 rounded-lg py-2 px-4 flex flex items-center justify-center space-x-2"
                   >
-                    <span className="">{item.name}</span>
+                    <span className="text-white">{item.name}</span>
                     <span
                       className="cursor-pointer"
                       onClick={() => {
@@ -114,7 +114,7 @@ export default function SearchDropDown({
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               viewBox="0 0 20 20"
-              fill="currentColor"
+              fill="#202023"
             >
               <path
                 fillRule="evenodd"
