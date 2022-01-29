@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect, useRef } from "react";
 
 interface Props {
   item: any;
@@ -16,6 +16,19 @@ function millisecondsToMinutesAndSeconds(milliseconds: number) {
 }
 
 export default function SongCard({ item, count }: Props): ReactElement {
+  const [play, setPlay] = useState(false);
+  let ref: any = useRef();
+
+  let audioRef = useRef(new Audio(item.preview_url));
+
+  useEffect(() => {
+    if (play) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+  }, [play]);
+
   return (
     <div className="flex mt-4 items-center">
       <div className="px-3 font-md">{count + 1}</div>
@@ -32,7 +45,33 @@ export default function SongCard({ item, count }: Props): ReactElement {
           {item.album.artists[0].name}
         </span>
       </div>
-      <div className="flex ml-auto">
+      <div className="flex flex-grow justify-end mr-2">
+        <div
+          className="cursor-pointer p-3 bg-[#1DB954] rounded-md justify-end"
+          onClickCapture={() => setPlay(true)}
+          onMouseLeave={() => setPlay(false)}
+        >
+          <audio ref={ref} preload="true">
+            {item.preview_url && <source src={item.preview_url} />}
+          </audio>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <div className="flex ml-auto flex-shrink">
         {millisecondsToMinutesAndSeconds(item.duration_ms)}
       </div>
     </div>

@@ -132,11 +132,6 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
   );
 };
 
-function tooltipContent(tooltipProps: any) {
-  console.log(tooltipProps);
-  return <div>items: {tooltipProps.payload.length}</div>;
-}
-
 export const TemposChart = ({ tempoValues }: any) => {
   return (
     <>
@@ -157,10 +152,10 @@ export const TemposChart = ({ tempoValues }: any) => {
           <XAxis dataKey="Decibels" />
           <YAxis />
           <Legend
-            wrapperStyle={{ paddingTop: "10px", paddingLeft: "20px" }}
+            wrapperStyle={{ paddingTop: "20px", paddingLeft: "20px" }}
             payload={[
               {
-                value: "Beats per second",
+                value: "Beats per second (BPS)",
                 type: "square",
                 id: "bps",
                 color: "#db1a24",
@@ -206,7 +201,17 @@ export const LoudnessChart = ({ loudnessValues }: any) => {
           <CartesianGrid strokeDasharray="1" vertical={false} />
           <XAxis dataKey="Decibels" />
           <YAxis />
-          <Legend />
+          <Legend
+            wrapperStyle={{ paddingTop: "10px", paddingLeft: "20px" }}
+            payload={[
+              {
+                value: "Decibels (db)",
+                type: "square",
+                id: "db",
+                color: "#58508d",
+              },
+            ]}
+          />
           <Tooltip />
         </ComposedChart>
       </ResponsiveContainer>

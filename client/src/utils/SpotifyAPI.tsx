@@ -274,3 +274,22 @@ export const getUserPlaylists = async (token: string, userID: string) => {
     console.log(error);
   }
 };
+
+export const getWeeklyTrendingSongsGlobally = async (token: string) => {
+  try {
+    let res = await fetch(
+      `https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    let data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

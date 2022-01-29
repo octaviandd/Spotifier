@@ -212,7 +212,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               Ever gotten this?
             </span>
             <div className="col-start-2 row-start-2">
-              <div className="flex items-center bg-[#D9DADA] rounded-2xl w-full p-3 drop-shadow-xl text-black">
+              <div className="flex items-center bg-[#eceeee] rounded-2xl w-full p-3 drop-shadow-xl text-black">
                 <span className="bg-[#F80E4B] p-3 rounded-md inline-block">
                   <svg
                     // fill="#F80E4B"
