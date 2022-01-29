@@ -1,6 +1,12 @@
 /** @format */
 
-import React, { ReactElement, useState, useEffect, useRef } from "react";
+import React, {
+  ReactElement,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+} from "react";
 
 interface Props {
   item: any;
@@ -17,8 +23,6 @@ function millisecondsToMinutesAndSeconds(milliseconds: number) {
 
 export default function SongCard({ item, count }: Props): ReactElement {
   const [play, setPlay] = useState(false);
-  let ref: any = useRef();
-
   let audioRef = useRef(new Audio(item.preview_url));
 
   useEffect(() => {
@@ -51,7 +55,7 @@ export default function SongCard({ item, count }: Props): ReactElement {
           onClickCapture={() => setPlay(true)}
           onMouseLeave={() => setPlay(false)}
         >
-          <audio ref={ref} preload="true">
+          <audio preload="true">
             {item.preview_url && <source src={item.preview_url} />}
           </audio>
           <span>

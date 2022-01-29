@@ -1,6 +1,7 @@
 /** @format */
 
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState, useRef } from "react";
+import { useIsVisible } from "../../utils/utils";
 import { getFollowedArtists } from "../../utils/SpotifyAPI";
 import { v4 as uuidv4 } from "uuid";
 import ArtistCard from "../../utils/ArtistCard";

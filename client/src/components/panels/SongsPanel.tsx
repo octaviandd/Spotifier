@@ -69,27 +69,30 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
   }, [timeRange]);
 
   useEffect(() => {
-    const getAudio = () => {
-      try {
-        setLoading(true);
-        getTracksAudioFeatures(accessToken, state.itemsIds).then((res) => {
-          setState((prevState) => ({
-            ...prevState,
-            aggregatedAudioValues: aggregateValues(res.audio_features, []).data,
-            tempoValues: aggregateValues(res.audio_features, state.items)
-              .secondaryData.tempoData,
-            loudnessValues: aggregateValues(res.audio_features, [])
-              .secondaryData.loudnessData,
-          }));
-        });
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getAudio();
-  }, [state.items]);
+    if (isVisible) {
+      const getAudio = () => {
+        try {
+          setLoading(true);
+          getTracksAudioFeatures(accessToken, state.itemsIds).then((res) => {
+            setState((prevState) => ({
+              ...prevState,
+              aggregatedAudioValues: aggregateValues(res.audio_features, [])
+                .data,
+              tempoValues: aggregateValues(res.audio_features, state.items)
+                .secondaryData.tempoData,
+              loudnessValues: aggregateValues(res.audio_features, [])
+                .secondaryData.loudnessData,
+            }));
+          });
+        } catch (e) {
+          console.log(e);
+        } finally {
+          setLoading(false);
+        }
+      };
+      getAudio();
+    }
+  }, [state.items, isVisible]);
 
   return (
     <div className="flex justify-center flex-col pt-5 px-6">

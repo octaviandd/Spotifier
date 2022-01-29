@@ -17,10 +17,10 @@ const scope: string =
 export const URL: string =
   `https://accounts.spotify.com/authorize?` +
   new URLSearchParams({
-    client_id: "c80dc2ae16884491b82fca219719f0c4",
-    response_type: "token",
+    client_id: "a8f787f034c549c2be783850c383388e",
+    response_type: "code",
     scope: scope,
-    redirect_uri: "http://localhost:8080",
+    redirect_uri: "http://localhost:8080/callback",
     show_dialog: "true",
     state: generateRandomString(16),
   });

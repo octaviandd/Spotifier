@@ -5,6 +5,8 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("css-minimizer-webpack-plugin");
 const webpack = require("webpack");
+const UglifyPlugin = require("uglifyjs-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = function (env, args) {
   const isProduction = args.mode === "production";
@@ -18,7 +20,12 @@ module.exports = function (env, args) {
       path: path.resolve(__dirname, "dist"),
       clean: true,
     },
-
+    performance: {
+      hints: "warning",
+      assetFilter: function (assetFilename) {
+        return assetFilename.endsWith(".js.gz");
+      },
+    },
     devtool: "inline-source-map",
     module: {
       rules: [
@@ -47,6 +54,13 @@ module.exports = function (env, args) {
             },
           ],
         },
+        {
+          test: /\.mp3$/,
+          loader: "file-loader",
+          options: {
+            name: "[path][name].[ext]",
+          },
+        },
       ],
     },
     resolve: {
@@ -58,6 +72,9 @@ module.exports = function (env, args) {
           filename: "assets/css/[name].[contenthash:8].css",
           chunkFilename: "assets/css/[name].[contenthash:8].chunk.css",
         }),
+      new CompressionPlugin({
+        test: /\.js(\?.*)?$/i,
+      }),
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify(
           isProduction ? "production" : "development"
@@ -69,8 +86,35 @@ module.exports = function (env, args) {
       }),
     ].filter(Boolean),
     optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendors: {
+            test: /node_modules\/(?!antd\/).*/,
+            name: "vendors",
+            chunks: "all",
+          },
+          // This can be your own design library.
+          antd: {
+            test: /node_modules\/(antd\/).*/,
+            name: "antd",
+            chunks: "all",
+          },
+        },
+      },
+      runtimeChunk: {
+        name: "manifest",
+      },
       minimize: isProduction,
-      minimizer: [new OptimizeCssAssetsPlugin()],
+      minimizer: [
+        new OptimizeCssAssetsPlugin(),
+        new UglifyPlugin({
+          uglifyOptions: {
+            output: { comments: false, beautify: false },
+            ie8: false,
+            ecma: 8,
+          },
+        }),
+      ],
     },
     devServer: {
       compress: true,

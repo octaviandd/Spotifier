@@ -45,9 +45,7 @@ export const Modal = (props: any) => {
           <div
             ref={backdrop}
             className={
-              open
-                ? "fixed inset-0  transition-all flex justify-center items-center backdrop-blur-sm rounded-lg"
-                : " fixed inset-0 transition-all flex justify-center items-center backdrop-blur-sm rounded-lg"
+              "fixed inset-0 transition-all flex justify-center items-center backdrop-blur-sm rounded-lg z-index-50"
             }
             style={{ backgroundColor: "rgba(51, 51, 51, 0.3)" }}
           >

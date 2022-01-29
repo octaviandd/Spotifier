@@ -40,20 +40,20 @@ export default function PlaylistStats({ accessToken }: Props): ReactElement {
 
   return (
     <div className="pt-5 px-6">
-      <div className=" flex flex-row items-center pb-10 pt-5 border-b-2 border-grey-500">
+      <div className=" flex flex-row items-center pb-10 pt-5 border-b-2 border-[#525252]">
         <div className="flex-grow">
-          <span className="text-4xl font-mono">1. Your Playlists</span>
+          <span className="text-4xl font-mono">Your Playlists</span>
         </div>
       </div>
-      <div className="grid auto-rows-fr auto-cols-fr space-x-4 space-y-4 p-5">
+      <div className="grid auto-rows-max auto-cols-max grid-cols-3 space-x-4 space-y-4 p-5">
         {playlists &&
           playlists.map((item: any) => (
             <div
               key={uniqueId()}
-              className="flex flex-col items-center justify-center"
+              className="flex flex-col items-center justify-center max-w-xs rounded-lg"
             >
               <img
-                className="w-72 h-72"
+                className="object-cover"
                 src={
                   item.images[0]
                     ? item.images[0].url
@@ -64,15 +64,15 @@ export default function PlaylistStats({ accessToken }: Props): ReactElement {
                     : SpotifyLogo
                 }
               />
-              <p className="text-ellipsis w-full py-3 text-center border-1 bg-slate-200">
+              <p className="text-ellipsis w-full py-3 text-center text-black border-1 bg-[#ECEEEE]">
                 {item.name}
               </p>
             </div>
           ))}
       </div>
-      <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-grey-500">
+      <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-[#525252]">
         <div className="flex-grow">
-          <span className="text-4xl font-mono">2. Featured Playlists</span>
+          <span className="text-4xl font-mono">Featured Playlists</span>
         </div>
       </div>
       <div className="grid grid-flow-col space-x-4 space-y-4 p-5">
@@ -94,7 +94,7 @@ export default function PlaylistStats({ accessToken }: Props): ReactElement {
                     : SpotifyLogo
                 }
               />
-              <p className=" w-full py-3 text-center border-1 bg-slate-200">
+              <p className="text-black w-full py-3 text-center border-1 bg-[#ECEEEE]">
                 {item.name}
               </p>
             </div>

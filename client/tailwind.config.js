@@ -2,11 +2,8 @@
 
 module.exports = {
   mode: "jit",
-  purge: {
-    enabled: true,
-    content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  },
-  darkMode: false,
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  media: false,
   theme: {
     fontFamily: {
       custom: ["Roboto", "sans-serif"],
