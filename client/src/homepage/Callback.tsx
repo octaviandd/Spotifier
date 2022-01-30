@@ -15,12 +15,10 @@ export default function Callback({
 }: Props): ReactElement {
   let data = fetchTokens();
 
-  useEffect(() => {
-    if (data) {
-      setAccessToken(data.access_token);
-    }
+  if (data) {
+    setAccessToken(data.access_token);
     history.replaceState(null, "", "/dashboard");
-  }, [data]);
+  }
 
   return accessToken ? (
     <Dashboard

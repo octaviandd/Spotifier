@@ -13,14 +13,14 @@ const port = process.env.PORT || 3000;
 require("dotenv").config();
 
 var client_id = process.env.CLIENT_ID;
-var redirect_uri = process.env.REDIRECT_URI;
+var redirect_uri = "http://localhost:8080/callback";
 var client_secret = process.env.CLIENT_SECRET;
 
 console.log(redirect_uri);
 
 app.use(cookieParser());
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://statifyme.herokuapp.com");
+  res.header("Access-Control-Allow-Origin", "https://statifyme.herokuapp.com/");
   res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Headers",
@@ -37,44 +37,51 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
+let lock = false;
+
 app.post("/login", function (req, res) {
-  var code = req.body.code || null;
-  var state = req.body.state || null;
+  if (!lock) {
+    var code = req.body.code || null;
+    var state = req.body.state || null;
 
-  console.log({ code });
+    console.log({ code });
 
-  var options = {
-    method: "POST",
-    url: "https://accounts.spotify.com/api/token",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    form: {
-      grant_type: "authorization_code",
-      redirect_uri,
-      code,
-      client_id,
-      client_secret,
-    },
-  };
-  request.post(options, function (error, response, body) {
-    if (error) throw new Error(error);
-    let data = JSON.parse(body);
-    console.log(data.refresh_token);
-    res.cookie("refresh_token", data.refresh_token, {
-      maxAge: 30 * 24 * 3600 * 1000,
+    var options = {
+      method: "POST",
+      url: "https://accounts.spotify.com/api/token",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      form: {
+        grant_type: "authorization_code",
+        redirect_uri,
+        code,
+        client_id,
+        client_secret,
+      },
+    };
+    request.post(options, function (error, response, body) {
+      if (error) throw new Error(error);
+      let data = JSON.parse(body);
+      console.log(data.refresh_token);
+      res.cookie("refresh_token", data.refresh_token, {
+        maxAge: 30 * 24 * 3600 * 1000,
+      });
+      // res.cookie("access_token", data.access_token, {
+      //   maxAge: data.expires_in * 1000,
+      // });
+      res.json({
+        response: response.body,
+      });
     });
-    // res.cookie("access_token", data.access_token, {
-    //   maxAge: data.expires_in * 1000,
-    // });
-    res.json({
-      response: response.body,
-    });
-  });
+  }
+
+  lock = true;
 });
 
 app.post("/token", function (req, res) {
   var refreshToken = req.body.refreshToken || null;
+  lock = false;
   if (refreshToken) {
     var options = {
       method: "POST",
