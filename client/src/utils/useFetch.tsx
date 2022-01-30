@@ -17,6 +17,7 @@ export function fetchTokens() {
       loading: true,
     }));
     const getData = async () => {
+      console.log("helloeoeoeoeo");
       try {
         await fetch("https://statifyme.herokuapp.com/login", {
           method: "POST",

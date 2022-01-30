@@ -41,7 +41,7 @@ app.post("/login", function (req, res) {
   var code = req.body.code || null;
   var state = req.body.state || null;
 
-  console.log({ code, redirect_uri });
+  console.log({ code });
 
   var options = {
     method: "POST",
@@ -60,7 +60,7 @@ app.post("/login", function (req, res) {
   request.post(options, function (error, response, body) {
     if (error) throw new Error(error);
     let data = JSON.parse(body);
-    console.log(response.body);
+    console.log(data.refresh_token);
     res.cookie("refresh_token", data.refresh_token, {
       maxAge: 30 * 24 * 3600 * 1000,
     });
