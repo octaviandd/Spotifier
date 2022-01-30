@@ -60,7 +60,7 @@ app.post("/login", function (req, res) {
   request.post(options, function (error, response, body) {
     if (error) throw new Error(error);
     let data = JSON.parse(body);
-    console.log({ response });
+    console.log(response.body);
     res.cookie("refresh_token", data.refresh_token, {
       maxAge: 30 * 24 * 3600 * 1000,
     });
