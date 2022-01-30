@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 require("dotenv").config();
 
 var client_id = process.env.CLIENT_ID;
-var redirect_uri = "http://localhost:8080/callback";
+var redirect_uri = process.env.REDIRECT_URI;
 var client_secret = process.env.CLIENT_SECRET;
 
 console.log(redirect_uri);
