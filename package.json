@@ -6,12 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "start": "nodemon index.js",
+    "start:both": "concurrently --kill-others-on-fail \"npm run start\" \"npm run dev --prefix client\"",
     "build:ui": "rm -rf build && cd ./client npm run build && cp -r build ../"
   },
   "author": "Octavian",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.1",
+    "concurrently": "^7.0.0",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
