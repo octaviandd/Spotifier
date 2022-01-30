@@ -4,7 +4,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const cookieParser = require("cookie-parser");
-var cookieSession = require("cookie-session");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,6 +14,8 @@ var client_id = process.env.CLIENT_ID;
 var redirect_uri = process.env.REDIRECT_URI;
 var client_secret = process.env.CLIENT_SECRET;
 let refreshToken = "";
+
+console.log(redirect_uri, client_id);
 
 app.use(cookieParser());
 app.use((req, res, next) => {
@@ -91,23 +92,6 @@ app.post("/token", function (req, res) {
     res.setHeader("Content-Type", "application/json");
     res.send(JSON.stringify({ access_token: "", expires_in: "" }));
   }
-});
-
-app.post("/songs", function (res, req) {
-  let token = req.body.token;
-  var options = {
-    method: "POST",
-    url: "https://accounts.spotify.com/api/token",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    form: {
-      grant_type: "refresh_token",
-      refresh_token,
-      client_id,
-      client_secret,
-    },
-  };
 });
 
 app.listen(port, function () {
