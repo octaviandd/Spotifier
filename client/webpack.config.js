@@ -17,7 +17,7 @@ module.exports = function (env, args) {
     output: {
       filename: "assets/js/[name].[contenthash:8].js",
       publicPath: "/",
-      path: path.resolve(__dirname, "dist"),
+      path: path.resolve(__dirname, "build"),
       clean: true,
     },
     performance: {

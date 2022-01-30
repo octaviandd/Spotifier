@@ -1,7 +1,7 @@
 /** @format */
 import React, { useState } from "react";
 import { Modal } from "./Modal";
-import SpotifyLogo from "../assets/spotify.png";
+import SpotifyLogo from "../../images/spotify.png";
 
 interface Props {
   items: any;

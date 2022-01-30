@@ -1,7 +1,6 @@
 /** @format */
 
 import { useState, useEffect } from "react";
-import SpotifyLogo from "../assets/spotify.png";
 
 export const aggregateValues = (values: any, items: any) => {
   if (values && items) {

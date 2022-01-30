@@ -9,7 +9,7 @@ import {
   ArtistFollowersChart,
   ArtistPopularityChart,
 } from "../../utils/BarCharts";
-import SpotifyLogo from "../../assets/spotify.png";
+import SpotifyLogo from "../../../images/spotify.png";
 
 interface Props {
   accessToken: string;

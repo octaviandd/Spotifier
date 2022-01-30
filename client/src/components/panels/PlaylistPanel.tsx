@@ -6,7 +6,7 @@ import {
   getMe,
   getUserPlaylists,
 } from "../../utils/SpotifyAPI";
-import SpotifyLogo from "../../assets/spotify.png";
+import SpotifyLogo from "../../../images/spotify.png";
 import { uniqueId } from "lodash";
 
 interface Props {

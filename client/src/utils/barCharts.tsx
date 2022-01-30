@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { searchArtist } from "./SpotifyAPI";
-import SpotifyLogo from "../assets/spotify.png";
+import SpotifyLogo from "../../images/spotify.png";
 import {
   Radar,
   RadarChart,
