@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,9 +14,6 @@ require("dotenv").config();
 var client_id = process.env.CLIENT_ID;
 var redirect_uri = process.env.REDIRECT_URI;
 var client_secret = process.env.CLIENT_SECRET;
-let refreshToken = "";
-
-console.log(redirect_uri, client_id);
 
 app.use(cookieParser());
 app.use((req, res, next) => {
@@ -26,6 +24,14 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
+});
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
 app.post("/login", function (req, res) {
