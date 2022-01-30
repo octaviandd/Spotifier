@@ -37,46 +37,40 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
-let lock = false;
-
 app.post("/login", function (req, res) {
-  if (!lock) {
-    var code = req.body.code || null;
-    var state = req.body.state || null;
+  var code = req.body.code || null;
+  var state = req.body.state || null;
 
-    console.log({ code });
+  console.log({ code });
 
-    var options = {
-      method: "POST",
-      url: "https://accounts.spotify.com/api/token",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      form: {
-        grant_type: "authorization_code",
-        redirect_uri,
-        code,
-        client_id,
-        client_secret,
-      },
-    };
-    request.post(options, function (error, response, body) {
-      if (error) throw new Error(error);
-      let data = JSON.parse(body);
-      console.log(data.refresh_token);
-      res.cookie("refresh_token", data.refresh_token, {
-        maxAge: 30 * 24 * 3600 * 1000,
-      });
-      // res.cookie("access_token", data.access_token, {
-      //   maxAge: data.expires_in * 1000,
-      // });
-      res.json({
-        response: response.body,
-      });
+  var options = {
+    method: "POST",
+    url: "https://accounts.spotify.com/api/token",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    form: {
+      grant_type: "authorization_code",
+      redirect_uri,
+      code,
+      client_id,
+      client_secret,
+    },
+  };
+  request.post(options, function (error, response, body) {
+    if (error) throw new Error(error);
+    let data = JSON.parse(body);
+    console.log(data.refresh_token);
+    res.cookie("refresh_token", data.refresh_token, {
+      maxAge: 30 * 24 * 3600 * 1000,
     });
-  }
-
-  lock = true;
+    // res.cookie("access_token", data.access_token, {
+    //   maxAge: data.expires_in * 1000,
+    // });
+    res.json({
+      response: response.body,
+    });
+  });
 });
 
 app.post("/token", function (req, res) {
