@@ -19,7 +19,7 @@ export function fetchTokens() {
     const getData = async () => {
       console.log("helloeoeoeoeo");
       try {
-        await fetch("http://localhost:3000/login", {
+        await fetch("https://statifyme.herokuapp.com/login", {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -58,7 +58,7 @@ export function fetchAccessToken({ refreshToken }: RefreshToken) {
       }));
       let getData = async () => {
         try {
-          await fetch("http://localhost:3000/token", {
+          await fetch("https://statifyme.herokuapp.com/token", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ refreshToken }),
