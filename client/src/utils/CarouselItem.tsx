@@ -24,13 +24,7 @@ export const CarouselItem = ({ items }: Props) => {
             className="relative w-20 h-20 bg-cover before:bg-background-opacity before:content-[''] before:top-0 before:bottom-0 before:left-0 before:right-0 before:absolute "
             style={{
               backgroundImage: `url(${
-                items.images[0]
-                  ? items.images[0].url
-                  : items.images[1]
-                  ? items.images[1].url
-                  : items.images[2]
-                  ? items.images[2].url
-                  : SpotifyLogo
+                items.images[2] ? items.images[2].url : SpotifyLogo
               })`,
             }}
           >

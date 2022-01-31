@@ -8,7 +8,7 @@ interface Props {
   accessToken: string;
 }
 
-export default function SideBar({
+export default function DashboardNavbar({
   parentState,
   setParentState,
   accessToken,
@@ -65,13 +65,13 @@ export default function SideBar({
       ref={ref}
       className={
         scrollState === "top"
-          ? "fixed flex transition-all justify-center top-0 my-0 mx-auto bg-[#202022] font-sans px-10 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
-          : "fixed flex transition-all justify-center top-0 my-0 mx-auto bg-[#202023] drop-shadow-xl font-sans px-10 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
+          ? "fixed flex transition-all justify-center items-center md:justify-start top-0 my-0 mx-auto bg-[#202022] font-sans md:px-10 py-5 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
+          : "fixed flex transition-all justify-center items center md:justify-start top-0 my-0 mx-auto bg-[#202023] drop-shadow-xl font-sans py-5 md:px-10 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
       }
     >
-      <div className="flex items-center space-x-5 p-4">
+      <div className="flex-wrap flex md:flex-nowrap justify-center md:justify-start items-center space-x-5 px-4">
         <div className="">
-          <h3 className=" text-3xl bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-red-200">
+          <h3 className="pb-5 md:pb-0 text-3xl bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-red-200">
             Statify
           </h3>
         </div>
@@ -111,7 +111,7 @@ export default function SideBar({
             </span>
           </div>
         </div>
-        <div className="flex">
+        <div className="md:flex hidden">
           <img
             src={state.avatar}
             className="w-16 h-16 rounded-full object-cover object-top mt-auto"

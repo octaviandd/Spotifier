@@ -85,8 +85,8 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
     });
   }
   return (
-    <>
-      <ResponsiveContainer width={800} height="90%">
+    <div className="h-80">
+      <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           width={400}
           height={300}
@@ -105,7 +105,7 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
           />
         </ComposedChart>
       </ResponsiveContainer>
-    </>
+    </div>
   );
 };
 

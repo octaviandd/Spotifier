@@ -14,8 +14,6 @@ interface Props {
 export default function ArtistCard({ accessToken, item }: Props): ReactElement {
   const [state, setState] = useState({ similarArtists: [] });
 
-  console.log(item.images);
-
   const getSimilarArtists = () => {
     getRelatedArtists(accessToken, item.id).then((data) => {
       setState((prevState) => ({
@@ -28,7 +26,7 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
   useEffect(() => {}, [state.similarArtists]);
 
   return (
-    <div className="grid grid-cols-2 bg-[#2c2c30] rounded-xl text-white">
+    <div className="grid grid-cols-1 grid-row-auto bg-[#2c2c30] rounded-xl text-white md:grid-cols-2">
       <div className="flex items-center">
         <div className="">
           <img
@@ -48,7 +46,7 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
           </div>
         </div>
       </div>
-      <div className="justify-self-center self-center flex flex-grow justify-center">
+      <div className="justify-self-center self-center flex flex-grow md:justify-center md:py-0 py-10">
         {state.similarArtists.length > 1 ? (
           <Carousel
             items={state.similarArtists.slice(0, 16).map((item) => item)}
@@ -57,7 +55,7 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
           <button
             onClick={() => getSimilarArtists()}
             type="button"
-            className="inline-block px-6 py-2.5 bg-teal-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-teal-300 hover:shadow-lg focus:bg-teal-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-500 active:shadow-lg transition duration-150 ease-in-out"
+            className="inline-block px-6 py-2.5 bg-teal-500 text-white font-medium border-0 text-xs leading-tight uppercase rounded shadow-md hover:bg-teal-300 hover:shadow-lg focus:bg-teal-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-500 active:shadow-lg transition duration-150 ease-in-out"
           >
             Explore similar artists
           </button>

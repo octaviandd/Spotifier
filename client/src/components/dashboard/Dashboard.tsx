@@ -1,19 +1,15 @@
 /** @format */
 
 import React, { ReactElement, useEffect, useState } from "react";
-import DashboardSideBar from "./DashboardSideBar";
+import DashboardSideBar from "./DashboardNavbar";
 import { Navigate } from "react-router-dom";
 import CurrentDisplay from "./CurrentDisplay";
 
 interface Props {
   accessToken: string;
-  setAccessToken: any;
 }
 
-export default function Dashboard({
-  accessToken,
-  setAccessToken,
-}: Props): ReactElement {
+export default function Dashboard({ accessToken }: Props): ReactElement {
   const [state, setState] = useState({
     profile: false,
     songs: false,

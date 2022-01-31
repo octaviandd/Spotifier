@@ -14,8 +14,8 @@ export default function Carousel({ items }: Props): ReactElement {
   const updateIndex = (newIndex: number) => {
     if (newIndex < 0) {
       newIndex = 0;
-    } else if (newIndex >= items.length / 4) {
-      newIndex = items.length / 4 - 1;
+    } else if (newIndex >= items.length / 2) {
+      newIndex = items.length / 2 - 1;
     }
     setActiveIndex(newIndex);
   };
@@ -37,7 +37,7 @@ export default function Carousel({ items }: Props): ReactElement {
             />
           </svg>
         </button>
-        <div className="lg:w-60 md:w-40 h-20 overflow-hidden whitespace-nowrap">
+        <div className="w-40 h-20 overflow-hidden whitespace-nowrap">
           <div
             className="h-20 transition-all ease-in-out duration-300"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}

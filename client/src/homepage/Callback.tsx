@@ -3,6 +3,7 @@
 import React, { ReactElement, useEffect } from "react";
 import Dashboard from "../components/dashboard/Dashboard";
 import { fetchTokens } from "../utils/useFetch";
+import Spinner from "../utils//Spinner";
 
 interface Props {
   accessToken: string;
@@ -21,11 +22,8 @@ export default function Callback({
   }
 
   return accessToken ? (
-    <Dashboard
-      accessToken={accessToken}
-      setAccessToken={setAccessToken}
-    ></Dashboard>
+    <Dashboard accessToken={accessToken}></Dashboard>
   ) : (
-    <div>wait</div>
+    <Spinner />
   );
 }

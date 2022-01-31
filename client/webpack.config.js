@@ -84,6 +84,7 @@ module.exports = function (env, args) {
         template: path.resolve(__dirname, "./public/index.html"),
         inject: true,
         favicon: "./images/logo.png",
+        cache: "",
       }),
     ].filter(Boolean),
     optimization: {

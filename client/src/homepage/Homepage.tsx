@@ -5,11 +5,11 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "../components/dashboard/Dashboard";
 import Default from "./Default";
 import Callback from "./Callback";
+import Spinner from "../utils/Spinner";
 interface Props {}
 
 export default function Homepage({}: Props): ReactElement {
   const [accessToken, setAccessToken] = useState();
-  const [refreshToken, setRefreshToken] = useState();
 
   return (
     <Routes>
@@ -33,12 +33,7 @@ export default function Homepage({}: Props): ReactElement {
       />
       <Route
         path="/dashboard"
-        element={
-          <Dashboard
-            accessToken={accessToken}
-            setAccessToken={setAccessToken}
-          ></Dashboard>
-        }
+        element={<Dashboard accessToken={accessToken} />}
       />
     </Routes>
   );

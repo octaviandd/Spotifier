@@ -10,6 +10,7 @@ import {
   ArtistPopularityChart,
 } from "../../utils/BarCharts";
 import SpotifyLogo from "../../../images/spotify.png";
+import Spinner from "../../utils/Spinner";
 
 interface Props {
   accessToken: string;
@@ -74,7 +75,7 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
             <button></button>
           </div>
         </div>
-        <div className="grid grid-cols-2 grid-row-auto gap-y-6 gap-x-6 pt-6">
+        <div className="grid grid-cols-1 grid-row-auto gap-y-6 gap-x-6 pt-6 lg:grid-cols-2">
           {state.artists.map((item) => (
             <ArtistCard
               accessToken={accessToken}
@@ -93,7 +94,7 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
             <div className="text-[#1DB954] text-center font-bold">Spotify</div>
           </div>
         </div>
-        <div className="h-80">
+        <div className="w-full">
           <ArtistPopularityChart
             artistsValues={state.artists}
           ></ArtistPopularityChart>
