@@ -82,7 +82,7 @@ export default function SideBar({
                 ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white w-full flex justify-center p-4 cursor-pointer"
                 : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center p-4 cursor-pointer"
             }
-            onClick={() => setBarValues("songs")}
+            onClick={() => !songs && setBarValues("songs")}
           >
             <span className="group-hover:text-white cursor-pointer">Songs</span>
           </div>
@@ -92,7 +92,7 @@ export default function SideBar({
                 ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center p-4 cursor-pointer"
                 : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center p-4 cursor-pointer"
             }
-            onClick={() => setBarValues("artists")}
+            onClick={() => !artists && setBarValues("artists")}
           >
             <span className="group-hover:text-white cursor-pointer">
               Artists
@@ -104,24 +104,12 @@ export default function SideBar({
                 ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center p-4 cursor-pointer"
                 : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center p-4 cursor-pointer"
             }
-            onClick={() => setBarValues("playlists")}
+            onClick={() => !playlists && setBarValues("playlists")}
           >
             <span className="group-hover:text-white cursor-pointer">
               Playlists
             </span>
           </div>
-          {/* <div
-            className={
-              player
-                ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center p-4 cursor-pointer"
-                : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center p-4 cursor-pointer"
-            }
-            onClick={() => setBarValues("player")}
-          >
-            <span className="group-hover:text-white cursor-pointer">
-              Player
-            </span>
-          </div> */}
         </div>
         <div className="flex">
           <img

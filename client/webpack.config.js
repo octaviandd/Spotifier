@@ -83,6 +83,7 @@ module.exports = function (env, args) {
       new HTMLWebpackPlugin({
         template: path.resolve(__dirname, "./public/index.html"),
         inject: true,
+        favicon: "./images/logo.png",
       }),
     ].filter(Boolean),
     optimization: {

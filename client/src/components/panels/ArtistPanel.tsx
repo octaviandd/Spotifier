@@ -39,7 +39,6 @@ const getFollowers = (data: any) => {
 };
 
 export default function ArtistsStats({ accessToken }: Props): ReactElement {
-  const [loading, setLoading] = useState(true);
   const [state, setState] = useState({
     songs: [],
     artists: [],
@@ -47,7 +46,6 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
 
   useEffect(() => {
     try {
-      setLoading(true);
       getFollowedArtists(accessToken).then((data) => {
         setState((prevState) => ({
           ...prevState,
@@ -57,10 +55,8 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(true);
     }
-    setLoading(false);
-  }, [loading]);
+  }, []);
 
   return (
     <div className="flex flex-col pt-5 px-6 w-full">
@@ -79,15 +75,14 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
           </div>
         </div>
         <div className="grid grid-cols-2 grid-row-auto gap-y-6 gap-x-6 pt-6">
-          {!loading &&
-            state.artists.map((item) => (
-              <ArtistCard
-                accessToken={accessToken}
-                item={item}
-                key={uuidv4()}
-                id={item.id}
-              ></ArtistCard>
-            ))}
+          {state.artists.map((item) => (
+            <ArtistCard
+              accessToken={accessToken}
+              item={item}
+              key={uuidv4()}
+              id={item.id}
+            ></ArtistCard>
+          ))}
         </div>
       </div>
       <div className="flex flex-col justify-start items-center pt-2 pb-20">
@@ -135,11 +130,11 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
         </div>
       </div>
       {state.artists.length > 1 && (
-        <div className="flex justify-end items-center h-80 mt-10">
-          <div className="h-full w-full flex flex-start flex-col">
+        <div className="flex items-center mt-10 flex-col">
+          <div className="h-full w-full flex flex-start flex-col mb-5">
             <span className="text-7xl">How about followers?</span>
           </div>
-          <div className="">
+          <div className="w-full">
             <ArtistFollowersChart
               accessToken={accessToken}
               artistsValues={getFollowers(state.artists)}

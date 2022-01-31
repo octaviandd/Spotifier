@@ -25,47 +25,23 @@ import {
 
 import { CustomToolTip, CustomToolTipFollowersGraph } from "./CustomToolTips";
 
-export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
-  const [graphData, setGraphData] = useState(artistsValues);
-
-  const getTopArtist = () => {
-    searchArtist(accessToken, "Ed Sheeran").then((res) => {
-      graphData.push({
-        name: res.artists.items[0].name,
-        followers: res.artists.items[0].followers.total,
-        icon: res.artists.items[0].images[0]
-          ? res.artists.items[0].images[0].url
-          : res.artists.items[0].images[1]
-          ? res.artists.items[0].images[1].url
-          : res.artists.items[0].images[2]
-          ? res.artists.items[0].images[2].url
-          : SpotifyLogo,
-      });
-    });
-  };
-
-  useEffect(() => {
-    try {
-      getTopArtist();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [graphData]);
-
+export const ArtistFollowersChart = ({ artistsValues }: any) => {
   return (
     <div className="h-80">
-      <ResponsiveContainer width={800} height="100%">
+      <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           width={400}
           height={300}
-          data={graphData}
+          data={artistsValues}
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         >
-          <Bar dataKey="followers" fill="#100f22">
-            {graphData.map((entry: any, index: any) => (
+          <Bar dataKey="followers" fill="#100f22" isAnimationActive={false}>
+            {artistsValues.map((entry: any, index: any) => (
               <Cell
                 cursor="pointer"
-                fill={index === graphData.length - 1 ? "#1DB954" : "#ffa600"}
+                fill={
+                  index === artistsValues.length - 1 ? "#1DB954" : "#ffa600"
+                }
                 key={`cell-${index}`}
               />
             ))}
@@ -100,6 +76,7 @@ export const ArtistFollowersChart = ({ artistsValues, accessToken }: any) => {
 };
 
 export const ArtistPopularityChart = ({ artistsValues }: any) => {
+  console.log("artist chart");
   let graphData = [];
   for (let i = 0; i < artistsValues.length; i++) {
     graphData.push({
@@ -116,7 +93,7 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
           data={graphData}
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         >
-          <Bar dataKey="popularity" fill="#1DB954" />
+          <Bar dataKey="popularity" fill="#1DB954" isAnimationActive={false} />
           <CartesianGrid strokeDasharray="1" vertical={false} />
           <XAxis dataKey="name" />
           <YAxis />
@@ -133,6 +110,7 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
 };
 
 export const TemposChart = ({ tempoValues }: any) => {
+  console.log("tempos chart");
   return (
     <>
       <ResponsiveContainer width="90%" height="100%">
@@ -164,6 +142,7 @@ export const TemposChart = ({ tempoValues }: any) => {
           />
           <Tooltip />
           <Line
+            isAnimationActive={false}
             type="monotone"
             unit="M"
             strokeLinecap="round"
@@ -175,6 +154,7 @@ export const TemposChart = ({ tempoValues }: any) => {
             legendType="none"
           />
           <Area
+            isAnimationActive={false}
             type="monotone"
             dataKey="BPS"
             fill="url(#colorUv)"
@@ -188,6 +168,7 @@ export const TemposChart = ({ tempoValues }: any) => {
 };
 
 export const LoudnessChart = ({ loudnessValues }: any) => {
+  console.log("loudness chart");
   return (
     <>
       <ResponsiveContainer width="90%" height="100%">
@@ -197,7 +178,7 @@ export const LoudnessChart = ({ loudnessValues }: any) => {
           data={loudnessValues}
           margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
         >
-          <Bar dataKey="db" fill="#58508d" />
+          <Bar dataKey="db" fill="#58508d" isAnimationActive={false} />
           <CartesianGrid strokeDasharray="1" vertical={false} />
           <XAxis dataKey="Decibels" />
           <YAxis />
@@ -220,6 +201,7 @@ export const LoudnessChart = ({ loudnessValues }: any) => {
 };
 
 export const CharacteristicsChart = ({ characteristicsValues }: any) => {
+  console.log("charac chart");
   return (
     <>
       <ResponsiveContainer width={800} height="80%">
@@ -238,6 +220,7 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
             animationEasing="linear"
           />
           <Radar
+            isAnimationActive={false}
             name="values"
             dataKey="A"
             stroke="#1DB954"

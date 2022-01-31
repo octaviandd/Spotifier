@@ -44,11 +44,18 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
   const elemRef = useRef();
   const isVisible = useIsVisible(elemRef);
 
+  const elemRef1 = useRef();
+  const isVisible1 = useIsVisible(elemRef);
+
+  const elemRef2 = useRef();
+  const isVisible2 = useIsVisible(elemRef);
+
   const handleTimeRange = (e: string) => {
     setTimeRange(e);
   };
 
   useEffect(() => {
+    console.log("hit1");
     const getTracks = () => {
       try {
         setLoading(true);
@@ -70,6 +77,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
 
   useEffect(() => {
     if (isVisible) {
+      console.log("hit2");
       const getAudio = () => {
         try {
           setLoading(true);
@@ -244,7 +252,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
             </div>
           </div>
           <Suspense fallback={<div>wait</div>}>
-            <div className="flex flex-wrap pt-10">
+            <div className="flex flex-wrap pt-10" ref={elemRef1}>
               <div className="h-[21rem] w-full flex items-center col-start-1">
                 <LoudnessChart
                   loudnessValues={state.loudnessValues}
@@ -257,7 +265,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           </Suspense>
         </div>
       </div>
-      <div>
+      <div ref={elemRef2}>
         <Suspense fallback={<div>waiting</div>}>
           <LazySongDataInputs
             accessToken={accessToken}

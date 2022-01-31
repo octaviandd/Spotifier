@@ -14,6 +14,8 @@ interface Props {
 export default function ArtistCard({ accessToken, item }: Props): ReactElement {
   const [state, setState] = useState({ similarArtists: [] });
 
+  console.log(item.images);
+
   const getSimilarArtists = () => {
     getRelatedArtists(accessToken, item.id).then((data) => {
       setState((prevState) => ({
@@ -31,7 +33,7 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
         <div className="">
           <img
             className="rounded-lg w-32 h-32 object-cover"
-            src={item.images[1].url}
+            src={item.images[2].url}
           />
         </div>
         <div className="w-3/4 px-6">

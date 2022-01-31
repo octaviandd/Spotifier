@@ -7,6 +7,7 @@ import React, {
   useRef,
   useMemo,
 } from "react";
+import SpotifyLogo from "../../images/spotify.png";
 
 interface Props {
   item: any;
@@ -23,22 +24,26 @@ function millisecondsToMinutesAndSeconds(milliseconds: number) {
 
 export default function SongCard({ item, count }: Props): ReactElement {
   const [play, setPlay] = useState(false);
-  let audioRef = useRef(new Audio(item.preview_url));
+  // let audioRef = useRef(new Audio(item.preview_url));
+  console.log(item.album.images);
 
-  useEffect(() => {
-    if (play) {
-      audioRef.current.play();
-    } else {
-      audioRef.current.pause();
-    }
-  }, [play]);
+  // useEffect(() => {
+  //   if (play) {
+  //     audioRef.current.play();
+  //   } else {
+  //     audioRef.current.pause();
+  //   }
+  // }, [play]);
 
   return (
     <div className="flex mt-4 items-center">
       <div className="px-3 font-md">{count + 1}</div>
       <div>
         <img
-          src={item.album.images[2] && item.album.images[2].url}
+          srcSet=""
+          src={
+            (item.album.images[2] && item.album.images[2].url) || SpotifyLogo
+          }
           width="64"
           height="64"
         ></img>
@@ -55,9 +60,9 @@ export default function SongCard({ item, count }: Props): ReactElement {
           onClickCapture={() => setPlay(true)}
           onMouseLeave={() => setPlay(false)}
         >
-          <audio preload="true">
+          {/* <audio preload="true">
             {item.preview_url && <source src={item.preview_url} />}
-          </audio>
+          </audio> */}
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

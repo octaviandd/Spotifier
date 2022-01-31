@@ -22,9 +22,7 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
   const [liveness, setLiveness] = useState(0.5);
   const [searchValue, setSearchValue] = useState("");
 
-  const [currentlyHeldArtists, setCurrentArtists] = useState([
-    { id: "0nLiqZ6A27jJri2VCalIUs" },
-  ]);
+  const [currentlyHeldArtists, setCurrentArtists] = useState([]);
   const [items, setItems] = useState(undefined);
 
   const handleRemove = (id: string) => {
