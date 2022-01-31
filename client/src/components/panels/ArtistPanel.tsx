@@ -60,9 +60,9 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
   }, []);
 
   return (
-    <div className="flex flex-col pt-5 px-6 w-full">
-      <div className="mb-10">
-        <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-[#525252]">
+    <div className="flex flex-col px-6 w-full">
+      <div className="mb-3 h-full w-full">
+        <div className="flex flex-row items-center pb-10">
           <div className="flex-grow">
             <span className="text-4xl font-mono">Followed artists</span>
           </div>
@@ -88,7 +88,7 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
       </div>
       <div className="flex flex-col justify-start items-center pt-2 pb-20">
         <div className="p-5 w-full flex items-center justify-center">
-          <div className="flex justify-center flex-col text-slate-100 text-7xl leading-tight tracking-wide font-medium mb-2 w-full">
+          <div className="flex justify-center flex-col text-black text-7xl leading-tight tracking-wide font-medium mb-2 w-full">
             <div className="text-center">Are your artists popular on </div>
             <br></br>
             <div className="text-[#1DB954] text-center font-bold">Spotify</div>

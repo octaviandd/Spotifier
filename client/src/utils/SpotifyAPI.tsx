@@ -20,7 +20,7 @@ export const URL: string =
     client_id: "a8f787f034c549c2be783850c383388e",
     response_type: "code",
     scope: scope,
-    redirect_uri: "https://statifyme.herokuapp.com/callback",
+    redirect_uri: "http://localhost:8080/callback",
     show_dialog: "true",
     state: generateRandomString(16),
   });

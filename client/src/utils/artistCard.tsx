@@ -26,7 +26,7 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
   useEffect(() => {}, [state.similarArtists]);
 
   return (
-    <div className="grid grid-cols-1 grid-row-auto bg-[#2c2c30] rounded-xl text-white md:grid-cols-2">
+    <div className="grid grid-cols-1 grid-row-auto border rounded-xl md:grid-cols-2 shadow-lg font-rubik">
       <div className="flex items-center">
         <div className="">
           <img
@@ -36,7 +36,7 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
         </div>
         <div className="w-3/4 px-6">
           <div>
-            <h5 className="text-slate-100 text-xl leading-tight font-medium mb-2">
+            <h5 className="text-black text-xl leading-tight font-medium mb-2">
               {item.name}
             </h5>
           </div>
@@ -55,7 +55,7 @@ export default function ArtistCard({ accessToken, item }: Props): ReactElement {
           <button
             onClick={() => getSimilarArtists()}
             type="button"
-            className="inline-block px-6 py-2.5 bg-teal-500 text-white font-medium border-0 text-xs leading-tight uppercase rounded shadow-md hover:bg-teal-300 hover:shadow-lg focus:bg-teal-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-500 active:shadow-lg transition duration-150 ease-in-out"
+            className="inline-block px-6 py-2.5 bg-violet-800 text-white font-medium border-0 text-xs leading-tight uppercase rounded shadow-md hover:bg-violet-900 hover:shadow-lg focus:bg-violet-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-violet-900 active:shadow-lg transition duration-150 ease-in-out"
           >
             Explore similar artists
           </button>

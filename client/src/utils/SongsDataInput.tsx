@@ -68,7 +68,7 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
   return (
     <div className="pt-10">
       <div className="pb-6">
-        <h1 className="text-6xl">
+        <h1 className="text-6xl text-[#363636] font-semibold">
           Search songs based on{" "}
           <span className="text-[#1DB954] font-bold">characteristics</span> and{" "}
           <span className="text-[#1DB954] font-bold">artist similarity</span>

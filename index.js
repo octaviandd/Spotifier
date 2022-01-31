@@ -20,7 +20,7 @@ console.log(redirect_uri);
 
 app.use(cookieParser());
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://statifyme.herokuapp.com");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
   res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Headers",

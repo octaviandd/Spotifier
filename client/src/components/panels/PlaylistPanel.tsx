@@ -39,8 +39,8 @@ export default function PlaylistStats({ accessToken }: Props): ReactElement {
   }, []);
 
   return (
-    <div className="pt-5 px-6">
-      <div className=" flex flex-row items-center pb-10 pt-5 border-b-2 border-[#525252]">
+    <div className="px-6">
+      <div className="flex flex-row items-center mb-3">
         <div className="flex-grow">
           <span className="text-4xl font-mono">Your Playlists</span>
         </div>

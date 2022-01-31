@@ -65,8 +65,8 @@ export default function DashboardNavbar({
       ref={ref}
       className={
         scrollState === "top"
-          ? "fixed flex transition-all justify-center items-center md:justify-start top-0 my-0 mx-auto bg-[#202022] font-sans md:px-10 py-5 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
-          : "fixed flex transition-all justify-center items center md:justify-start top-0 my-0 mx-auto bg-[#202023] drop-shadow-xl font-sans py-5 md:px-10 z-10 text-slate-100 rounded-tr-lg rounded-br-lg inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
+          ? "fixed flex transition-all ease-in-out justify-center items-center md:justify-start top-0 my-0 mx-auto bg-white font-sans md:px-10 py-5 z-10 text-black inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
+          : "fixed flex transition-all ease-in-out justify-center items center md:justify-start top-0 my-0 mx-auto bg-[#202023] drop-shadow-xl font-sans py-5 md:px-10 z-10 text-white inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
       }
     >
       <div className="flex-wrap flex md:flex-nowrap justify-center md:justify-start items-center space-x-5 px-4">
@@ -79,8 +79,8 @@ export default function DashboardNavbar({
           <div
             className={
               songs
-                ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white w-full flex justify-center p-4 cursor-pointer"
-                : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center p-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-violet-600 text-white w-full flex justify-center p-4 cursor-pointer"
+                : "transition duration-500 ease-in-out group rounded-md hover:bg-violet-800 w-full flex justify-center p-4 cursor-pointer"
             }
             onClick={() => !songs && setBarValues("songs")}
           >
@@ -89,8 +89,8 @@ export default function DashboardNavbar({
           <div
             className={
               artists
-                ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center p-4 cursor-pointer"
-                : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center p-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-violet-600 text-white  w-full flex justify-center p-4 cursor-pointer"
+                : "transition duration-500 ease-in-out group rounded-md hover:bg-violet-800 w-full flex justify-center p-4 cursor-pointer"
             }
             onClick={() => !artists && setBarValues("artists")}
           >
@@ -101,8 +101,8 @@ export default function DashboardNavbar({
           <div
             className={
               playlists
-                ? "transition duration-500 ease-in-out group rounded-md bg-teal-500 text-white  w-full flex justify-center p-4 cursor-pointer"
-                : "transition duration-500 ease-in-out group rounded-md hover:bg-teal-300 w-full flex justify-center p-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-violet-600 text-white  w-full flex justify-center p-4 cursor-pointer"
+                : "transition duration-500 ease-in-out group rounded-md hover:bg-violet-800 w-full flex justify-center p-4 cursor-pointer"
             }
             onClick={() => !playlists && setBarValues("playlists")}
           >

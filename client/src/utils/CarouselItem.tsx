@@ -76,7 +76,7 @@ export const CarouselItem = ({ items }: Props) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={items.external_urls.spotify}
-                className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-violet-700 rounded-lg hover:bg-violet-800 focus:ring-4 focus:ring-violet-300 dark:bg-violet-600 dark:hover:bg-violet-700 dark:focus:ring-violet-800"
               >
                 Check Spotify Profile
                 <svg
@@ -95,7 +95,7 @@ export const CarouselItem = ({ items }: Props) => {
               <button
                 onClick={() => setIsOpen(false)}
                 type="button"
-                className="cursor-pointer inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="cursor-pointer inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-violet-700 rounded-lg hover:bg-violet-800 focus:ring-4 focus:ring-violet-300 dark:bg-violet-600 dark:hover:bg-violet-700 dark:focus:ring-violet-800"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

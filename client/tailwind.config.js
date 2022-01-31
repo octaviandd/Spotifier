@@ -19,6 +19,9 @@ module.exports = {
       spotify: "#1DB954",
     }),
     extend: {
+      fontFamily: {
+        rubik: ["Rubik", "sans-serif"],
+      },
       colors: {
         "background-opacity": "rgba(0, 0, 0, 0.7)",
       },

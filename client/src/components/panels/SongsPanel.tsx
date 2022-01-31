@@ -103,11 +103,13 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
   }, [state.items, isVisible]);
 
   return (
-    <div className="flex justify-center flex-col pt-5 px-6">
-      <div className="mb-10 h-full min-h-min">
-        <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-[#525252]">
+    <div className="flex justify-center flex-col px-6">
+      <div className="mb-3 h-full min-h-min">
+        <div className="flex flex-row items-center pb-10">
           <div className="flex-grow">
-            <span className="text-4xl">Favorite Songs</span>
+            <span className="text-4xl text-[#363636] font-semibold">
+              Favorite Songs
+            </span>
           </div>
           <div className="flex flex-grow justify-end">
             <select
@@ -163,7 +165,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
         </div>
         <div className="grid grid-cols-6 my-10">
           <div className="col-span-3 justify-self-center flex justify-center items-center">
-            <span className="text-6xl text-center">
+            <span className="text-6xl text-center text-[#363636] font-semibold ">
               That's how{" "}
               <span className="text-[#1DB954] text-center font-bold">
                 Spotify{" "}
@@ -208,7 +210,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           className="flex flex-col items-center justify-center h-[34rem]"
           ref={elemRef}
         >
-          <div className="text-6xl text-center my-10">
+          <div className="text-6xl text-center my-10 text-[#363636] font-semibold">
             Here's how your average song looks like.
           </div>
           {state.aggregatedAudioValues.length > 1 && (
@@ -219,7 +221,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
         </div>
         <div className="my-5">
           <div className="grid grid-cols-3 grid-rows-2 my-5">
-            <span className="text-6xl col-start-1 row-start-1 col-end-3">
+            <span className="text-6xl col-start-1 row-start-1 col-end-3 text-[#363636] font-semibold">
               Ever gotten this?
             </span>
             <div className="col-start-2 row-start-2">

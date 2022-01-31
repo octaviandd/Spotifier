@@ -36,7 +36,7 @@ export default function SongCard({ item, count }: Props): ReactElement {
   // }, [play]);
 
   return (
-    <div className="flex mt-4 items-center">
+    <div className="flex mt-4 py-2 items-center shadow-lg">
       <div className="px-3 font-md">{count + 1}</div>
       <div>
         <img
@@ -49,7 +49,7 @@ export default function SongCard({ item, count }: Props): ReactElement {
         ></img>
       </div>
       <div className="flex flex-col py-2 px-5">
-        <span className="">{item.name}</span>
+        <span className="text-[#4a4a4a] font-bold">{item.name}</span>
         <span className="text-slate-400 text-sm">
           {item.album.artists[0].name}
         </span>
@@ -79,8 +79,7 @@ export default function SongCard({ item, count }: Props): ReactElement {
           </span>
         </div>
       </div>
-
-      <div className="flex ml-auto flex-shrink">
+      <div className="flex ml-auto flex-shrink text-[#4a4a4a] pr-2">
         {millisecondsToMinutesAndSeconds(item.duration_ms)}
       </div>
     </div>

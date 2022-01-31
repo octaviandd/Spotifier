@@ -19,7 +19,7 @@ export default function Dashboard({ accessToken }: Props): ReactElement {
   });
 
   return accessToken ? (
-    <div className="flex space-x-5 relative bg-[#202023]">
+    <div className="flex relative">
       <DashboardSideBar
         parentState={state}
         setParentState={setState}

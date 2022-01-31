@@ -201,7 +201,6 @@ export const LoudnessChart = ({ loudnessValues }: any) => {
 };
 
 export const CharacteristicsChart = ({ characteristicsValues }: any) => {
-  console.log("charac chart");
   return (
     <>
       <ResponsiveContainer width={800} height="80%">
@@ -212,10 +211,9 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
           data={characteristicsValues}
         >
           <PolarGrid />
-          <PolarAngleAxis dataKey="subject" tick={customTick}></PolarAngleAxis>
+          <PolarAngleAxis dataKey="subject"></PolarAngleAxis>
           <Tooltip
             allowEscapeViewBox={{ x: false, y: true }}
-            content={<CustomToolTip />}
             cursor={{ stroke: "red", strokeWidth: 2 }}
             animationEasing="linear"
           />
@@ -223,8 +221,8 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
             isAnimationActive={false}
             name="values"
             dataKey="A"
-            stroke="#1DB954"
-            fill="#1DB954"
+            stroke="#7C3AED"
+            fill="#7C3AED"
             fillOpacity={0.7}
           />
         </RadarChart>
