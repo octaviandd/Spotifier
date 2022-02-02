@@ -1,37 +1,25 @@
 /** @format */
 
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import DashboardSideBar from "./DashboardNavbar";
-import { Navigate } from "react-router-dom";
 import CurrentDisplay from "./CurrentDisplay";
+import { useToken } from "../../utils/Context";
 
-interface Props {
-  accessToken: string;
-}
+interface Props {}
 
-export default function Dashboard({ accessToken }: Props): ReactElement {
+export default function Dashboard({}: Props): ReactElement {
   const [state, setState] = useState({
     profile: false,
-    songs: false,
+    songs: true,
     playlists: false,
-    artists: true,
+    artists: false,
     player: false,
   });
 
-  return accessToken ? (
+  return (
     <div className="flex relative">
-      <DashboardSideBar
-        parentState={state}
-        setParentState={setState}
-        accessToken={accessToken}
-      />
-      <CurrentDisplay
-        parentState={state}
-        setParentState={setState}
-        accessToken={accessToken}
-      ></CurrentDisplay>
+      <DashboardSideBar setParentState={setState} parentState={state} />
+      <CurrentDisplay parentState={state}></CurrentDisplay>
     </div>
-  ) : (
-    <Navigate to="/" />
   );
 }

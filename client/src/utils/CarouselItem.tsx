@@ -9,7 +9,6 @@ interface Props {
 
 export const CarouselItem = ({ items }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(items);
 
   return (
     <>

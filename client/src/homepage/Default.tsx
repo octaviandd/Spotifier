@@ -1,30 +1,26 @@
 /** @format */
 
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useContext, useState } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import { fetchAccessToken } from "../utils/useFetch";
 import HomepageNavbar from "./HomepageNavbar";
-
+import { useToken } from "../utils/Context";
+import { token } from "../utils/SpotifyAPI";
 interface Props {
-  accessToken: string;
   setAccessToken: any;
 }
 
-export default function Default({
-  accessToken,
-  setAccessToken,
-}: Props): ReactElement {
-  const [refreshToken, setRefreshToken] = useState(
-    Cookies.get("refresh_token") || null
-  );
-  let data = fetchAccessToken({ refreshToken });
+export default function Default({}: Props): ReactElement {
+  // let refreshToken = Cookies.get("refresh_token");
+  // let data = fetchAccessToken({ refreshToken });
+  // const { dispatch } = useToken();
 
-  useEffect(() => {
-    if (data) {
-      setAccessToken(data.access_token);
-    }
-  }, [data]);
+  // const [accessToken, setAccessToken] = useState("");
 
-  return accessToken ? <Navigate to="/dashboard" /> : <HomepageNavbar />;
+  // useEffect(() => {
+  //   setAccessToken(token);
+  // }, []);
+
+  return <div>in</div>;
 }

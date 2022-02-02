@@ -4,26 +4,26 @@ import React, { ReactElement, useEffect } from "react";
 import Dashboard from "../components/dashboard/Dashboard";
 import { fetchTokens } from "../utils/useFetch";
 import Spinner from "../utils//Spinner";
+import { useToken } from "../utils/Context";
 
-interface Props {
-  accessToken: string;
-  setAccessToken: any;
-}
+interface Props {}
 
-export default function Callback({
-  accessToken,
-  setAccessToken,
-}: Props): ReactElement {
-  let data = fetchTokens();
+export default function Callback({}: Props): ReactElement {
+  return <div>callback</div>;
+  // let data: any = fetchTokens();
+  // const { dispatch } = useToken();
+  // if (data) {
+  //   useToken();
+  //   // setAccessToken(data.access_token);
+  //   // history.replaceState(null, "", "/dashboard");
+  //   dispatch({ state: data.access_token, type: "set" });
+  // }
 
-  if (data) {
-    setAccessToken(data.access_token);
-    history.replaceState(null, "", "/dashboard");
-  }
+  // console.log(data.access_token);
 
-  return accessToken ? (
-    <Dashboard accessToken={accessToken}></Dashboard>
-  ) : (
-    <Spinner />
-  );
+  // return !data.loading ? (
+  //   <Dashboard accessToken={data.access_token}></Dashboard>
+  // ) : (
+  //   <Spinner />
+  // );
 }

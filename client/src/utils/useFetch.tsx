@@ -10,7 +10,6 @@ export function fetchTokens() {
   const [searchParams, setSearchParams] = useSearchParams();
   let code = searchParams.get("code");
   const [state, setState] = useState({ data: null, loading: true });
-
   useEffect(() => {
     setState((state) => ({
       data: state.data,
@@ -44,6 +43,8 @@ export function fetchTokens() {
 
   if (!state.loading) {
     return { loading: state.loading, access_token: state.data.access_token };
+  } else {
+    return new Error("Failed authorization");
   }
 }
 

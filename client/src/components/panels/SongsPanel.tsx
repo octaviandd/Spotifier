@@ -19,6 +19,8 @@ import {
   CharacteristicsChart,
 } from "../../utils/BarCharts";
 import { getItemsID } from "../../utils/utils";
+import Spinner from "../../utils/Spinner";
+import { AppCtx } from "../../utils/Context";
 
 const LazySongDataInputs = React.lazy(
   () => import("../../utils/SongsDataInput")
@@ -26,11 +28,9 @@ const LazySongDataInputs = React.lazy(
 const SongCard = React.lazy(() => import("../../utils/SongCard"));
 // const LazyTemposChart = React.lazy(() => import("../utils/barCharts"))
 
-interface Props {
-  accessToken: string;
-}
+interface Props {}
 
-export default function SongsPanel({ accessToken }: Props): ReactElement {
+export default function SongsPanel({}: Props): ReactElement {
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState("medium_term");
   const [state, setState] = useState({
@@ -40,6 +40,8 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
     tempoValues: undefined,
     loudnessValues: undefined,
   });
+
+  const appContext = React.useContext(AppCtx);
 
   const elemRef = useRef();
   const isVisible = useIsVisible(elemRef);
@@ -55,11 +57,14 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
   };
 
   useEffect(() => {
-    console.log("hit1");
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const getTracks = () => {
       try {
         setLoading(true);
-        getUserTopTracks(accessToken, timeRange).then((res) => {
+        getUserTopTracks(timeRange).then((res) => {
           setState((prevState) => ({
             ...prevState,
             items: res.items,
@@ -81,7 +86,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
       const getAudio = () => {
         try {
           setLoading(true);
-          getTracksAudioFeatures(accessToken, state.itemsIds).then((res) => {
+          getTracksAudioFeatures(state.itemsIds).then((res) => {
             setState((prevState) => ({
               ...prevState,
               aggregatedAudioValues: aggregateValues(res.audio_features, [])
@@ -102,9 +107,11 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
     }
   }, [state.items, isVisible]);
 
+  console.log(loading);
+
   return (
     <div className="flex justify-center flex-col px-6">
-      <div className="mb-3 h-full min-h-min">
+      <div className="mb-3 h-full w-full">
         <div className="flex flex-row items-center pb-10">
           <div className="flex-grow">
             <span className="text-4xl text-[#363636] font-semibold">
@@ -125,7 +132,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
             <button></button>
           </div>
         </div>
-        {!loading ? (
+        {state.items.length > 0 ? (
           <div className="grid grid-cols-2">
             {state.items.map((item) => {
               return (
@@ -141,7 +148,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
             })}
           </div>
         ) : (
-          <div>wait</div>
+          <Spinner />
         )}
       </div>
       <div className="relative w-full h-full">
@@ -213,7 +220,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
           <div className="text-6xl text-center my-10 text-[#363636] font-semibold">
             Here's how your average song looks like.
           </div>
-          {state.aggregatedAudioValues.length > 1 && (
+          {state.items.length > 0 && state.aggregatedAudioValues.length > 1 && (
             <CharacteristicsChart
               characteristicsValues={state.aggregatedAudioValues}
             ></CharacteristicsChart>
@@ -253,7 +260,7 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
               </div>
             </div>
           </div>
-          <Suspense fallback={<div>wait</div>}>
+          {state.items.length > 0 && (
             <div className="flex flex-wrap pt-10" ref={elemRef1}>
               <div className="h-[21rem] w-full flex items-center col-start-1">
                 <LoudnessChart
@@ -264,15 +271,12 @@ export default function SongsPanel({ accessToken }: Props): ReactElement {
                 <TemposChart tempoValues={state.tempoValues}></TemposChart>
               </div>
             </div>
-          </Suspense>
+          )}
         </div>
       </div>
       <div ref={elemRef2}>
         <Suspense fallback={<div>waiting</div>}>
-          <LazySongDataInputs
-            accessToken={accessToken}
-            initialArtists={state.items.slice(0, 3)}
-          ></LazySongDataInputs>
+          <LazySongDataInputs></LazySongDataInputs>
         </Suspense>
       </div>
     </div>

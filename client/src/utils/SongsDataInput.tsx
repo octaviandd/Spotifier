@@ -6,12 +6,9 @@ import round from "lodash.round";
 import { v4 as uuidv4 } from "uuid";
 import SearchDropDown from "./SearchDropDown";
 
-interface Props {
-  accessToken: string;
-  initialArtists: any;
-}
+interface Props {}
 
-export default function SongsDataInputs({ accessToken }: Props): ReactElement {
+export default function SongsDataInputs({}: Props): ReactElement {
   const [danceability, setDanceability] = useState(0.5);
   const [energy, setEnergy] = useState(0.5);
   const [speechiness, setSpeechines] = useState(0.5);
@@ -34,7 +31,6 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
     if (currentlyHeldArtists.length > 0) {
       try {
         getRecommendedSongs(
-          accessToken,
           currentlyHeldArtists.map((item) => item.id),
           {
             danceability,
@@ -303,7 +299,6 @@ export default function SongsDataInputs({ accessToken }: Props): ReactElement {
               {searchValue !== "" && (
                 <SearchDropDown
                   searchValue={searchValue}
-                  accessToken={accessToken}
                   setCurrentArtists={setCurrentArtists}
                 />
               )}

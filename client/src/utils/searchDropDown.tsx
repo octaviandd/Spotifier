@@ -6,19 +6,17 @@ import { v4 as uuidv4 } from "uuid";
 
 type Props = {
   searchValue: string;
-  accessToken: string;
   setCurrentArtists: any;
 };
 
 export default function SearchDropDown({
   searchValue,
-  accessToken,
   setCurrentArtists,
 }: Props) {
   const [artists, setArtists]: any = useState();
 
   const getListOfArtists = () => {
-    searchArtist(accessToken, searchValue).then((res) => {
+    searchArtist(searchValue).then((res) => {
       setArtists(res.artists.items);
     });
   };

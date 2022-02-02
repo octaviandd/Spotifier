@@ -1,4 +1,6 @@
 /** @format */
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 
 const generateRandomString = function (length: number): string {
   let text = "";
@@ -25,12 +27,78 @@ export const URL: string =
     state: generateRandomString(16),
   });
 
-export const getMe = async (token: string) => {
+const EXPIRATION_TIME = 3600 * 1000;
+const setTokenTimestamp = () =>
+  window.localStorage.setItem("spotify_token_timestamp", String(Date.now()));
+const getLocalRefreshToken = () =>
+  window.localStorage.getItem("spotify_refresh_token");
+const getLocalAccessToken = () =>
+  window.localStorage.getItem("spotify_access_token");
+const setLocalAccessToken = (token: string) => {
+  setTokenTimestamp();
+  window.localStorage.setItem("spotify_access_token", token);
+};
+const setLocalRefreshToken = (token: string) =>
+  window.localStorage.setItem("spotify_refresh_token", token);
+const getTokenTimestamp = () =>
+  window.localStorage.getItem("spotify_token_timestamp");
+
+const refreshAccessToken = async () => {
+  try {
+    const { data } = await axios.get(
+      `/refresh_token?refresh_token=${getLocalRefreshToken()}`
+    );
+    const { access_token } = data;
+    setLocalAccessToken(access_token);
+    window.location.reload();
+    return;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const getHashParams = () => {
+  const hashParams: any = {};
+  let e;
+  const r = /([^&;=]+)=?([^&;]*)/g;
+  const q = window.location.hash.substring(1);
+  while ((e = r.exec(q))) {
+    hashParams[e[1]] = decodeURIComponent(e[2]);
+  }
+  return hashParams;
+};
+
+const getAccessToken = () => {
+  const { error, access_token, refresh_token } = getHashParams();
+
+  if (error) {
+    console.error(error);
+    refreshAccessToken();
+  }
+
+  if (Date.now() - Number(getTokenTimestamp()) > EXPIRATION_TIME) {
+    console.warn("Access token has expired, refreshing...");
+    refreshAccessToken();
+  }
+  const localAccessToken = getLocalAccessToken();
+
+  if ((!localAccessToken || localAccessToken === "undefined") && access_token) {
+    setLocalAccessToken(access_token);
+    setLocalRefreshToken(refresh_token);
+    return access_token;
+  }
+
+  return localAccessToken;
+};
+
+export const token = getAccessToken();
+
+export const getMe = async () => {
   try {
     let res = await fetch("https://api.spotify.com/v1/me", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getLocalAccessToken()}`,
       },
     });
 
@@ -41,7 +109,7 @@ export const getMe = async (token: string) => {
   }
 };
 
-export const getUserTopTracks = async (token: string, time_range: string) => {
+export const getUserTopTracks = async (time_range: string) => {
   try {
     let res = await fetch(
       "https://api.spotify.com/v1/me/top/tracks?" +
@@ -52,7 +120,7 @@ export const getUserTopTracks = async (token: string, time_range: string) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -63,7 +131,7 @@ export const getUserTopTracks = async (token: string, time_range: string) => {
   }
 };
 
-export const getFollowedArtists = async (token: string) => {
+export const getFollowedArtists = async () => {
   try {
     let res = await fetch(
       "https://api.spotify.com/v1/me/following?" +
@@ -74,7 +142,7 @@ export const getFollowedArtists = async (token: string) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -86,7 +154,7 @@ export const getFollowedArtists = async (token: string) => {
   }
 };
 
-export const getRecommendedGenres = async (token: string) => {
+export const getRecommendedGenres = async () => {
   try {
     let res = await fetch(
       "https://api.spotify.com/v1/recommendations/available-genre-seeds?" +
@@ -97,7 +165,7 @@ export const getRecommendedGenres = async (token: string) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -109,7 +177,7 @@ export const getRecommendedGenres = async (token: string) => {
   }
 };
 
-export const getTracksAudioFeatures = async (token: string, ids: string[]) => {
+export const getTracksAudioFeatures = async (ids: string[]) => {
   try {
     let params = ids.toString();
     let res = await fetch(
@@ -118,7 +186,7 @@ export const getTracksAudioFeatures = async (token: string, ids: string[]) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -130,14 +198,14 @@ export const getTracksAudioFeatures = async (token: string, ids: string[]) => {
   }
 };
 
-export const getRelatedArtists = async (token: string, id: string) => {
+export const getRelatedArtists = async (id: string) => {
   try {
     let res = await fetch(
       `https://api.spotify.com/v1/artists/${id}/related-artists`,
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -149,14 +217,14 @@ export const getRelatedArtists = async (token: string, id: string) => {
   }
 };
 
-export const getFeaturedPlaylists = async (token: string) => {
+export const getFeaturedPlaylists = async () => {
   try {
     let res = await fetch(
       `https://api.spotify.com/v1/browse/featured-playlists`,
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -168,12 +236,12 @@ export const getFeaturedPlaylists = async (token: string) => {
   }
 };
 
-export const getPlaylist = async (token: string, id: string) => {
+export const getPlaylist = async (id: string) => {
   try {
     let res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getLocalAccessToken()}`,
       },
     });
 
@@ -184,12 +252,12 @@ export const getPlaylist = async (token: string, id: string) => {
   }
 };
 
-export const getArtist = async (token: string, id: string) => {
+export const getArtist = async (id: string) => {
   try {
     let res = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getLocalAccessToken()}`,
       },
     });
 
@@ -200,11 +268,7 @@ export const getArtist = async (token: string, id: string) => {
   }
 };
 
-export const getRecommendedSongs = async (
-  token: string,
-  seedArtists: any,
-  soundData: any
-) => {
+export const getRecommendedSongs = async (seedArtists: any, soundData: any) => {
   try {
     let res = await fetch(
       `https://api.spotify.com/v1/recommendations?` +
@@ -223,7 +287,7 @@ export const getRecommendedSongs = async (
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -235,7 +299,7 @@ export const getRecommendedSongs = async (
   }
 };
 
-export const searchArtist = async (token: string, name: string) => {
+export const searchArtist = async (name: string) => {
   try {
     let res = await fetch(
       `https://api.spotify.com/v1/search?` +
@@ -243,7 +307,7 @@ export const searchArtist = async (token: string, name: string) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -255,7 +319,7 @@ export const searchArtist = async (token: string, name: string) => {
   }
 };
 
-export const getUserPlaylists = async (token: string, userID: string) => {
+export const getUserPlaylists = async (userID: string) => {
   try {
     let res = await fetch(
       `https://api.spotify.com/v1/users/${userID}/playlists?` +
@@ -263,7 +327,7 @@ export const getUserPlaylists = async (token: string, userID: string) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );
@@ -275,14 +339,14 @@ export const getUserPlaylists = async (token: string, userID: string) => {
   }
 };
 
-export const getWeeklyTrendingSongsGlobally = async (token: string) => {
+export const getWeeklyTrendingSongsGlobally = async () => {
   try {
     let res = await fetch(
       `https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF`,
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getLocalAccessToken()}`,
         },
       }
     );

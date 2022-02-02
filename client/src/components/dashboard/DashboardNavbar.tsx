@@ -5,13 +5,11 @@ import { getMe } from "../../utils/SpotifyAPI";
 interface Props {
   parentState: any;
   setParentState: any;
-  accessToken: string;
 }
 
 export default function DashboardNavbar({
   parentState,
   setParentState,
-  accessToken,
 }: Props): ReactElement {
   const [state, setState] = useState({
     avatar: "",
@@ -40,7 +38,7 @@ export default function DashboardNavbar({
   }, [scrollState]);
 
   useEffect(() => {
-    getMe(accessToken).then((data) => {
+    getMe().then((data) => {
       setState((prevState) => ({
         ...prevState,
         avatar: data.images[0].url,

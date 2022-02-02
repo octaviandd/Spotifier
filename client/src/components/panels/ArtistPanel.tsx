@@ -12,9 +12,7 @@ import {
 import SpotifyLogo from "../../../images/spotify.png";
 import Spinner from "../../utils/Spinner";
 
-interface Props {
-  accessToken: string;
-}
+interface Props {}
 
 const getFollowers = (data: any) => {
   let obj = [];
@@ -39,15 +37,16 @@ const getFollowers = (data: any) => {
   return obj;
 };
 
-export default function ArtistsStats({ accessToken }: Props): ReactElement {
+export default function ArtistsStats({}: Props): ReactElement {
   const [state, setState] = useState({
     songs: [],
     artists: [],
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     try {
-      getFollowedArtists(accessToken).then((data) => {
+      getFollowedArtists().then((data) => {
         setState((prevState) => ({
           ...prevState,
           artists: data.artists.items,
@@ -77,12 +76,7 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
         </div>
         <div className="grid grid-cols-1 grid-row-auto gap-y-6 gap-x-6 pt-6 lg:grid-cols-2">
           {state.artists.map((item) => (
-            <ArtistCard
-              accessToken={accessToken}
-              item={item}
-              key={uuidv4()}
-              id={item.id}
-            ></ArtistCard>
+            <ArtistCard item={item} key={uuidv4()} id={item.id}></ArtistCard>
           ))}
         </div>
       </div>
@@ -99,7 +93,10 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
             artistsValues={state.artists}
           ></ArtistPopularityChart>
         </div>
-        <div className="py-4 px-5 border-2 rounded-md drop-shadow-md bg-zinc-100">
+        <div
+          className="py-4 px-5 border-2 rounded-md drop-shadow-md "
+          style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -114,7 +111,7 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className="text-black text-xs indent-8">
+          <p className="text-[#fff] text-xs indent-8">
             The popularity of the track. The value will be between 0 and 100,
             with 100 being the most popular. The popularity of a track is a
             value between 0 and 100, with 100 being the most popular. The
@@ -133,11 +130,12 @@ export default function ArtistsStats({ accessToken }: Props): ReactElement {
       {state.artists.length > 1 && (
         <div className="flex items-center mt-10 flex-col">
           <div className="h-full w-full flex flex-start flex-col mb-5">
-            <span className="text-7xl">How about followers?</span>
+            <span className="text-7xl text-[#363636] font-semibold">
+              How about followers?
+            </span>
           </div>
           <div className="w-full">
             <ArtistFollowersChart
-              accessToken={accessToken}
               artistsValues={getFollowers(state.artists)}
             ></ArtistFollowersChart>
           </div>

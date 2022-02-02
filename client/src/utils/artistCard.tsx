@@ -5,17 +5,16 @@ import { getRelatedArtists } from "./SpotifyAPI";
 import Carousel from "./Carousel";
 
 interface Props {
-  accessToken: string;
   item: any;
   key: any;
   id: string;
 }
 
-export default function ArtistCard({ accessToken, item }: Props): ReactElement {
+export default function ArtistCard({ item }: Props): ReactElement {
   const [state, setState] = useState({ similarArtists: [] });
 
   const getSimilarArtists = () => {
-    getRelatedArtists(accessToken, item.id).then((data) => {
+    getRelatedArtists(item.id).then((data) => {
       setState((prevState) => ({
         ...prevState,
         similarArtists: data.artists,

@@ -76,7 +76,6 @@ export const ArtistFollowersChart = ({ artistsValues }: any) => {
 };
 
 export const ArtistPopularityChart = ({ artistsValues }: any) => {
-  console.log("artist chart");
   let graphData = [];
   for (let i = 0; i < artistsValues.length; i++) {
     graphData.push({
@@ -110,7 +109,6 @@ export const ArtistPopularityChart = ({ artistsValues }: any) => {
 };
 
 export const TemposChart = ({ tempoValues }: any) => {
-  console.log("tempos chart");
   return (
     <>
       <ResponsiveContainer width="90%" height="100%">
@@ -168,7 +166,6 @@ export const TemposChart = ({ tempoValues }: any) => {
 };
 
 export const LoudnessChart = ({ loudnessValues }: any) => {
-  console.log("loudness chart");
   return (
     <>
       <ResponsiveContainer width="90%" height="100%">
@@ -213,6 +210,7 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
           <PolarGrid />
           <PolarAngleAxis dataKey="subject"></PolarAngleAxis>
           <Tooltip
+            content={<CustomToolTip />}
             allowEscapeViewBox={{ x: false, y: true }}
             cursor={{ stroke: "red", strokeWidth: 2 }}
             animationEasing="linear"

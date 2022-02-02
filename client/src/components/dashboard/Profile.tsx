@@ -17,8 +17,7 @@ export default function ProfileStats({}: Props): ReactElement {
     status: "",
   });
   useEffect(() => {
-    let token = JSON.parse(localStorage.getItem("token"));
-    getMe(token).then((data) => {
+    getMe().then((data) => {
       setState((prevState) => ({
         ...prevState,
         name: data.display_name,

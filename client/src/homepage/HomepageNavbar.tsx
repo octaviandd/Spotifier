@@ -5,6 +5,11 @@ import { URL } from "../utils/SpotifyAPI";
 
 interface Props {}
 
+const LOGIN_URI =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:3000/login"
+    : "https://spotifyme.herokuapp.com/login";
+
 export default function HomepageNavbar({}: Props): ReactElement {
   return (
     <nav className="bg-white fixed drop-shadow-lg w-full z-10">
@@ -23,7 +28,7 @@ export default function HomepageNavbar({}: Props): ReactElement {
           <div className="flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="ml-3 relative">
               <div className="">
-                <a href={URL} className="inline-block mr-2">
+                <a href={LOGIN_URI} className="inline-block mr-2">
                   <button
                     type="button"
                     className="transition duration-200 bg-green-500 hover:bg-green-600 focus:bg-green-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 pr-3 pl-3 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"

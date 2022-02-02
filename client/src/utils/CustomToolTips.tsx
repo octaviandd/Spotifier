@@ -29,12 +29,15 @@ export function CustomToolTip({ active, payload, label }: any): ReactElement {
 
   if (active && payload && payload.length) {
     return (
-      <div className="custom-tooltip">
+      <div
+        className="custom-tooltip text-[#fff] p-4 rounded-lg"
+        style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+      >
         <p className="label font-bold">
           <small>{`${label} : ${payload[0].value}`}</small>
         </p>
 
-        <p className="desc">
+        <p className="desc font-semibold">
           <small>{desc}</small>
         </p>
       </div>

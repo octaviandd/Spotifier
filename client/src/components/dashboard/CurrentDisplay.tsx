@@ -8,26 +8,20 @@ import PlayerPanel from "../panels/PlayerPanel";
 
 interface Props {
   parentState: any;
-  setParentState: any;
-  accessToken: string;
 }
 
-export default function CurrentDisplay({
-  parentState,
-  setParentState,
-  accessToken,
-}: Props): ReactElement {
+export default function CurrentDisplay({ parentState }: Props): ReactElement {
   const { songs, playlists, artists, player } = parentState;
 
   const selectCurrentDisplay = () => {
     if (songs) {
-      return <SongsPanel accessToken={accessToken}></SongsPanel>;
+      return <SongsPanel></SongsPanel>;
     } else if (playlists) {
-      return <PlaylistPanel accessToken={accessToken}></PlaylistPanel>;
+      return <PlaylistPanel></PlaylistPanel>;
     } else if (artists) {
-      return <ArtistsPanel accessToken={accessToken}></ArtistsPanel>;
+      return <ArtistsPanel></ArtistsPanel>;
     } else if (player) {
-      return <PlayerPanel accessToken={accessToken}></PlayerPanel>;
+      return <PlayerPanel></PlayerPanel>;
     }
   };
 

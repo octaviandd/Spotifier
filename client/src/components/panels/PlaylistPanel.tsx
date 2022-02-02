@@ -9,31 +9,30 @@ import {
 import SpotifyLogo from "../../../images/spotify.png";
 import { uniqueId } from "lodash";
 
-interface Props {
-  accessToken: string;
-}
+interface Props {}
 
-export default function PlaylistStats({ accessToken }: Props): ReactElement {
+export default function PlaylistStats({}: Props): ReactElement {
   const [userID, setUserID] = useState("");
   const [playlists, setPlaylists]: any = useState();
   const [featuredPlaylists, setFeaturedPlaylists]: any = useState();
 
   useEffect(() => {
-    getMe(accessToken).then((res) => {
+    window.scrollTo(0, 0);
+    getMe().then((res) => {
       setUserID(res.id);
     });
   }, []);
 
   useEffect(() => {
     if (userID !== "") {
-      getUserPlaylists(accessToken, userID).then((res) => {
+      getUserPlaylists(userID).then((res) => {
         setPlaylists(res.items);
       });
     }
   }, [userID]);
 
   useEffect(() => {
-    getFeaturedPlaylists(accessToken).then((res) => {
+    getFeaturedPlaylists().then((res) => {
       setFeaturedPlaylists(res.playlists.items);
     });
   }, []);

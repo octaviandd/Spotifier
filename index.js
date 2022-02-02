@@ -11,12 +11,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000;
 require("dotenv").config();
+var Cookies = require("cookies");
+const history = require("connect-history-api-fallback");
 
 var client_id = process.env.CLIENT_ID;
 var redirect_uri = process.env.REDIRECT_URI;
 var client_secret = process.env.CLIENT_SECRET;
-
-console.log(redirect_uri);
 
 app.use(cookieParser());
 app.use((req, res, next) => {
@@ -33,18 +33,67 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-});
+app
+  .use(express.static(path.resolve(__dirname, "client/build")))
+  .use(cors())
+  .use(cookieParser())
+  .use(
+    history({
+      verbose: true,
+      rewrites: [
+        { from: /\/login/, to: "/login" },
+        { from: /\/callback/, to: "/callback" },
+        { from: /\/refresh_token/, to: "/refresh_token" },
+      ],
+    })
+  )
+  .use(express.static(path.resolve(__dirname, "client/build")));
 
 let previousCode = "";
+app.get("/", function (req, res) {
+  res.render(path.resolve(__dirname, "client/build/index.html"));
+});
 
-app.post("/login", function (req, res) {
-  var code = req.body.code || null;
+const generateRandomString = function (length) {
+  let text = "";
+  let possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
+const scope =
+  "user-read-private user-read-email user-read-playback-state user-top-read user-read-recently-played user-follow-read user-library-read";
+
+const stateKey = "spotify_auth_state";
+
+const URL =
+  `https://accounts.spotify.com/authorize?` +
+  new URLSearchParams({
+    client_id,
+    response_type: "code",
+    scope: scope,
+    redirect_uri,
+    show_dialog: "true",
+    state: generateRandomString(16),
+  });
+
+app.get("/login", function (req, res) {
+  const state = generateRandomString(16);
+  res.cookie(stateKey, state);
+  res.redirect(URL);
+});
+
+app.get("/callback", function (req, res) {
+  var code = req.query.code || null;
+  const state = req.query.state || null;
+  const storedState = req.cookies ? req.cookies[stateKey] : null;
   if (code === previousCode) {
-    res.json({ message: "same" });
+    res.json({ message: "Spotify Authorization code has expired" });
   } else {
-    console.log({ code });
     previousCode = code;
     var options = {
       method: "POST",
@@ -59,27 +108,28 @@ app.post("/login", function (req, res) {
         client_id,
         client_secret,
       },
+      json: true,
     };
     request.post(options, function (error, response, body) {
-      if (error) throw new Error(error);
-      let data = JSON.parse(body);
-      console.log(data.refresh_token);
-      res.cookie("refresh_token", data.refresh_token, {
-        maxAge: 30 * 24 * 3600 * 1000,
-      });
-      // res.cookie("access_token", data.access_token, {
-      //   maxAge: data.expires_in * 1000,
-      // });
-      res.json({
-        response: response.body,
-      });
+      if (!error && response.statusCode === 200) {
+        const access_token = body.access_token;
+        const refresh_token = body.refresh_token;
+        res.redirect(
+          `http://localhost:8080/#` +
+            new URLSearchParams({ access_token, refresh_token })
+        );
+      } else {
+        res.redirect(
+          `http://localhost:8080/#` +
+            new URLSearchParams({ error: "invalid_token" })
+        );
+      }
     });
   }
 });
 
-app.post("/token", function (req, res) {
+app.post("/refresh_token", function (req, res) {
   var refreshToken = req.body.refreshToken || null;
-  lock = false;
   if (refreshToken) {
     var options = {
       method: "POST",
@@ -93,9 +143,16 @@ app.post("/token", function (req, res) {
         client_id,
         client_secret,
       },
+      json: true,
     };
-    request.post(options, function (error, response) {
+    request.post(options, function (error, response, body) {
+      let cookie = new Cookies(req, res);
+      let data = JSON.parse(body);
       if (!error && response.statusCode === 200) {
+        cookie.set("access_token", data.access_token, {
+          maxAge: data.expires_in * 1000,
+          overwrite: true,
+        });
         res.setHeader("Content-Type", "application/json");
         res.json({
           response: response.body,
@@ -109,6 +166,10 @@ app.post("/token", function (req, res) {
     res.setHeader("Content-Type", "application/json");
     res.send(JSON.stringify({ access_token: "", expires_in: "" }));
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
 app.listen(port, function () {

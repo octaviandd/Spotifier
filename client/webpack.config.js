@@ -21,7 +21,7 @@ module.exports = function (env, args) {
       clean: true,
     },
     performance: {
-      hints: "warning",
+      hints: false,
       assetFilter: function (assetFilename) {
         return assetFilename.endsWith(".js.gz");
       },

@@ -17,7 +17,6 @@ interface Props {
 }
 
 export function GenresPieChart({ data }: Props): ReactElement {
-  console.log(data);
   return (
     <div className="p-5 w-full h-full">
       <ResponsiveContainer width="100%" height="100%">

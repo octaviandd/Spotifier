@@ -24,16 +24,15 @@ function millisecondsToMinutesAndSeconds(milliseconds: number) {
 
 export default function SongCard({ item, count }: Props): ReactElement {
   const [play, setPlay] = useState(false);
-  // let audioRef = useRef(new Audio(item.preview_url));
-  console.log(item.album.images);
+  let audioRef = useRef(new Audio(item.preview_url));
 
-  // useEffect(() => {
-  //   if (play) {
-  //     audioRef.current.play();
-  //   } else {
-  //     audioRef.current.pause();
-  //   }
-  // }, [play]);
+  useEffect(() => {
+    if (play) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+  }, [play]);
 
   return (
     <div className="flex mt-4 py-2 items-center shadow-lg">
@@ -60,9 +59,9 @@ export default function SongCard({ item, count }: Props): ReactElement {
           onClickCapture={() => setPlay(true)}
           onMouseLeave={() => setPlay(false)}
         >
-          {/* <audio preload="true">
+          <audio preload="true">
             {item.preview_url && <source src={item.preview_url} />}
-          </audio> */}
+          </audio>
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
