@@ -114,7 +114,7 @@ export default function SongsPanel({}: Props): ReactElement {
       <div className="mb-3">
         <div className="flex flex-row items-center pb-10">
           <div className="flex-grow">
-            <span className="text-4xl text-[#363636] font-semibold">
+            <span className="text-5xl md:text-7xl text-center text-[#363636] font-semibold ">
               Favorite Songs
             </span>
           </div>
@@ -154,7 +154,9 @@ export default function SongsPanel({}: Props): ReactElement {
       <div className="relative w-full h-full">
         <div className="flex flex-row border-b-2 border-[#525252] pb-10 pt-5">
           <div className="flex-grow">
-            <span className="text-4xl ">Songs Stats</span>
+            <span className="text-5xl md:text-7xl text-center text-[#363636] font-semibold">
+              Songs Stats
+            </span>
           </div>
           <div className="flex flex-grow justify-end">
             <select

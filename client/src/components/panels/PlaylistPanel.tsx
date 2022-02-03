@@ -38,18 +38,20 @@ export default function PlaylistStats({}: Props): ReactElement {
   }, []);
 
   return (
-    <div className="px-6">
-      <div className="flex flex-row items-center mb-3">
+    <div className="px-6 ">
+      <div className="flex flex-row items-center mb-3 pb-10">
         <div className="flex-grow">
-          <span className="text-4xl font-mono">Your Playlists</span>
+          <span className="text-5xl md:text-7xl text-center text-[#363636] font-semibold ">
+            Your Playlists
+          </span>
         </div>
       </div>
-      <div className="grid auto-rows-max auto-cols-max grid-cols-3 space-x-4 space-y-4 p-5">
+      <div className="grid grid-cols-3 gap-y-4 gap-x-4">
         {playlists &&
           playlists.map((item: any) => (
             <div
               key={uniqueId()}
-              className="flex flex-col items-center justify-center max-w-xs rounded-lg"
+              className="flex flex-col items-center justify-center w-full h-full"
             >
               <img
                 className="object-cover"
@@ -63,7 +65,7 @@ export default function PlaylistStats({}: Props): ReactElement {
                     : SpotifyLogo
                 }
               />
-              <p className="text-ellipsis w-full py-3 text-center text-black border-1 bg-[#ECEEEE]">
+              <p className="w-full h-full py-3 text-center text-white bg-[#202023]">
                 {item.name}
               </p>
             </div>
@@ -71,18 +73,20 @@ export default function PlaylistStats({}: Props): ReactElement {
       </div>
       <div className="flex flex-row items-center pb-10 pt-5 border-b-2 border-[#525252]">
         <div className="flex-grow">
-          <span className="text-4xl font-mono">Featured Playlists</span>
+          <span className="text-5xl md:text-7xl text-center text-[#363636] font-semibold ">
+            Featured Playlists
+          </span>
         </div>
       </div>
-      <div className="grid grid-flow-col space-x-4 space-y-4 p-5">
+      <div className="grid grid-cols-3 gap-x-4 gap-y-4">
         {featuredPlaylists &&
           featuredPlaylists.map((item: any) => (
             <div
               key={uniqueId()}
-              className="flex flex-col items-center justify-center"
+              className="flex flex-col items-center justify-center h-full w-full"
             >
               <img
-                className="m-w-64 m-h-64 h-auto w-auto"
+                className="object-cover"
                 src={
                   item.images[0]
                     ? item.images[0].url
@@ -93,7 +97,7 @@ export default function PlaylistStats({}: Props): ReactElement {
                     : SpotifyLogo
                 }
               />
-              <p className="text-black w-full py-3 text-center border-1 bg-[#ECEEEE]">
+              <p className="text-white w-full py-3 text-center border-1 bg-[#202023]">
                 {item.name}
               </p>
             </div>

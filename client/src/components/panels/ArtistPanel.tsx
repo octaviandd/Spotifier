@@ -63,7 +63,9 @@ export default function ArtistsStats({}: Props): ReactElement {
       <div className="mb-3 h-full w-full">
         <div className="flex flex-row items-center pb-10">
           <div className="flex-grow">
-            <span className="text-4xl font-mono">Followed artists</span>
+            <span className="text-5xl md:text-7xl text-center text-[#363636] font-semibold ">
+              Followed artists
+            </span>
           </div>
           <div className="flex justify-end flex-grow text-black">
             <select className="py-3 px-5 rounded-md appearance-none">

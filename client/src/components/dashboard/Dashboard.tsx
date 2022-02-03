@@ -10,13 +10,11 @@ interface Props {}
 export default function Dashboard({}: Props): ReactElement {
   const [state, setState] = useState({
     profile: false,
-    songs: true,
-    playlists: false,
+    songs: false,
+    playlists: true,
     artists: false,
     player: false,
   });
-
-  console.log("here");
 
   return (
     <div className="flex relative m-w-full">
