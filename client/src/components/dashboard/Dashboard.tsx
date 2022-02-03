@@ -16,8 +16,10 @@ export default function Dashboard({}: Props): ReactElement {
     player: false,
   });
 
+  console.log("here");
+
   return (
-    <div className="flex relative">
+    <div className="flex relative m-w-full">
       <DashboardSideBar setParentState={setState} parentState={state} />
       <CurrentDisplay parentState={state}></CurrentDisplay>
     </div>

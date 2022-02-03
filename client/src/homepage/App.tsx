@@ -13,5 +13,11 @@ export default function App({}: Props): ReactElement {
     setAccessToken(token);
   }, []);
 
-  return accessToken ? <Dashboard /> : <HomepageNavbar />;
+  return accessToken === null ||
+    accessToken === undefined ||
+    accessToken === "undefined" ? (
+    <HomepageNavbar />
+  ) : (
+    <Dashboard />
+  );
 }

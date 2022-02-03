@@ -64,13 +64,13 @@ export default function SongsDataInputs({}: Props): ReactElement {
   return (
     <div className="pt-10">
       <div className="pb-6">
-        <h1 className="text-6xl text-[#363636] font-semibold">
+        <h1 className="text-5xl md:text-7xl text-[#363636] font-semibold">
           Search songs based on{" "}
           <span className="text-[#1DB954] font-bold">characteristics</span> and{" "}
           <span className="text-[#1DB954] font-bold">artist similarity</span>
         </h1>
       </div>
-      <div className="grid grid-cols-7 col-row-5 drop-shadow-md rounded-xl bg-[#fff]">
+      <div className="grid grid-cols-7 grid-row-5 drop-shadow-md rounded-xl bg-[#fff]">
         <div className="w-full col-start-1 col-end-8 row-start-1">
           <div className="bg-[#ededed] h-[30px] p-[16px] rounded-md flex gap-1 items-center w-full">
             <div className="w-[12px] h-[12px] bg-[#FF605C] inline-block rounded-full"></div>
@@ -78,8 +78,8 @@ export default function SongsDataInputs({}: Props): ReactElement {
             <div className="w-[12px] h-[12px] bg-[#00CA4E] inline-block rounded-full"></div>
           </div>
         </div>
-        <div className="row-start-2 col-start-1 col-end-7 flex flex-col items-center h-full ">
-          <div className="flex flex-row w-full space-x-3 px-2 py-4">
+        <div className="row-start-2 col-start-1 col-end-8 flex flex-col items-center h-full ">
+          <div className="flex flex-row w-auto lg:w-full flex-wrap space-x-3 px-2 py-4">
             <div className="flex flex-col items-center justify-center text-black">
               <span className="font-bold">Danceability</span>
               <div className="flex justify-center items-center rounded-lg drop-shadow-md bg-[#fff] text-[#747474]">
@@ -265,7 +265,7 @@ export default function SongsDataInputs({}: Props): ReactElement {
           </div>
         </div>
         <div className="w-full row-start-3 py-3 px-3 col-start-1 col-end-8">
-          <div className="relative flex items-center w-full">
+          <div className="relative flex items-center w-full flex-col lg:flex-row">
             <div className="relative flex flex-col items-center">
               <span className="font-semibold text-xl pb-4 pl-3 text-black">
                 Artists

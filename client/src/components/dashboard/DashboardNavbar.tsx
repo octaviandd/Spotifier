@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { ReactElement, useEffect, useState, useRef } from "react";
-import { getMe } from "../../utils/SpotifyAPI";
+import { getMe, logOut } from "../../utils/SpotifyAPI";
 interface Props {
   parentState: any;
   setParentState: any;
@@ -63,12 +63,12 @@ export default function DashboardNavbar({
       ref={ref}
       className={
         scrollState === "top"
-          ? "fixed flex transition-all ease-in-out justify-center items-center md:justify-start top-0 my-0 mx-auto bg-white font-sans md:px-10 py-5 z-10 text-black inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
-          : "fixed flex transition-all ease-in-out justify-center items center md:justify-start top-0 my-0 mx-auto bg-[#202023] drop-shadow-xl font-sans py-5 md:px-10 z-10 text-white inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
+          ? "fixed flex transition-all ease-in-out justify-center items-center md:justify-start top-0 my-0 bg-white font-sans lg:px-10 py-5 z-10 text-black inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
+          : "fixed flex transition-all ease-in-out justify-center items center md:justify-start top-0 my-0 bg-[#202023] drop-shadow-xl font-sans py-5 lg:px-10 z-10 text-white inset-x-0 top-0 subpixel-antialiased tracking-wide font-semibold"
       }
     >
-      <div className="flex-wrap flex md:flex-nowrap justify-center md:justify-start items-center space-x-5 px-4">
-        <div className="">
+      <div className="flex-wrap flex md:flex-nowrap justify-center md:justify-start items-center space-x-5 px-4 w-full">
+        <div className="hidden md:block">
           <h3 className="pb-5 md:pb-0 text-3xl bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-red-200">
             Statify
           </h3>
@@ -87,7 +87,7 @@ export default function DashboardNavbar({
           <div
             className={
               artists
-                ? "transition duration-500 ease-in-out group rounded-md bg-violet-600 text-white  w-full flex justify-center p-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-violet-600 text-white w-full flex justify-center p-4 cursor-pointer"
                 : "transition duration-500 ease-in-out group rounded-md hover:bg-violet-800 w-full flex justify-center p-4 cursor-pointer"
             }
             onClick={() => !artists && setBarValues("artists")}
@@ -99,7 +99,7 @@ export default function DashboardNavbar({
           <div
             className={
               playlists
-                ? "transition duration-500 ease-in-out group rounded-md bg-violet-600 text-white  w-full flex justify-center p-4 cursor-pointer"
+                ? "transition duration-500 ease-in-out group rounded-md bg-violet-600 text-white w-full flex justify-center p-4 cursor-pointer"
                 : "transition duration-500 ease-in-out group rounded-md hover:bg-violet-800 w-full flex justify-center p-4 cursor-pointer"
             }
             onClick={() => !playlists && setBarValues("playlists")}
@@ -115,6 +115,25 @@ export default function DashboardNavbar({
             className="w-16 h-16 rounded-full object-cover object-top mt-auto"
           />
         </div>
+      </div>
+      <div className="flex px-4 py-3 cursor-pointer rounded-md whitespace-nowrap hover:bg-[#00CA4E] transition duration-500 ease-in-out group mr-2">
+        <span className="flex items-center" onClick={() => logOut()}>
+          <span className="hidden md:block">LOGOUT</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 pl-0 md:pl-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke={scrollState === "top" ? "black" : "white"}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+          </svg>
+        </span>
       </div>
     </nav>
   );

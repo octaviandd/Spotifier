@@ -82,8 +82,10 @@ export default function ArtistsStats({}: Props): ReactElement {
       </div>
       <div className="flex flex-col justify-start items-center pt-2 pb-20">
         <div className="p-5 w-full flex items-center justify-center">
-          <div className="flex justify-center flex-col text-black text-7xl leading-tight tracking-wide font-medium mb-2 w-full">
-            <div className="text-center">Are your artists popular on </div>
+          <div className="flex justify-center flex-col text-black text-5xl md:text-7xl leading-tight tracking-wide font-medium mb-2 w-full">
+            <div className="text-center text-[#363636] font-semibold">
+              Are your artists popular on{" "}
+            </div>
             <br></br>
             <div className="text-[#1DB954] text-center font-bold">Spotify</div>
           </div>
@@ -130,7 +132,7 @@ export default function ArtistsStats({}: Props): ReactElement {
       {state.artists.length > 1 && (
         <div className="flex items-center mt-10 flex-col">
           <div className="h-full w-full flex flex-start flex-col mb-5">
-            <span className="text-7xl text-[#363636] font-semibold">
+            <span className="text-5xl md:text-7xl text-[#363636] font-semibold">
               How about followers?
             </span>
           </div>

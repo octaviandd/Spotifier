@@ -58,7 +58,7 @@ export default function SearchDropDown({
               />
             </svg>
           </button>
-          <div className="w-full h-20 overflow-hidden whitespace-nowrap px-5">
+          <div className="w-[20rem] lg:w-full h-20 overflow-hidden whitespace-nowrap px-5">
             <div
               className="w-[30rem] h-20 transition-all ease-in-out duration-300 flex items-center space-x-3"
               style={{ transform: `translateX(-${activeIndex * 100}%)` }}

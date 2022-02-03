@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { ReactElement } from "react";
-import { URL } from "../utils/SpotifyAPI";
 
 interface Props {}
 

@@ -82,12 +82,14 @@ const URL =
   });
 
 app.get("/login", function (req, res) {
+  console.log("login hit");
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
   res.redirect(URL);
 });
 
 app.get("/callback", function (req, res) {
+  console.log("hit callback");
   var code = req.query.code || null;
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -129,7 +131,8 @@ app.get("/callback", function (req, res) {
 });
 
 app.post("/refresh_token", function (req, res) {
-  var refreshToken = req.body.refreshToken || null;
+  console.log(req.query.refresh_token);
+  var refreshToken = req.query.refresh_token || null;
   if (refreshToken) {
     var options = {
       method: "POST",
@@ -143,7 +146,6 @@ app.post("/refresh_token", function (req, res) {
         client_id,
         client_secret,
       },
-      json: true,
     };
     request.post(options, function (error, response, body) {
       let cookie = new Cookies(req, res);

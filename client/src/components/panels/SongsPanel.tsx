@@ -111,7 +111,7 @@ export default function SongsPanel({}: Props): ReactElement {
 
   return (
     <div className="flex justify-center flex-col px-6">
-      <div className="mb-3 h-full w-full">
+      <div className="mb-3">
         <div className="flex flex-row items-center pb-10">
           <div className="flex-grow">
             <span className="text-4xl text-[#363636] font-semibold">
@@ -133,7 +133,7 @@ export default function SongsPanel({}: Props): ReactElement {
           </div>
         </div>
         {state.items.length > 0 ? (
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2">
             {state.items.map((item) => {
               return (
                 <React.Fragment key={uuidv4()}>
@@ -170,9 +170,9 @@ export default function SongsPanel({}: Props): ReactElement {
             <button></button>
           </div>
         </div>
-        <div className="grid grid-cols-6 my-10">
-          <div className="col-span-3 justify-self-center flex justify-center items-center">
-            <span className="text-6xl text-center text-[#363636] font-semibold ">
+        <div className="flex justify-center items-center my-10 flex-wrap">
+          <div className="w-full md:w-1/2 justify-self-center flex justify-center items-center">
+            <span className="text-5xl md:text-7xl text-center text-[#363636] font-semibold ">
               That's how{" "}
               <span className="text-[#1DB954] text-center font-bold">
                 Spotify{" "}
@@ -180,7 +180,7 @@ export default function SongsPanel({}: Props): ReactElement {
               describes a song in numbers.
             </span>
           </div>
-          <div className="col-span-3 flex flex-col">
+          <div className="w-full md:w-1/2 flex flex-col">
             <div className="bg-[#ededed] h-[30px] p-[16px] flex gap-1 items-center shadow-lg rounded-tl-md rounded-tr-md">
               <div className="w-[12px] h-[12px] bg-[#FF605C] inline-block rounded-full"></div>
               <div className="w-[12px] h-[12px] bg-[#FFBD44] inline-block rounded-full"></div>
@@ -189,49 +189,51 @@ export default function SongsPanel({}: Props): ReactElement {
             <div className="flex flex-col pl-5 bg-white text-black">
               <span>{"{"}</span>
               <span className="pl-5">
-                danceability: <span className="text-teal-500">".67"</span>{" "}
+                danceability: <span className="bg-[#00CA4E]">".67"</span>{" "}
               </span>
               <span className="pl-5">
-                valence: <span className="text-teal-500">".22"</span>
+                valence: <span className="bg-[#00CA4E]">".22"</span>
               </span>
               <span className="pl-5">
-                instrumentalness: <span className="text-teal-500">".77"</span>
+                instrumentalness: <span className="bg-[#00CA4E]">".77"</span>
               </span>
               <span className="pl-5">
-                acousticness: <span className="text-teal-500">".45"</span>
+                acousticness: <span className="bg-[#00CA4E]">".45"</span>
               </span>
               <span className="pl-5">
-                energy: <span className="text-teal-500">".88"</span>
+                energy: <span className="bg-[#00CA4E]">".88"</span>
               </span>
               <span className="pl-5">
-                speechiness: <span className="text-teal-500">".34"</span>
+                speechiness: <span className="bg-[#00CA4E]">".34"</span>
               </span>
               <span className="pl-5">
-                liveness: <span className="text-teal-500">".12"</span>
+                liveness: <span className="bg-[#00CA4E]">".12"</span>
               </span>
               <span>{"}"}</span>
             </div>
           </div>
         </div>
         <div
-          className="flex flex-col items-center justify-center h-[34rem]"
+          className="flex flex-col items-center justify-center w-full"
           ref={elemRef}
         >
-          <div className="text-6xl text-center my-10 text-[#363636] font-semibold">
+          <div className="text-5xl md:text-7xl text-center my-10 text-[#363636] font-semibold">
             Here's how your average song looks like.
           </div>
           {state.items.length > 0 && state.aggregatedAudioValues.length > 1 && (
-            <CharacteristicsChart
-              characteristicsValues={state.aggregatedAudioValues}
-            ></CharacteristicsChart>
+            <div className="h-[21rem] w-full flex items-center">
+              <CharacteristicsChart
+                characteristicsValues={state.aggregatedAudioValues}
+              ></CharacteristicsChart>
+            </div>
           )}
         </div>
         <div className="my-5">
           <div className="grid grid-cols-3 grid-rows-2 my-5">
-            <span className="text-6xl col-start-1 row-start-1 col-end-3 text-[#363636] font-semibold">
+            <span className="text-5xl md:text-7xl col-start-1 row-start-1 col-end-3 text-[#363636] font-semibold">
               Ever gotten this?
             </span>
-            <div className="col-start-2 row-start-2">
+            <div className="col-start-2 col-end-4 row-start-2">
               <div className="flex items-center bg-[#eceeee] rounded-2xl w-full p-3 drop-shadow-xl text-black">
                 <span className="bg-[#F80E4B] p-3 rounded-md inline-block">
                   <svg
@@ -262,12 +264,12 @@ export default function SongsPanel({}: Props): ReactElement {
           </div>
           {state.items.length > 0 && (
             <div className="flex flex-wrap pt-10" ref={elemRef1}>
-              <div className="h-[21rem] w-full flex items-center col-start-1">
+              <div className="h-[21rem] flex items-center col-start-1 w-full">
                 <LoudnessChart
                   loudnessValues={state.loudnessValues}
                 ></LoudnessChart>
               </div>
-              <div className="h-[21rem] w-full flex items-center col-start-2">
+              <div className="h-[21rem] flex items-center col-start-2 w-full">
                 <TemposChart tempoValues={state.tempoValues}></TemposChart>
               </div>
             </div>

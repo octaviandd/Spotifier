@@ -200,7 +200,7 @@ export const LoudnessChart = ({ loudnessValues }: any) => {
 export const CharacteristicsChart = ({ characteristicsValues }: any) => {
   return (
     <>
-      <ResponsiveContainer width={800} height="80%">
+      <ResponsiveContainer width="100%" height="100%">
         <RadarChart
           cx="50%"
           cy="50%"
@@ -219,8 +219,8 @@ export const CharacteristicsChart = ({ characteristicsValues }: any) => {
             isAnimationActive={false}
             name="values"
             dataKey="A"
-            stroke="#7C3AED"
-            fill="#7C3AED"
+            stroke="#00CA4E"
+            fill="#00CA4E"
             fillOpacity={0.7}
           />
         </RadarChart>

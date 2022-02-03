@@ -1,31 +1,5 @@
 /** @format */
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
-
-const generateRandomString = function (length: number): string {
-  let text = "";
-  let possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
-const scope: string =
-  "user-read-private user-read-email user-read-playback-state user-top-read user-read-recently-played user-follow-read user-library-read";
-
-export const URL: string =
-  `https://accounts.spotify.com/authorize?` +
-  new URLSearchParams({
-    client_id: "a8f787f034c549c2be783850c383388e",
-    response_type: "code",
-    scope: scope,
-    redirect_uri: "http://localhost:8080/callback",
-    show_dialog: "true",
-    state: generateRandomString(16),
-  });
 
 const EXPIRATION_TIME = 3600 * 1000;
 const setTokenTimestamp = () =>
@@ -46,7 +20,7 @@ const getTokenTimestamp = () =>
 const refreshAccessToken = async () => {
   try {
     const { data } = await axios.get(
-      `/refresh_token?refresh_token=${getLocalRefreshToken()}`
+      `http://localhost:3000/refresh_token#refresh_token=${getLocalRefreshToken()}`
     );
     const { access_token } = data;
     setLocalAccessToken(access_token);
@@ -75,7 +49,7 @@ const getAccessToken = () => {
     console.error(error);
     refreshAccessToken();
   }
-
+  console.log(Date.now() - Number(getTokenTimestamp()), EXPIRATION_TIME);
   if (Date.now() - Number(getTokenTimestamp()) > EXPIRATION_TIME) {
     console.warn("Access token has expired, refreshing...");
     refreshAccessToken();
@@ -89,6 +63,14 @@ const getAccessToken = () => {
   }
 
   return localAccessToken;
+};
+
+export const logOut = () => {
+  window.localStorage.removeItem("spotify_access_token");
+  window.localStorage.removeItem("spotify_refresh_token");
+  window.localStorage.removeItem("spotify_token_timestamp");
+  history.replaceState(null, "", "/");
+  window.location.reload();
 };
 
 export const token = getAccessToken();

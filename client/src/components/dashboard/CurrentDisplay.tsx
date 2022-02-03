@@ -26,7 +26,7 @@ export default function CurrentDisplay({ parentState }: Props): ReactElement {
   };
 
   return (
-    <div className="flex bg-white drop-shadow-xl font-sans text-white mt-24 py-10 w-full">
+    <div className="flex bg-white font-sans text-white mt-24 py-10">
       {selectCurrentDisplay()}
     </div>
   );
